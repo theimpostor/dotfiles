@@ -209,7 +209,6 @@ let g:MultipleSearchMaxColors=12
 let g:vim_json_syntax_conceal = 0
 
 " enable syntax
-autocmd BufRead,BufNewFile *.umcfg set filetype=umcfg
 " autocmd BufNewFile,BufRead *.gradle setf groovy
 
 " close scratch window when cursor moves
