@@ -1,0 +1,441 @@
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+endif
+set backspace=indent,eol,start
+
+" ignore case when searching with all lower case
+set	ignorecase
+set	smartcase
+
+set	tabstop=4
+set	shiftwidth=4
+"set	smarttab
+" expandtab - use spaces insead of tabs. Use <ctrl-v>Tab to insert a real tab when this is enabled
+set	expandtab
+
+set	autoindent
+set cindent
+filetype plugin indent on
+
+set noincsearch
+
+set	backupdir=~/vimtmp
+set	directory=~/vimtmp
+
+" keep hidden buffers open
+set hidden
+
+set scrolloff=3
+
+set mouse=a
+
+" show line count in visual mode
+set showcmd
+
+" show column and line count
+set ruler
+
+" make folds less obtrusive
+" highlight Folded ctermbg=10
+
+set background=dark
+
+" commandline / search history
+set history=100
+
+" Allow for embedded vim config, e.g. vi:sw=2:ai
+set modeline
+" make pop-up menu selections stand out
+highlight PmenuSel ctermfg=7 ctermbg=0 guibg=DarkGrey
+
+nmap	,q	:q<cr>
+
+" search for visually selected text
+vmap // y/<C-R>"<CR>
+
+" if filereadable( $cscope_base . "/tags" )
+"     set tags=$cscope_base/tags
+" 
+" 	" filetype plugin on
+" 	" set ofu=syntaxcomplete#Complete
+" 
+" endif
+
+if filereadable($cscope_base . "/cscope.out")
+"    set nocscopeverbose  
+	" cs add $cscope_base/cscope.out
+	set cscopetag
+
+	nmap \s :cs find s 
+	nmap \g :cs find g 
+	nmap \c :cs find c 
+	nmap \t :cs find t 
+	nmap \e :cs find e 
+	nmap \f :cs find f 
+	nmap \i :cs find i 
+	nmap \d :cs find d 
+	nmap \r :cs reset<CR>
+
+	nmap \<space>s :scs find s 
+	nmap \<space>g :scs find g 
+	nmap \<space>c :scs find c 
+	nmap \<space>t :scs find t 
+	nmap \<space>e :scs find e 
+	nmap \<space>f :scs find f 
+	nmap \<space>i :scs find i 
+	nmap \<space>d :scs find d 
+
+	map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+	map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+endif
+
+nmap    ,g      :YcmCompleter GoTo <cword><CR>
+
+" editing
+nmap    K       i<cr><esc>
+nmap    t       xp
+nmap    T       hxph
+" nmap    <TAB>   >>
+" nmap    <S-TAB> <<
+vmap    p       "_dp
+vmap    P       "_dP
+
+nmap    ,#      0i#<Space><ESC>
+vmap    ,#      :s/^/# /g<cr>:nohlsearch<cr>
+vmap	,#      <esc>`>a<cr>#endif<ESC>`<i#if 0<cr><ESC>
+
+nmap	,/      <ESC>0i// <ESC>j0
+vmap	,/      :s/^/\/\/ /g<cr>:nohlsearch<cr>
+nmap	,*      :Search \<<c-r>=expand("<cword>")<cr>\><cr>
+vmap	,*      <esc>`>a*/<ESC>`<i/*<ESC>
+nmap	,!      i<!--<cr><ESC>A<cr>--><esc>
+vmap	,!      <esc>`>a<cr>--><ESC>`<i<!--<cr><ESC>
+nmap	,(      i(<ESC>ea)<ESC>
+vmap	,(      <esc>`>a)<ESC>`<i(<ESC>
+
+" nmap	,s      iMUL_STRINGIFY(<ESC>ea)<ESC>
+vmap	,s      <esc>`>o#endif<ESC>`<i#ifdef HAVE_OPENSSL<cr><ESC>
+
+nmap	,\  	V:s/^[ \t]*\/\/ //<CR>j0:nohlsearch<cr>
+vmap	,\  	:s/^[ \t]*\/\/ //g<CR>j0:nohlsearch<cr>
+
+nmap	,x		ggVG:!xmlindent -i2<cr>
+vmap	,x		:!xmlindent -i2<cr>
+
+" movement
+nmap    <space> <pagedown>
+vmap    <space> <pagedown>
+nmap    -       <pageup>
+vmap    -       <pageup>
+
+nmap    <C-j>   <C-e>
+nmap    <C-k>   <C-y>
+
+nmap    <C-n>   nzz
+
+" nmap	,p		:tprev<cr>zz
+" nmap	,t		:tnext<cr>zz
+" 
+" nmap	,pa		"ap
+" nmap	,ps		"sp
+" nmap	,pd		"dp
+" nmap	,pf		"fp
+" 
+" nmap	,ya		"ay
+" nmap	,ys		"sy
+" nmap	,yd		"dy
+" nmap	,yf		"fy
+" 
+" nmap	,Ya		"ayy
+" nmap	,Ys		"syy
+" nmap	,Yd		"dyy
+" nmap	,Yf		"fyy
+" 
+" vmap	,pa		"ap
+" vmap	,ps		"sp
+" vmap	,pd		"dp
+" vmap	,pf		"fp
+" 
+" vmap	,ya		"ay
+" vmap	,ys		"sy
+" vmap	,yd		"dy
+" vmap	,yf		"fy
+" 
+" vmap	,Ya		"aY
+" vmap	,Ys		"sY
+" vmap	,Yd		"dY
+" vmap	,Yf		"fY
+
+" tab / buffer management
+" http://vim.wikia.com/wiki/Using_tab_pages
+if v:version >= 700
+    set	switchbuf=usetab
+endif
+nmap	<F8>	:bnext<cr>
+nmap	<S-F8>	:bprev<cr>
+
+nnoremap	<F9>	:tn<cr>zz
+nnoremap	<S-F9>	:tp<cr>zz
+
+" move between tabs using ctrl+left/right
+nmap	<C-Left>	:tabprevious<CR>
+nmap	<C-Right>	:tabnext<CR>
+" move tabs using alt+left/right
+nmap	<silent> <A-Left>	:execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nmap	<silent> <A-Right>	:execute 'silent! tabmove ' . tabpagenr()<CR>
+
+" dislpay
+nmap    ,h      :set invhlsearch<cr>
+nmap    ,d      :set diffthis<cr>
+nmap	,n		:set invnumber<cr>
+
+" editing and updating the vimrc
+map     ,v      :sp ~/.vimrc<CR>
+map     ,u      :source ~/.vimrc<CR>
+
+" folding
+nmap	F		zf%
+vmap	F		zf
+nmap	,f		:set foldmethod=syntax<cr>:set foldmethod=manual<cr>
+
+" search highlighting plugin
+let g:MultipleSearchMaxColors=12
+
+" JSON syntax highlighting
+" Now done with plugin...don't need this any more - but disable plugin
+" conceal feature
+" " autocmd BufNewFile,BufRead *.json set ft=javascript
+let g:vim_json_syntax_conceal = 0
+
+" enable syntax
+autocmd BufRead,BufNewFile *.umcfg set filetype=umcfg
+" autocmd BufNewFile,BufRead *.gradle setf groovy
+
+" close scratch window when cursor moves
+autocmd CursorMovedI *  if pumvisible() == 0|silent! pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
+
+" clang complete library path
+" let g:clang_library_path="/usr/lib/llvm-3.2/lib/"
+
+"" vimdiff ignore whitespace
+" set diffexpr=MyDiff()
+" function MyDiff()
+" 	let opt = ""
+" 	if &diffopt =~ "icase"
+" 		let opt = opt . "-i "
+" 	endif
+" 	if &diffopt =~ "iwhite"
+" 		let opt = opt . "-b "
+" 	endif
+" 	silent execute "!diff -a --binary -w " . opt . v:fname_in . " " . v:fname_new . " > " . v:fname_out
+" endfunction
+
+" ===================================================================
+" ASCII tables - you may need them some day.  Save them to a file!
+" ===================================================================
+"
+" ASCII Table - | octal value - name/char |
+"
+" |000 nul|001 soh|002 stx|003 etx|004 eot|005 enq|006 ack|007 bel|
+" |010 bs |011 ht |012 nl |013 vt |014 np |015 cr |016 so |017 si |
+" |020 dle|021 dc1|022 dc2|023 dc3|024 dc4|025 nak|026 syn|027 etb|
+" |030 can|031 em |032 sub|033 esc|034 fs |035 gs |036 rs |037 us |
+" |040 sp |041  ! |042  " |043  # |044  $ |045  % |046  & |047  ' |
+" |050  ( |051  ) |052  * |053  + |054  , |055  - |056  . |057  / |
+" |060  0 |061  1 |062  2 |063  3 |064  4 |065  5 |066  6 |067  7 |
+" |070  8 |071  9 |072  : |073  ; |074  < |075  = |076  > |077  ? |
+" |100  @ |101  A |102  B |103  C |104  D |105  E |106  F |107  G |
+" |110  H |111  I |112  J |113  K |114  L |115  M |116  N |117  O |
+" |120  P |121  Q |122  R |123  S |124  T |125  U |126  V |127  W |
+" |130  X |131  Y |132  Z |133  [ |134  \ |135  ] |136  ^ |137  _ |
+" |140  ` |141  a |142  b |143  c |144  d |145  e |146  f |147  g |
+" |150  h |151  i |152  j |153  k |154  l |155  m |156  n |157  o |
+" |160  p |161  q |162  r |163  s |164  t |165  u |166  v |167  w |
+" |170  x |171  y |172  z |173  { |174  | |175  } |176  ~ |177 del|
+"
+" ===================================================================
+" ASCII Table - | decimal value - name/char |
+"
+" |000 nul|001 soh|002 stx|003 etx|004 eot|005 enq|006 ack|007 bel|
+" |008 bs |009 ht |010 nl |011 vt |012 np |013 cr |014 so |015 si |
+" |016 dle|017 dc1|018 dc2|019 dc3|020 dc4|021 nak|022 syn|023 etb|
+" |024 can|025 em |026 sub|027 esc|028 fs |029 gs |030 rs |031 us |
+" |032 sp |033  ! |034  " |035  # |036  $ |037  % |038  & |039  ' |
+" |040  ( |041  ) |042  * |043  + |044  , |045  - |046  . |047  / |
+" |048  0 |049  1 |050  2 |051  3 |052  4 |053  5 |054  6 |055  7 |
+" |056  8 |057  9 |058  : |059  ; |060  < |061  = |062  > |063  ? |
+" |064  @ |065  A |066  B |067  C |068  D |069  E |070  F |071  G |
+" |072  H |073  I |074  J |075  K |076  L |077  M |078  N |079  O |
+" |080  P |081  Q |082  R |083  S |084  T |085  U |086  V |087  W |
+" |088  X |089  Y |090  Z |091  [ |092  \ |093  ] |094  ^ |095  _ |
+" |096  ` |097  a |098  b |099  c |100  d |101  e |102  f |103  g |
+" |104  h |105  i |106  j |107  k |108  l |109  m |110  n |111  o |
+" |112  p |113  q |114  r |115  s |116  t |117  u |118  v |119  w |
+" |120  x |121  y |122  z |123  { |124  | |125  } |126  ~ |127 del|
+"
+" ===================================================================
+" ASCII Table - | hex value - name/char |
+"
+" | 00 nul| 01 soh| 02 stx| 03 etx| 04 eot| 05 enq| 06 ack| 07 bel|
+" | 08 bs | 09 ht | 0a nl | 0b vt | 0c np | 0d cr | 0e so | 0f si |
+" | 10 dle| 11 dc1| 12 dc2| 13 dc3| 14 dc4| 15 nak| 16 syn| 17 etb|
+" | 18 can| 19 em | 1a sub| 1b esc| 1c fs | 1d gs | 1e rs | 1f us |
+" | 20 sp | 21  ! | 22  " | 23  # | 24  $ | 25  % | 26  & | 27  ' |
+" | 28  ( | 29  ) | 2a  * | 2b  + | 2c  , | 2d  - | 2e  . | 2f  / |
+" | 30  0 | 31  1 | 32  2 | 33  3 | 34  4 | 35  5 | 36  6 | 37  7 |
+" | 38  8 | 39  9 | 3a  : | 3b  ; | 3c  < | 3d  = | 3e  > | 3f  ? |
+" | 40  @ | 41  A | 42  B | 43  C | 44  D | 45  E | 46  F | 47  G |
+" | 48  H | 49  I | 4a  J | 4b  K | 4c  L | 4d  M | 4e  N | 4f  O |
+" | 50  P | 51  Q | 52  R | 53  S | 54  T | 55  U | 56  V | 57  W |
+" | 58  X | 59  Y | 5a  Z | 5b  [ | 5c  \ | 5d  ] | 5e  ^ | 5f  _ |
+" | 60  ` | 61  a | 62  b | 63  c | 64  d | 65  e | 66  f | 67  g |
+" | 68  h | 69  i | 6a  j | 6b  k | 6c  l | 6d  m | 6e  n | 6f  o |
+" | 70  p | 71  q | 72  r | 73  s | 74  t | 75  u | 76  v | 77  w |
+" | 78  x | 79  y | 7a  z | 7b  { | 7c  | | 7d  } | 7e  ~ | 7f del|
+" ===================================================================
+"
+" hex / dec / oct / binary
+" ======================
+" | 0 | 00 | 00 | 0000 |
+" | 1 | 01 | 01 | 0001 |
+" | 2 | 02 | 02 | 0010 |
+" | 3 | 03 | 03 | 0011 |
+" | 4 | 04 | 04 | 0100 |
+" | 5 | 05 | 05 | 0101 |
+" | 6 | 06 | 06 | 0110 |
+" | 7 | 07 | 07 | 0111 |
+" | 8 | 08 | 10 | 1000 |
+" | 9 | 09 | 11 | 1001 |
+" | A | 10 | 12 | 1010 |
+" | B | 11 | 13 | 1011 |
+" | C | 12 | 14 | 1100 |
+" | D | 13 | 15 | 1101 |
+" | E | 14 | 16 | 1110 |
+" | F | 15 | 17 | 1111 |
+" ======================
+" 
+" 7.0 - Alphabetical vi quick reference
+" 
+"   ... means that something needs to be specified before or after the
+"   command, as appropriate.  This is normally a cursor movement 
+"   keys (h,j,k,l,w,b, etc.) or a line number.
+" 
+"   #  (where # is a number) following command n times...  
+"   :  go to ex-mode 
+"   )  next sentence 
+"   (  previous sentence 
+"   }  next paragraph 
+"   {  previous paragraph 
+"  ]]  next section 
+"  [[  previous section
+"   0  beginning of line 
+"   $  end of line 
+"   ^  first non-whitespace character
+"   +  first character of next line 
+"   -  first character of previous line 
+" (spacebar) next character 
+" (return) next line 
+"   /  search forward 
+"   ? search backward 
+"   %  find match of current parenthesis, brace, or bracket 
+"   ,  reverse direction of last f, F, t, or T 
+"   ;  repeat last f, F, t, or T
+"   .  repeat last command
+"   `  goto mark 
+"   '  goto beginning of line with mark 
+"  ``  return to previous mark or location before a search 
+"  ''  go to start of line of previous mark or location before search
+"   ~  switch case of current character
+"   "  store in register 
+"   @  execute command in register
+"   !  send next to command, replace output (eg  !}fmt passes the current
+"        paragraph to the command fmt, and replaces the output with
+"        whatever fmt returns.) 
+"  !!  send line to command
+"  >>  shift line one shiftwidth to the right 
+"  <<  shift line one shiftwidth to the left 
+"  >%  shift until matching (, [, or { to the right 
+"  <%  shift until matching (, [, or { to the left
+"   a  append after the current location 
+"   A  append at the end of the line
+"  ^a  unused
+"   b  beginning of previous word 
+"   B  beginning of previous word, ignore punctuation 
+"  ^b  scroll back one screen
+"   c  change until...  
+"   C  change to end of line 
+"  ^c  ends insert mode, unused in command mode (if defined as interrupt)
+"   d  delete until...  
+"   D  delete to end of line 
+"  ^d  scroll down half a window, moves to previous shiftwidth in insert
+"        mode
+"   e  end of word 
+"   E  end of word, ignore punctuation 
+"  ^e  scroll screen down one line
+"   f  find...  
+"   F  find backward...  
+"  ^f  scroll forward one screen
+"   g  unused 
+"   G  ...Goto  [defaults to end of file] 
+"  ^g  show status line
+"   h  left 
+"   H  first line on screen 
+"  ^h  backspace in insert mode, left in command mode
+"   i  insert before current location 
+"   I  insert before first non-whitespace character on line 
+"  ^i  tab in insert, unused in command
+"   j  down 
+"   J  join next line with current line 
+"  ^j  down in command, create newline in insert
+"   k  up 
+"   K  unused 
+"  ^k  unused
+"   l  right 
+"   L  last line on screen 
+"  ^l  redraw screen
+"   m  mark position into register 
+"   M  middle of screen 
+"  ^m  carriage return
+"   n  repeat last search 
+"   N  repeat last search, reverse direction 
+"  ^n down in command
+"   o  open line below current 
+"   O  open line above current 
+"  ^o  unused
+"   p  put below current line 
+"   P  put above current line 
+"  ^p  up in command
+"   q  unused 
+"   Q  quit and run ex 
+"  ^q  unused
+"   r  replace current character 
+"   R  replace characters until insert mode is left 
+"  ^r  redraw screen in command mode
+"   s  substitute 
+"   S  substitute entire line 
+"  ^s  unused
+"   t  to...  
+"   T  backward to...  
+"  ^t  moves to next shiftwidth.
+"   u  undo last change 
+"   U  undo changes to current line 
+"  ^u  scroll up half a window
+"   v  unused 
+"   V  unused 
+"  ^v  unused in command, quotes next character in insert
+"   w  beginning of next word 
+"   W  beginning of next word, ignore punctuation 
+"  ^w  unused in command, in insert move back to beginning of previous
+"        word
+"   x  delete current character 
+"   X  delete previous character 
+"  ^x  unused
+"   y  yank...  
+"   Y  yank current line 
+"  ^y  scroll screen up one line
+"   z  reposition screen around line (Return to top of screen, . to 
+"        middle, - to bottom) 
+"  ZZ  write (only if changes have been made) and quit 
+"  ^z  unused

@@ -1,0 +1,109 @@
+setenv ()
+{
+	export $1=$2
+}
+
+setlbm ()
+{
+	export SHELL='bash'
+    eval `/home/shoda/bin/setappdir.pl LBM $@`
+}
+
+setumds ()
+{
+	export SHELL='bash'
+    eval `/home/shoda/bin/setappdir.pl UMDS $@`
+}
+
+appld ()
+{
+	export SHELL='bash'
+    eval `/home/shoda/bin/appenvpath.pl LD_LIBRARY_PATH $@`
+}
+
+apppath ()
+{
+	export SHELL='bash'
+	eval `/home/shoda/bin/appenvpath.pl PATH $@`
+}
+
+appcp ()
+{
+	export SHELL='bash'
+    eval `/home/shoda/bin/appenvpath.pl CLASSPATH $@`
+}
+
+setcp ()
+{
+	export CLASSPATH=$@
+	echo $CLASSPATH
+}
+
+cdr ()
+{
+	cd `perl -e '( $p, $s, $r ) = @ARGV; $p =~ s/$s/$r/; print $p;' $PWD $1 $2`
+}
+
+lbmdbg ()
+{
+	export LBM_DEBUG_MASK=$1
+	export LBM_DEBUG_FILENAME=$2
+	env | grep LBM_DEBUG
+}
+
+lbmdbgclr ()
+{
+	unset LBM_DEBUG_MASK
+	unset LBM_DEBUG_FILENAME
+}
+
+lbmdbgall ()
+{
+	lbmdbg 0xFFFFFFFFFFFFFFFF $1
+}
+
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+
+export HISTFILESIZE=5000
+export HISTSIZE=5000
+shopt -s histappend
+
+shopt -s autocd
+set -o vi
+
+export LESS=' -R '
+
+export shoda=/home/shoda
+export LBM_LICENSE_FILENAME="${shoda}/lbm.lic"
+export LBM_DEFAULT_CONFIG_FILE="${shoda}/lbm.cfg"
+
+export PATH=${HOME}/bin:${PATH}
+export CVSROOT=:extssh:shoda@torch.29west.com:/29W/Torch/t0/home/shoda/proj/cvs
+export CVSEDITOR=/usr/bin/vim
+export EDITOR=/usr/bin/vim
+export scratch=/29W/Torch/t0/home/shoda
+export cheat=/home/shoda/sync/cheatsheet.txt
+export tmp=/local/temp/shoda
+
+export P4PORT=10.1.40.199:1666
+export P4USER=shoda
+
+export BOOTSTRAPMACH=`uname -n`
+export DEFBSHOST="Y"
+
+alias lbmenv='eval `/home/shoda/bin/lbmenv.pl bash`'
+alias h=history
+alias cvsupdate='cvs -q update -dP'
+alias cvsdiff='cvs -q diff -u8pN'
+
+alias l='ls -laFh'
+alias lll='ls -laFh --color | less -R'
+
+alias p4diff='p4 diff -du8 -dw -dl'
+
+alias csu='cscope -bUq'
+
+alias myps="ps -u $USER -f -H -ww"
+alias mypstop="watch -n 2 -t ps -u $USER -f -H -ww"
