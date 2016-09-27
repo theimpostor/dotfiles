@@ -9,7 +9,7 @@ cat .bashrc >> ~/.bashrc
 mkdir ~/vimtmp
 cat .vimrc >> ~/.vimrc
 
-for f ( .ackrc .gitconfig .minttyrc ); do
+for f in .ackrc .gitconfig .minttyrc ; do
     ln -s `pwd`/$f ~/$f
 done
 
