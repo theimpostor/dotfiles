@@ -34,7 +34,9 @@ Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 Plugin 'ntpeters/vim-better-whitespace'
 
 " see set ft=haproxy autocommand
-" Plugin 'haproxy'
+Plugin 'haproxy'
+
+Plugin 'mileszs/ack.vim'
 
 
 " " The following are examples of different formats supported.
