@@ -2,14 +2,19 @@ if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
+
 export HISTFILESIZE=5000
 export HISTSIZE=5000
+export EDITOR=/usr/bin/vim
+
 shopt -s histappend
 shopt -s autocd
 set -o vi
 
 alias l='ls -laFh'
 alias lll='ls -laFh --color | less -R'
+
+alias cls='echo -e "\ec\e[3J"'
 
 alias myps="ps -u $USER -f -H -ww"
 alias mypstop="watch -n 2 -t ps -u $USER -f -H -ww"

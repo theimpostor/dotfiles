@@ -1,0 +1,5 @@
+--type-add=ant:is:build.xml
+--type-add=eclipse:is:.classpath
+--type-add=javasrc:ext:java
+--type-add=soap:ext:wsdl
+--type-add=mustache:ext:mustache

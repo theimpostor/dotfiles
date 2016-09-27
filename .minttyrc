@@ -1,0 +1,14 @@
+BoldAsFont=yes
+CursorType=block
+RightClickAction=extend
+Font=Ubuntu Mono
+FontSmoothing=full
+BackgroundColour=48,10,37
+Columns=120
+Rows=35
+ScrollbackLines=100000
+FontHeight=8
+Transparency=low
+OpaqueWhenFocused=no
+Answerback=mintty
+Printer=PDF995

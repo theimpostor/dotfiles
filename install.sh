@@ -9,6 +9,10 @@ cat .bashrc >> ~/.bashrc
 mkdir ~/vimtmp
 cat .vimrc >> ~/.vimrc
 
+for f ( .ackrc .gitconfig .minttyrc ); do
+    ln -s `pwd`/$f ~/$f
+done
+
 cat <<EOF
 
 To install Vundle run:
