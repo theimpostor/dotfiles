@@ -1,6 +1,6 @@
 BoldAsFont=yes
 CursorType=block
-RightClickAction=extend
+RightClickAction=menu
 Font=Ubuntu Mono
 FontSmoothing=full
 BackgroundColour=48,10,37
@@ -12,3 +12,4 @@ Transparency=low
 OpaqueWhenFocused=no
 Answerback=mintty
 Printer=PDF995
+BellType=0
