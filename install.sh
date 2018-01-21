@@ -1,7 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-PREV_DIR=`pwd`
-SCRIPT_DIR=`dirname $0`
+set -euf -o pipefail
+
+PREV_DIR="$(pwd)"
+SCRIPT_DIR="$(dirname "$0")"
 cd "$SCRIPT_DIR"
 
 cat .bashrc >> ~/.bashrc
@@ -10,7 +12,7 @@ mkdir ~/vimtmp
 cat .vimrc >> ~/.vimrc
 
 for f in .ackrc .gitconfig .minttyrc ; do
-    ln -s `pwd`/$f ~/$f
+	ln -s "$(pwd)/$f" "$HOME/$f"
 done
 
 cat <<EOF
