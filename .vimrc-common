@@ -20,8 +20,8 @@ filetype plugin indent on
 
 set noincsearch
 
-set	backupdir=~/vimtmp
-set	directory=~/vimtmp
+set	backupdir=/tmp/vimbackup
+set	directory=/tmp/vimbackup
 
 " keep hidden buffers open
 set hidden
@@ -39,7 +39,7 @@ set ruler
 " make folds less obtrusive
 " highlight Folded ctermbg=10
 
-set background=dark
+" set background=dark
 
 " commandline / search history
 set history=100
@@ -47,7 +47,7 @@ set history=100
 " Allow for embedded vim config, e.g. vi:sw=2:ai
 set modeline
 " make pop-up menu selections stand out
-highlight PmenuSel ctermfg=7 ctermbg=0 guibg=DarkGrey
+" highlight PmenuSel ctermfg=7 ctermbg=0 guibg=DarkGrey
 
 nmap	,q	:q<cr>
 
@@ -62,33 +62,33 @@ vmap // y/<C-R>"<CR>
 " 
 " endif
 
-if filereadable($cscope_base . "/cscope.out")
-"    set nocscopeverbose  
-	" cs add $cscope_base/cscope.out
-	set cscopetag
-
-	nmap \s :cs find s 
-	nmap \g :cs find g 
-	nmap \c :cs find c 
-	nmap \t :cs find t 
-	nmap \e :cs find e 
-	nmap \f :cs find f 
-	nmap \i :cs find i 
-	nmap \d :cs find d 
-	nmap \r :cs reset<CR>
-
-	nmap \<space>s :scs find s 
-	nmap \<space>g :scs find g 
-	nmap \<space>c :scs find c 
-	nmap \<space>t :scs find t 
-	nmap \<space>e :scs find e 
-	nmap \<space>f :scs find f 
-	nmap \<space>i :scs find i 
-	nmap \<space>d :scs find d 
-
-	map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-	map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-endif
+" if filereadable($cscope_base . "/cscope.out")
+" "    set nocscopeverbose  
+" 	" cs add $cscope_base/cscope.out
+" 	set cscopetag
+" 
+" 	nmap \s :cs find s 
+" 	nmap \g :cs find g 
+" 	nmap \c :cs find c 
+" 	nmap \t :cs find t 
+" 	nmap \e :cs find e 
+" 	nmap \f :cs find f 
+" 	nmap \i :cs find i 
+" 	nmap \d :cs find d 
+" 	nmap \r :cs reset<CR>
+" 
+" 	nmap \<space>s :scs find s 
+" 	nmap \<space>g :scs find g 
+" 	nmap \<space>c :scs find c 
+" 	nmap \<space>t :scs find t 
+" 	nmap \<space>e :scs find e 
+" 	nmap \<space>f :scs find f 
+" 	nmap \<space>i :scs find i 
+" 	nmap \<space>d :scs find d 
+" 
+" 	map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+" 	map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+" endif
 
 nmap    ,g      :YcmCompleter GoTo <cword><CR>
 
