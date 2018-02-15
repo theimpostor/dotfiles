@@ -10,6 +10,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
 Plugin 'elzr/vim-json'
 Plugin 'ntpeters/vim-better-whitespace'
@@ -17,6 +18,7 @@ Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
 " Plugin 'tfnico/vim-gradle'
 " Plugin 'mojo.vim'
@@ -42,9 +44,11 @@ if has("clipboard")
   endif
 endif
 
+" create dir if it doesn't exist
 if !isdirectory($HOME . "/.vim/backup")
     call mkdir($HOME . "/.vim/backup", "p", 0700)
 endif
+ " extra slash means same filename open in diff dir won't conflict
 set backupdir=~/.vim/backup//
 
 if !isdirectory($HOME . "/.vim/swap")
@@ -73,7 +77,7 @@ endif
 " !: don't immediately open first result
 nnoremap <leader>a :Ack!<CR>
 
-" disable ale for C/CPP
+" disable ale for C/CPP/go
 let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'go': []}
 
 " YCM shortcuts
@@ -85,4 +89,9 @@ nnoremap <leader>yc :YcmCompleter GetDoc<CR>
 
 set shiftwidth=4
 set tabstop=4
+" use spaces instead of tabs
 set expandtab
+
+" Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
+" Use {Enable,Toggle}Whitespace to enable.
+autocmd VimEnter * DisableWhitespace

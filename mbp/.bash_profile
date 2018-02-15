@@ -18,6 +18,9 @@ fi
 
 export PATH=${PATH}:~/bin
 
+JAVA_HOME="$(/usr/libexec/java_home)"
+export JAVA_HOME
+
 # append to history instead of overwriting
 shopt -s histappend
 
@@ -48,9 +51,14 @@ alias lll='ls -laFh --color | less -R'
 
 alias cls='echo -e "\ec\e[3J"'
 
-alias myps="ps -u $(id -u) -f -H -ww"
-alias mypstop="watch -n 2 -t ps -u $(id -u) -f -H -ww"
+# alias myps="ps -u $(id -u) -f -H -ww"
+# alias mypstop="watch -n 2 -t ps -u $(id -u) -f -H -ww"
 
-alias ptree="tree -ACF"
+# alias ptree="tree -ACF"
 
 alias dc='docker-compose'
+
+# ag but open results in vim's quickfix window
+function vg {
+    vim -q <(ag --vimgrep "$@") +copen
+}
