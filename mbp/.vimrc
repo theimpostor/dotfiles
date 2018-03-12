@@ -1,3 +1,6 @@
+" fzf plugin
+set rtp+=/usr/local/opt/fzf
+
 " vundle begin
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -13,12 +16,13 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
 Plugin 'elzr/vim-json'
-Plugin 'ntpeters/vim-better-whitespace'
+" Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
+" Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
 " Plugin 'tfnico/vim-gradle'
 " Plugin 'mojo.vim'
@@ -28,6 +32,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " vundle end
+
 
 " source ~/dotfiles/.vimrc-common
 
@@ -94,4 +99,4 @@ set expandtab
 
 " Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
 " Use {Enable,Toggle}Whitespace to enable.
-autocmd VimEnter * DisableWhitespace
+" autocmd VimEnter * DisableWhitespace
