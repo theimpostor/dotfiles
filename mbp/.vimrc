@@ -1,5 +1,6 @@
 " fzf plugin
 set rtp+=/usr/local/opt/fzf
+nnoremap <leader>f :FZF<CR>
 
 " vundle begin
 set nocompatible              " be iMproved, required
@@ -21,6 +22,7 @@ Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'lyuts/vim-rtags'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -70,6 +72,12 @@ set undodir=~/.vim/undo//
 " highlight search term
 set hlsearch
 
+" case insensitive searches...
+set ignorecase
+
+" ...unless the search string has upper case
+set smartcase
+
 " don't wrap long lines in the middle of a word
 set linebreak
 
@@ -83,14 +91,22 @@ endif
 nnoremap <leader>a :Ack!<CR>
 
 " disable ale for C/CPP/go
-let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'go': []}
+let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'go': [], 'java': []}
 
 " YCM shortcuts
-nnoremap <leader>g :YcmCompleter GoTo<CR>
+nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yd :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yt :YcmCompleter GetType<CR>
 nnoremap <leader>yc :YcmCompleter GetDoc<CR>
+
+" vim-go shortcuts
+autocmd FileType go nmap <leader>gg  <Plug>(go-def)
+autocmd FileType go nmap <leader>gf  <Plug>(go-referrers)
+autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
+
+" Close the preview window after completion
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 set shiftwidth=4
 set tabstop=4
@@ -100,3 +116,6 @@ set expandtab
 " Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
 " Use {Enable,Toggle}Whitespace to enable.
 " autocmd VimEnter * DisableWhitespace
+
+" http://vim.wikia.com/wiki/Search_for_visually_selected_text
+vnoremap // y/\V<C-R>"<CR>

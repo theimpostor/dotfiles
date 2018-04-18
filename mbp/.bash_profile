@@ -16,16 +16,20 @@ __prompt_command() {
     local EXIT="$?"             # This needs to be first
 
     local reset='\[\e[0m\]'
-    local red='\[\e[1;31m\]'
+    # local magenta='\[\e[1;35m\]'
     local blue='\[\e[1;34m\]'
 
     local color=${blue}
 
-    if [ $EXIT != 0 ]; then
-        color=${red}            # Add red if exit code non 0
-    fi
-
     PS1="${color}\\w${reset} "
+
+    # if [ $EXIT != 0 ]; then
+    #     color="${magenta}"          # Add magenta if exit code non 0
+    # fi
+
+    if [[ $EXIT -ne 0 ]]; then
+        PS1="💩 ${PS1}"
+    fi
 
     # append to history after every command
     # export PROMPT_COMMAND='history -a'
@@ -90,13 +94,6 @@ function vg {
 export BRANCH=$HOME/src/messaging/branches
 export TRUNK=$HOME/src/messaging/trunk
 
-source "$HOME/goto/goto.bash"
+# source "$HOME/goto/goto.bash"
 
-# goto -r common     ~/src/messaging/trunk/common
-# goto -r ffy        ~/src/messaging/trunk/firefly
-# goto -r ffy-qa     ~/src/messaging/trunk/firefly_qa
-# goto -r ftl        ~/src/messaging/branches/ftl/ftl-5.3.x-branch/hydra
-# goto -r src        ~/src
-# goto -r thirdparty ~/src/messaging/trunk/thirdparty
-# goto -r trunk      ~/src/messaging/trunk
-
+export ASAN_OPTIONS=detect_leaks=1
