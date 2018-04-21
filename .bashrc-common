@@ -2,26 +2,31 @@ if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
-
 export HISTFILESIZE=5000
 export HISTSIZE=5000
 export EDITOR=/usr/bin/vim
 
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
 shopt -s histappend
+
 shopt -s autocd
 
 # tab expand env vars
 shopt -s direxpand
-set -o vi
 
+set -o vi
 
 alias l='ls -laFh'
 alias lll='ls -laFh --color | less -R'
 
 alias cls='echo -e "\ec\e[3J"'
 
-alias myps="ps -u $(id -u) -f -H -ww"
-alias mypstop="watch -n 2 -t ps -u $(id -u) -f -H -ww"
+alias myps="ps -u \$(id -u) -f -H -ww"
+alias mypstop="watch -n 2 -t ps -u \$(id -u) -f -H -ww"
 
 alias ptree="tree -ACF"
 

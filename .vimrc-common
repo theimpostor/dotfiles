@@ -1,12 +1,12 @@
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-endif
-set backspace=indent,eol,start
+" if &t_Co > 2 || has("gui_running")
+"   syntax on
+"   set hlsearch
+" endif
+" set backspace=indent,eol,start
 
 " ignore case when searching with all lower case
-set	ignorecase
-set	smartcase
+" set	ignorecase
+" set	smartcase
 
 set	tabstop=4
 set	shiftwidth=4
@@ -14,27 +14,27 @@ set	shiftwidth=4
 " expandtab - use spaces insead of tabs. Use <ctrl-v>Tab to insert a real tab when this is enabled
 set	expandtab
 
-set	autoindent
-set cindent
-filetype plugin indent on
+" set	autoindent
+" set cindent
+" filetype plugin indent on
 
-set noincsearch
+" set noincsearch
 
 set	backupdir=~/vimtmp
 set	directory=~/vimtmp
 
 " keep hidden buffers open
-set hidden
+" set hidden
 
-set scrolloff=3
+" set scrolloff=3
 
-set mouse=a
+" set mouse=a
 
 " show line count in visual mode
-set showcmd
+" set showcmd
 
 " show column and line count
-set ruler
+" set ruler
 
 " make folds less obtrusive
 " highlight Folded ctermbg=10
@@ -45,9 +45,9 @@ set background=dark
 set history=100
 
 " Allow for embedded vim config, e.g. vi:sw=2:ai
-set modeline
+" set modeline
 " make pop-up menu selections stand out
-highlight PmenuSel ctermfg=7 ctermbg=0 guibg=DarkGrey
+" highlight PmenuSel ctermfg=7 ctermbg=0 guibg=DarkGrey
 
 nmap	,q	:q<cr>
 
@@ -62,33 +62,33 @@ vmap // y/<C-R>"<CR>
 " 
 " endif
 
-if filereadable($cscope_base . "/cscope.out")
-"    set nocscopeverbose  
-	" cs add $cscope_base/cscope.out
-	set cscopetag
-
-	nmap \s :cs find s 
-	nmap \g :cs find g 
-	nmap \c :cs find c 
-	nmap \t :cs find t 
-	nmap \e :cs find e 
-	nmap \f :cs find f 
-	nmap \i :cs find i 
-	nmap \d :cs find d 
-	nmap \r :cs reset<CR>
-
-	nmap \<space>s :scs find s 
-	nmap \<space>g :scs find g 
-	nmap \<space>c :scs find c 
-	nmap \<space>t :scs find t 
-	nmap \<space>e :scs find e 
-	nmap \<space>f :scs find f 
-	nmap \<space>i :scs find i 
-	nmap \<space>d :scs find d 
-
-	map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-	map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-endif
+" if filereadable($cscope_base . "/cscope.out")
+" "    set nocscopeverbose  
+" 	" cs add $cscope_base/cscope.out
+" 	set cscopetag
+" 
+" 	nmap \s :cs find s 
+" 	nmap \g :cs find g 
+" 	nmap \c :cs find c 
+" 	nmap \t :cs find t 
+" 	nmap \e :cs find e 
+" 	nmap \f :cs find f 
+" 	nmap \i :cs find i 
+" 	nmap \d :cs find d 
+" 	nmap \r :cs reset<CR>
+" 
+" 	nmap \<space>s :scs find s 
+" 	nmap \<space>g :scs find g 
+" 	nmap \<space>c :scs find c 
+" 	nmap \<space>t :scs find t 
+" 	nmap \<space>e :scs find e 
+" 	nmap \<space>f :scs find f 
+" 	nmap \<space>i :scs find i 
+" 	nmap \<space>d :scs find d 
+" 
+" 	map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+" 	map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+" endif
 
 nmap    ,g      :YcmCompleter GoTo <cword><CR>
 
@@ -115,7 +115,7 @@ nmap	,(      i(<ESC>ea)<ESC>
 vmap	,(      <esc>`>a)<ESC>`<i(<ESC>
 
 " nmap	,s      iMUL_STRINGIFY(<ESC>ea)<ESC>
-vmap	,s      <esc>`>o#endif<ESC>`<i#ifdef HAVE_OPENSSL<cr><ESC>
+" vmap	,s      <esc>`>o#endif<ESC>`<i#ifdef HAVE_OPENSSL<cr><ESC>
 
 nmap	,\  	V:s/^[ \t]*\/\/ //<CR>j0:nohlsearch<cr>
 vmap	,\  	:s/^[ \t]*\/\/ //g<CR>j0:nohlsearch<cr>
@@ -200,20 +200,20 @@ vmap	F		zf
 nmap	,f		:set foldmethod=syntax<cr>:set foldmethod=manual<cr>
 
 " search highlighting plugin
-let g:MultipleSearchMaxColors=12
+" let g:MultipleSearchMaxColors=12
 
 " JSON syntax highlighting
 " Now done with plugin...don't need this any more - but disable plugin
 " conceal feature
 " " autocmd BufNewFile,BufRead *.json set ft=javascript
-let g:vim_json_syntax_conceal = 0
+" let g:vim_json_syntax_conceal = 0
 
 " enable syntax
 " autocmd BufNewFile,BufRead *.gradle setf groovy
 
 " close scratch window when cursor moves
-autocmd CursorMovedI *  if pumvisible() == 0|silent! pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
+" autocmd CursorMovedI *  if pumvisible() == 0|silent! pclose|endif
+" autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
 " clang complete library path
 " let g:clang_library_path="/usr/lib/llvm-3.2/lib/"
