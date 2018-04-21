@@ -20,8 +20,8 @@ set	expandtab
 
 " set noincsearch
 
-set	backupdir=~/vimtmp
-set	directory=~/vimtmp
+set	backupdir=/tmp/vimbackup
+set	directory=/tmp/vimbackup
 
 " keep hidden buffers open
 " set hidden
@@ -39,7 +39,7 @@ set	directory=~/vimtmp
 " make folds less obtrusive
 " highlight Folded ctermbg=10
 
-set background=dark
+" set background=dark
 
 " commandline / search history
 set history=100

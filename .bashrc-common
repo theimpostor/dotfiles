@@ -13,6 +13,23 @@ HISTCONTROL=ignoredups:ignorespace
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+# append to history instead of overwriting
+shopt -s histappend
+
+# don't log duplicate commands or commands starting w/a space
+export HISTIGNORE=ignoreboth
+
+# append to history after every command
+export PROMPT_COMMAND='history -a'
+
+# expand history size
+export HISTFILESIZE=1000000
+export HISTSIZE=1000000
+
+EDITOR=$(which vim)
+export EDITOR
+
+# cd to directory just by typing dir name
 shopt -s autocd
 
 # tab expand env vars
