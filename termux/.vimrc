@@ -1,5 +1,4 @@
 " fzf plugin
-set rtp+=/usr/local/opt/fzf
 nnoremap <leader>f :FZF<CR>
 
 " vundle begin
@@ -22,7 +21,7 @@ Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'lyuts/vim-rtags'
+" Plugin 'lyuts/vim-rtags'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -31,12 +30,16 @@ Plugin 'lyuts/vim-rtags'
 " Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 " see set ft=haproxy autocommand
 " Plugin 'haproxy'
+
+" All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" vundle end
 
-" enable mouse support
-set mouse=a
+" Required for YouCompleteMe
+set encoding=utf-8
+
+" disable mouse support
+set mouse=
 
 " yank to clipboard (via
 " http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
@@ -86,8 +89,7 @@ endif
 " !: don't immediately open first result
 nnoremap <leader>a :Ack!<CR>
 
-" disable ale for C/CPP/go
-let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'go': [], 'java': []}
+let g:ale_linters = { 'bash': ['shellcheck'] }
 
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
