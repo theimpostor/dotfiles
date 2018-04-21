@@ -53,7 +53,6 @@ shopt -s histappend
 # don't log duplicate commands or commands starting w/a space
 export HISTIGNORE=ignoreboth
 
-
 # expand history size
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
