@@ -21,11 +21,11 @@ __prompt_command() {
 
     local color=${blue}
 
-    PS1="${color}\\w${reset} "
-
     # if [ $EXIT != 0 ]; then
     #     color="${magenta}"          # Add magenta if exit code non 0
     # fi
+
+    PS1="${color}\\w${reset} "
 
     if [[ $EXIT -ne 0 ]]; then
         PS1="💩 ${PS1}"
@@ -97,3 +97,4 @@ export TRUNK=$HOME/src/messaging/trunk
 # source "$HOME/goto/goto.bash"
 
 export ASAN_OPTIONS=detect_leaks=1
+export LSAN_OPTIONS=fast_unwind_on_malloc=false
