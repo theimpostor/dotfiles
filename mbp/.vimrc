@@ -124,5 +124,4 @@ autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 " list
 let g:go_list_type = "quickfix"
 
-" for vim-helm syntax file
-autocmd BufRead,BufNewFile */templates/*.yaml,*/templates/*.tpl set ft=helm
+autocmd Filetype yaml set sw=2 ts=2
