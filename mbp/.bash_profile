@@ -12,31 +12,11 @@ export TERM="xterm-color"
 # PS1='\[\e[0;34m\]\w\[\e[0m\]\$ '
 # PS1='\[\e[0;34m\]\w\[\e[0m\] '
 
-__prompt_command() {
-    local EXIT="$?"             # This needs to be first
+reset='\[\e[0m\]'
+blue='\[\e[1;34m\]'
+PS1="${blue}\\w${reset} "
 
-    local reset='\[\e[0m\]'
-    # local magenta='\[\e[1;35m\]'
-    local blue='\[\e[1;34m\]'
-
-    local color=${blue}
-
-    # if [ $EXIT != 0 ]; then
-    #     color="${magenta}"          # Add magenta if exit code non 0
-    # fi
-
-    PS1="${color}\\w${reset} "
-
-    if [[ $EXIT -ne 0 ]]; then
-        PS1="💩 ${PS1}"
-    fi
-
-    # append to history after every command
-    # export PROMPT_COMMAND='history -a'
-    history -a
-}
-
-PROMPT_COMMAND=__prompt_command # runs prior to printing every command prompt
+PROMPT_COMMAND='history -a'
 
 if [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
@@ -70,6 +50,8 @@ shopt -s direxpand
 # use vi key bindings on cmd line
 set -o vi
 
+# suppress shellcheck warning:
+# shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 alias l='ls -laFh'
@@ -98,3 +80,21 @@ export TRUNK=$HOME/src/messaging/trunk
 
 export ASAN_OPTIONS=detect_leaks=1
 export LSAN_OPTIONS=fast_unwind_on_malloc=false
+
+ERR_SAVED_PS1=$PS1
+ERR_SAVED_PROMPT_COMMAND=$PROMPT_COMMAND
+
+__err_prompt_command() {
+    local EXIT="$?"             # This needs to be first
+
+    $ERR_SAVED_PROMPT_COMMAND
+
+    if [[ $EXIT -ne 0 ]]; then
+        PS1="💩 ${ERR_SAVED_PS1}"
+    else
+        PS1=${ERR_SAVED_PS1}
+    fi
+}
+
+PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command prompt
+
