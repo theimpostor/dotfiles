@@ -23,6 +23,8 @@ Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'lyuts/vim-rtags'
+Plugin 'towolf/vim-helm'
+" Plugin 'file:///Users/shoda/src/vim-helm'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -34,9 +36,6 @@ Plugin 'lyuts/vim-rtags'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " vundle end
-
-
-" source ~/dotfiles/.vimrc-common
 
 " enable mouse support
 set mouse=a
@@ -68,7 +67,6 @@ if !isdirectory($HOME . "/.vim/undo")
 endif
 set undodir=~/.vim/undo//
 
-
 " highlight search term
 set hlsearch
 
@@ -81,6 +79,20 @@ set smartcase
 " don't wrap long lines in the middle of a word
 set linebreak
 
+" indent / tab width
+set shiftwidth=4
+set tabstop=4
+
+" use spaces instead of tabs
+set expandtab
+
+" Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
+" Use {Enable,Toggle}Whitespace to enable.
+" autocmd VimEnter * DisableWhitespace
+
+" Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
+vnoremap // y/\V<C-R>"<CR>
+
 " Use ag with ack.vim plugin
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -90,8 +102,8 @@ endif
 " !: don't immediately open first result
 nnoremap <leader>a :Ack!<CR>
 
-" disable ale for C/CPP/go
-let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'go': [], 'java': []}
+" disable ale for C/CPP/Java
+let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'java': []}
 
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
@@ -100,22 +112,17 @@ nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yt :YcmCompleter GetType<CR>
 nnoremap <leader>yc :YcmCompleter GetDoc<CR>
 
+" Close the preview window after completion
+let g:ycm_autoclose_preview_window_after_completion = 1
+
 " vim-go shortcuts
 autocmd FileType go nmap <leader>gg  <Plug>(go-def)
 autocmd FileType go nmap <leader>gf  <Plug>(go-referrers)
 autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 
-" Close the preview window after completion
-let g:ycm_autoclose_preview_window_after_completion = 1
+" configure vim-go to use quickfix instead of location, since ALE use location
+" list
+let g:go_list_type = "quickfix"
 
-set shiftwidth=4
-set tabstop=4
-" use spaces instead of tabs
-set expandtab
-
-" Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
-" Use {Enable,Toggle}Whitespace to enable.
-" autocmd VimEnter * DisableWhitespace
-
-" http://vim.wikia.com/wiki/Search_for_visually_selected_text
-vnoremap // y/\V<C-R>"<CR>
+" for vim-helm syntax file
+autocmd BufRead,BufNewFile */templates/*.yaml,*/templates/*.tpl set ft=helm
