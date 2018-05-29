@@ -124,4 +124,4 @@ autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 " list
 let g:go_list_type = "quickfix"
 
-autocmd Filetype yaml set sw=2 ts=2
+autocmd Filetype yaml,markdown set sw=2 ts=2
