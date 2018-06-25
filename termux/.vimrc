@@ -1,4 +1,5 @@
 " fzf plugin
+set rtp+=~/.fzf
 nnoremap <leader>f :FZF<CR>
 
 " vundle begin
@@ -80,6 +81,20 @@ set smartcase
 " don't wrap long lines in the middle of a word
 set linebreak
 
+" indent / tab width
+set shiftwidth=4
+set tabstop=4
+
+" use spaces instead of tabs
+set expandtab
+
+" Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
+" Use {Enable,Toggle}Whitespace to enable.
+" autocmd VimEnter * DisableWhitespace
+
+" Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
+vnoremap // y/\V<C-R>"<CR>
+
 " Use ag with ack.vim plugin
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -88,6 +103,7 @@ endif
 " Search word under cursor with ack.vim (ag)
 " !: don't immediately open first result
 nnoremap <leader>a :Ack!<CR>
+
 
 let g:ale_linters = { 'bash': ['shellcheck'] }
 
@@ -98,22 +114,19 @@ nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>yt :YcmCompleter GetType<CR>
 nnoremap <leader>yc :YcmCompleter GetDoc<CR>
 
+" Close the preview window after completion
+let g:ycm_autoclose_preview_window_after_completion = 1
+
 " vim-go shortcuts
 autocmd FileType go nmap <leader>gg  <Plug>(go-def)
 autocmd FileType go nmap <leader>gf  <Plug>(go-referrers)
 autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 
-" Close the preview window after completion
-let g:ycm_autoclose_preview_window_after_completion = 1
+" configure vim-go to use quickfix instead of location, since ALE use location
+" list
+let g:go_list_type = "quickfix"
 
-set shiftwidth=4
-set tabstop=4
-" use spaces instead of tabs
-set expandtab
+autocmd Filetype yaml,markdown set sw=2 ts=2
 
-" Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
-" Use {Enable,Toggle}Whitespace to enable.
-" autocmd VimEnter * DisableWhitespace
-
-" http://vim.wikia.com/wiki/Search_for_visually_selected_text
-vnoremap // y/\V<C-R>"<CR>
+vnoremap <leader>y :w !termux-clipboard-set<CR><CR>
+nnoremap <leader>p :r !termux-clipboard-get<CR>
