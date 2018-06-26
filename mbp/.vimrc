@@ -125,3 +125,16 @@ autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 let g:go_list_type = "quickfix"
 
 autocmd Filetype yaml,markdown set sw=2 ts=2
+
+" use rtags for tag shortcuts
+autocmd Filetype c,cpp nnoremap <C-]> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
+autocmd Filetype c,cpp autocmd BufWritePost,FileWritePost,FileAppendPost <buffer> call rtags#ReindexFile()
+" autocmd FileWritePost,FileAppendPost c,cpp call rtags#ReindexFile()
+" autocmd Filetype c nnoremap <C-[> :call rtags#FindRefs()<CR>
+" autocmd Filetype c nnoremap <c-leftmouse> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
+
+" abbreviations TODO move to project
+iabbrev @O TIBEX_OK(e)
+iabbrev @N TIBEX_NOT_OK(e)
+iabbrev @E TIB_ARGS(e),
+iabbrev @P TIB_ARG_PUBLIC(ep),
