@@ -22,7 +22,7 @@ if [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
 fi
 
-export PATH=${PATH}:~/bin
+export PATH=${PATH}:${HOME}/bin:${HOME}/go/bin
 
 JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
@@ -37,7 +37,7 @@ export HISTIGNORE=ignoreboth
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
 
-EDITOR=$(which vim)
+EDITOR=$(command -v vim)
 export EDITOR
 
 # cd to directory just by typing dir name
