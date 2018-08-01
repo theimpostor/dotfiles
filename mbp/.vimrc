@@ -1,3 +1,9 @@
+" workaround for: https://github.com/vim/vim/issues/3117
+if has('python3')
+  silent! python3 1
+endif
+
+
 " fzf plugin
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>f :FZF<CR>
@@ -24,6 +30,8 @@ Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'lyuts/vim-rtags'
 Plugin 'towolf/vim-helm'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'vim-airline/vim-airline'
 " Plugin 'file:///Users/shoda/src/vim-helm'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
@@ -91,7 +99,11 @@ set expandtab
 " autocmd VimEnter * DisableWhitespace
 
 " Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
-vnoremap // y/\V<C-R>"<CR>
+xnoremap // y/\V<C-R>"<CR>
+
+" xnoremap selected text to 'blackhole' register, then paste
+xnoremap p "_dp
+xnoremap P "_dP
 
 " Use ag with ack.vim plugin
 if executable('ag')
@@ -129,12 +141,13 @@ autocmd Filetype yaml,markdown set sw=2 ts=2
 " use rtags for tag shortcuts
 autocmd Filetype c,cpp nnoremap <C-]> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
 autocmd Filetype c,cpp autocmd BufWritePost,FileWritePost,FileAppendPost <buffer> call rtags#ReindexFile()
-" autocmd FileWritePost,FileAppendPost c,cpp call rtags#ReindexFile()
+autocmd FileWritePost,FileAppendPost c,cpp call rtags#ReindexFile()
 " autocmd Filetype c nnoremap <C-[> :call rtags#FindRefs()<CR>
 " autocmd Filetype c nnoremap <c-leftmouse> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
 
 " abbreviations TODO move to project
-iabbrev @O TIBEX_OK(e)
-iabbrev @N TIBEX_NOT_OK(e)
-iabbrev @E TIB_ARGS(e),
-iabbrev @P TIB_ARG_PUBLIC(ep),
+autocmd FileType c iabbrev <buffer> TO  TIBEX_OK(e)
+autocmd FileType c iabbrev <buffer> TNO TIBEX_NOT_OK(e)
+autocmd FileType c iabbrev <buffer> TA  TIB_ARGS(e)
+autocmd FileType c iabbrev <buffer> TAI TIB_ARGS_IGNR_EX(e)
+autocmd FileType c iabbrev <buffer> TAP TIB_ARG_PUBLIC(ep)
