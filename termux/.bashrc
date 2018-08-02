@@ -109,3 +109,9 @@ function vg {
 
 export PATH="${PATH}:${HOME}/go/bin"
 
+echo ip address:
+ip -br -4 address
+
+function pbcopy() {
+    termux-clipboard-set "$@"
+}

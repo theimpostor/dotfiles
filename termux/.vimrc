@@ -22,6 +22,9 @@ Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'pangloss/vim-javascript'
 " Plugin 'lyuts/vim-rtags'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
@@ -105,7 +108,7 @@ endif
 nnoremap <leader>a :Ack!<CR>
 
 
-let g:ale_linters = { 'bash': ['shellcheck'] }
+let g:ale_linters = { 'bash': ['shellcheck'], 'javascript': ['standard'] }
 
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
@@ -130,3 +133,23 @@ autocmd Filetype yaml,markdown set sw=2 ts=2
 
 vnoremap <leader>y :w !termux-clipboard-set<CR><CR>
 nnoremap <leader>p :r !termux-clipboard-get<CR>
+
+
+fu! GenerateUUID()
+
+py3 << EOF
+import uuid
+import vim
+
+# output a uuid to the vim variable for insertion below
+vim.command("let generatedUUID = \"%s\"" % str(uuid.uuid4()))
+
+EOF
+
+" insert the python generated uuid into the current cursor's position
+:execute "normal i" . generatedUUID . ""
+
+endfunction
+
+"initialize the generateUUID function here and map it to a local command
+noremap <Leader>u :call GenerateUUID()<CR>
