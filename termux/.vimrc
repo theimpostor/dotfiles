@@ -96,7 +96,11 @@ set expandtab
 " autocmd VimEnter * DisableWhitespace
 
 " Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
-vnoremap // y/\V<C-R>"<CR>
+xnoremap // y/\V<C-R>"<CR>
+
+" xnoremap selected text to 'blackhole' register, then paste
+xnoremap p "_dp
+xnoremap P "_dP
 
 " Use ag with ack.vim plugin
 if executable('ag')

@@ -1,9 +1,3 @@
-" workaround for: https://github.com/vim/vim/issues/3117
-if has('python3')
-  silent! python3 1
-endif
-
-
 " fzf plugin
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>f :FZF<CR>
@@ -28,10 +22,12 @@ Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'leafgarland/typescript-vim'
 Plugin 'lyuts/vim-rtags'
 Plugin 'towolf/vim-helm'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'vim-airline/vim-airline'
+Plugin 'majutsushi/tagbar'
 " Plugin 'file:///Users/shoda/src/vim-helm'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
@@ -41,6 +37,8 @@ Plugin 'vim-airline/vim-airline'
 " Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 " see set ft=haproxy autocommand
 " Plugin 'haproxy'
+
+" All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 " vundle end
@@ -101,7 +99,7 @@ set expandtab
 " Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
 xnoremap // y/\V<C-R>"<CR>
 
-" xnoremap selected text to 'blackhole' register, then paste
+" delete selected text to 'blackhole' register, then paste
 xnoremap p "_dp
 xnoremap P "_dP
 
@@ -151,3 +149,6 @@ autocmd FileType c iabbrev <buffer> TNO TIBEX_NOT_OK(e)
 autocmd FileType c iabbrev <buffer> TA  TIB_ARGS(e)
 autocmd FileType c iabbrev <buffer> TAI TIB_ARGS_IGNR_EX(e)
 autocmd FileType c iabbrev <buffer> TAP TIB_ARG_PUBLIC(ep)
+
+" TagBar activation
+nnoremap <leader>t :TagbarToggle<CR>

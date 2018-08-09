@@ -31,7 +31,7 @@ export JAVA_HOME
 shopt -s histappend
 
 # don't log duplicate commands or commands starting w/a space
-export HISTIGNORE=ignoreboth
+export HISTCONTROL=ignoreboth
 
 # expand history size
 export HISTFILESIZE=1000000
