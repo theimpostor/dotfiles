@@ -42,14 +42,13 @@ Plugin 'pangloss/vim-javascript'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Required for YouCompleteMe
-" set encoding=utf-8
+set background=dark
 
 " disable mouse support
 " set mouse=
 
-" yank to clipboard (via
-" http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
+" " yank to clipboard (via
+" " http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
 " if has("clipboard")
 "   set clipboard=unnamed " copy to the system clipboard
 " 
@@ -115,6 +114,10 @@ endif
 nnoremap <leader>a :Ack!<CR>
 
 let g:ale_linters = { 'bash': ['shellcheck'], 'javascript': ['standard'] }
+
+let g:ale_fixers = { 'javascript': ['standard'] }
+
+nnoremap <leader>f :ALEFix<CR>
 
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
