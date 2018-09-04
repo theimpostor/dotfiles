@@ -23,9 +23,9 @@ Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'leafgarland/typescript-vim'
+" Plugin 'lyuts/vim-rtags'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'pangloss/vim-javascript'
-" Plugin 'lyuts/vim-rtags'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -91,6 +91,10 @@ set tabstop=4
 " use spaces instead of tabs
 set expandtab
 
+" Easier location list navigation
+nnoremap <C-J> :lprev<CR>
+nnoremap <C-K> :lnext<CR>
+
 " Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
 " Use {Enable,Toggle}Whitespace to enable.
 " autocmd VimEnter * DisableWhitespace
@@ -98,7 +102,7 @@ set expandtab
 " Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
 xnoremap // y/\V<C-R>"<CR>
 
-" xnoremap selected text to 'blackhole' register, then paste
+" delete selected text to 'blackhole' register, then paste
 xnoremap p "_dp
 xnoremap P "_dP
 
@@ -113,6 +117,10 @@ nnoremap <leader>a :Ack!<CR>
 
 
 let g:ale_linters = { 'bash': ['shellcheck'], 'javascript': ['standard'] }
+
+let g:ale_fixers = { 'javascript': ['standard'] }
+
+nnoremap <leader>f :ALEFix<CR>
 
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
