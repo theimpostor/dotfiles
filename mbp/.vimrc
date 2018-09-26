@@ -1,6 +1,6 @@
 " fzf plugin
 set rtp+=/usr/local/opt/fzf
-nnoremap <leader>f :FZF<CR>
+nnoremap <leader>s :FZF<CR>
 
 " vundle begin
 set nocompatible              " be iMproved, required
@@ -16,6 +16,7 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-commentary'
 Plugin 'elzr/vim-json'
 " Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
@@ -121,7 +122,7 @@ nnoremap <leader>a :Ack!<CR>
 " disable ale for C/CPP/Java
 let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'java': []}
 
-let g:ale_fixers = { 'javascript': ['standard'] }
+let g:ale_fixers = { 'javascript': ['standard'], 'go': ['gofmt'] }
 
 nnoremap <leader>f :ALEFix<CR>
 
@@ -143,6 +144,9 @@ autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 " configure vim-go to use quickfix instead of location, since ALE use location
 " list
 let g:go_list_type = "quickfix"
+
+" Automatic identifier highlighting
+let g:go_auto_sameids = 1
 
 autocmd Filetype yaml,markdown set sw=2 ts=2
 
