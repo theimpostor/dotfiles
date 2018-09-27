@@ -1,6 +1,6 @@
 " fzf plugin
 set rtp+=/usr/local/opt/fzf
-nnoremap <leader>f :FZF<CR>
+nnoremap <leader>s :FZF<CR>
 
 " vundle begin
 set nocompatible              " be iMproved, required
@@ -16,12 +16,14 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-commentary'
 Plugin 'elzr/vim-json'
 " Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 Plugin 'Valloric/YouCompleteMe'
+" Plugin 'ajh17/VimCompletesMe'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'lyuts/vim-rtags'
 Plugin 'towolf/vim-helm'
@@ -29,6 +31,7 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'majutsushi/tagbar'
 " Plugin 'file:///Users/shoda/src/vim-helm'
+Plugin 'pangloss/vim-javascript'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -92,6 +95,10 @@ set tabstop=4
 " use spaces instead of tabs
 set expandtab
 
+" Easier location list navigation
+nnoremap <C-J> :lprev<CR>
+nnoremap <C-K> :lnext<CR>
+
 " Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
 " Use {Enable,Toggle}Whitespace to enable.
 " autocmd VimEnter * DisableWhitespace
@@ -115,6 +122,10 @@ nnoremap <leader>a :Ack!<CR>
 " disable ale for C/CPP/Java
 let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'java': []}
 
+let g:ale_fixers = { 'javascript': ['standard'], 'go': ['gofmt'] }
+
+nnoremap <leader>f :ALEFix<CR>
+
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yd :YcmCompleter GoToDefinition<CR>
@@ -134,12 +145,32 @@ autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 " list
 let g:go_list_type = "quickfix"
 
+" Automatic identifier highlighting
+let g:go_auto_sameids = 1
+
 autocmd Filetype yaml,markdown set sw=2 ts=2
 
+fu! GenerateUUID()
+
+py3 << EOF
+import uuid
+import vim
+
+# output a uuid to the vim variable for insertion below
+vim.command("let generatedUUID = \"%s\"" % str(uuid.uuid4()))
+
+EOF
+
+" insert the python generated uuid into the current cursor's position
+:execute "normal i" . generatedUUID . ""
+
+endfunction
+
+"initialize the generateUUID function here and map it to a local command
+noremap <Leader>u :call GenerateUUID()<CR>
 " use rtags for tag shortcuts
 autocmd Filetype c,cpp nnoremap <C-]> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
 autocmd Filetype c,cpp autocmd BufWritePost,FileWritePost,FileAppendPost <buffer> call rtags#ReindexFile()
-autocmd FileWritePost,FileAppendPost c,cpp call rtags#ReindexFile()
 " autocmd Filetype c nnoremap <C-[> :call rtags#FindRefs()<CR>
 " autocmd Filetype c nnoremap <c-leftmouse> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
 
@@ -149,6 +180,12 @@ autocmd FileType c iabbrev <buffer> TNO TIBEX_NOT_OK(e)
 autocmd FileType c iabbrev <buffer> TA  TIB_ARGS(e)
 autocmd FileType c iabbrev <buffer> TAI TIB_ARGS_IGNR_EX(e)
 autocmd FileType c iabbrev <buffer> TAP TIB_ARG_PUBLIC(ep)
+
+autocmd FileType c iabbrev <buffer> cL checkpointList
+autocmd FileType c iabbrev <buffer> cp checkpoint
+autocmd FileType c iabbrev <buffer> cps checkpoints
+autocmd FileType c iabbrev <buffer> tdgcp _tibdgCheckpoint
+autocmd FileType c iabbrev <buffer> tdgcpl _tibdgCheckpointList
 
 " TagBar activation
 nnoremap <leader>t :TagbarToggle<CR>

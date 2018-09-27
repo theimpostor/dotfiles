@@ -24,6 +24,7 @@ Plugin 'mileszs/ack.vim'
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'leafgarland/typescript-vim'
 " Plugin 'lyuts/vim-rtags'
+" Plugin 'towolf/vim-helm'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'majutsushi/tagbar'
@@ -42,6 +43,7 @@ Plugin 'posva/vim-vue'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+" vundle end
 
 set background=dark
 
@@ -93,6 +95,10 @@ set tabstop=4
 
 " use spaces instead of tabs
 set expandtab
+
+" Easier location list navigation
+nnoremap <C-J> :lprev<CR>
+nnoremap <C-K> :lnext<CR>
 
 " Turn off trailing whitespace highlights from ntpeters/vim-better-whitespace
 " Use {Enable,Toggle}Whitespace to enable.
