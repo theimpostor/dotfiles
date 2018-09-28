@@ -76,6 +76,9 @@ if !isdirectory($HOME . "/.vim/undo")
 endif
 set undodir=~/.vim/undo//
 
+" enable persistent undo
+set undofile
+
 " highlight search term
 set hlsearch
 
@@ -122,7 +125,7 @@ nnoremap <leader>a :Ack!<CR>
 " disable ale for C/CPP/Java
 let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'java': []}
 
-let g:ale_fixers = { 'javascript': ['standard'], 'go': ['gofmt'] }
+let g:ale_fixers = { 'javascript': ['standard'], 'go': ['gofmt'], 'c': ['clang-format'] }
 
 nnoremap <leader>f :ALEFix<CR>
 
@@ -186,6 +189,10 @@ autocmd FileType c iabbrev <buffer> cp checkpoint
 autocmd FileType c iabbrev <buffer> cps checkpoints
 autocmd FileType c iabbrev <buffer> tdgcp _tibdgCheckpoint
 autocmd FileType c iabbrev <buffer> tdgcpl _tibdgCheckpointList
+
+" adjust commentstring for c
+autocmd FileType c setlocal commentstring=//\ %s
+
 
 " TagBar activation
 nnoremap <leader>t :TagbarToggle<CR>
