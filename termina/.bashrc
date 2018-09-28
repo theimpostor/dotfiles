@@ -172,7 +172,8 @@ function pbpaste {
     xclip -o -selection clipboard
 }
 
-export PATH="${PATH}:${HOME}/go/bin"
+export GOPATH="${HOME}/go"
+export PATH="/usr/local/go/bin:${GOPATH//://bin:}/bin:${PATH}"
 
 # echo ip address:
 # ip -br -4 address

@@ -16,6 +16,7 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-commentary'
 Plugin 'elzr/vim-json'
 " Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
@@ -30,6 +31,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'majutsushi/tagbar'
 " Plugin 'file:///Users/shoda/src/vim-helm'
 Plugin 'pangloss/vim-javascript'
+Plugin 'posva/vim-vue'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -146,8 +148,8 @@ let g:go_list_type = "quickfix"
 
 autocmd Filetype yaml,markdown set sw=2 ts=2
 
-" vnoremap <leader>y :w !termux-clipboard-set<CR><CR>
-" nnoremap <leader>p :r !termux-clipboard-get<CR>
+vnoremap <leader>y :w !xclip -i -selection clipboard<CR><CR>
+nnoremap <leader>p :r !xclip -o -selection clipboard<CR>
 
 fu! GenerateUUID()
 
