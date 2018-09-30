@@ -78,6 +78,9 @@ if !isdirectory($HOME . "/.vim/undo")
 endif
 set undodir=~/.vim/undo//
 
+" enable persistent undo
+set undofile
+
 " highlight search term
 set hlsearch
 
@@ -145,6 +148,9 @@ autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 " configure vim-go to use quickfix instead of location, since ALE use location
 " list
 let g:go_list_type = "quickfix"
+
+" Automatic identifier highlighting
+let g:go_auto_sameids = 1
 
 autocmd Filetype yaml,markdown set sw=2 ts=2
 
