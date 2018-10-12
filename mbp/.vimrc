@@ -49,6 +49,9 @@ filetype plugin indent on    " required
 " enable mouse support
 set mouse=a
 
+" allow modified buffers in the background
+set hidden
+
 " yank to clipboard (via
 " http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
 if has("clipboard")
@@ -120,12 +123,30 @@ endif
 
 " Search word under cursor with ack.vim (ag)
 " !: don't immediately open first result
-nnoremap <leader>a :Ack!<CR>
+nnoremap <leader>a :LAck!<CR>
 
-" disable ale for C/CPP/Java
-let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'java': []}
+" set c/cpp linters, disable ale for Java
+let g:ale_linters = {'c': ['clangtidy'], 'cpp': ['clangtidy'], 'java': []}
+" let g:ale_linters = {'c': ['cquery'], 'cpp': []}
+" let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'java': []}
+
+" use clang-tidy defaults instead of enabling EVERYTHING
+let g:ale_c_clangtidy_checks = []
 
 let g:ale_fixers = { 'javascript': ['standard'], 'go': ['gofmt'], 'c': ['clang-format'] }
+
+" put ale in the quickfix
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
+" " Only run linters named in ale_linters settings.
+" let g:ale_linters_explicit = 1
+
+" " Enable ale autocompletion
+" let g:ale_completion_enabled = 1
+
+" autocmd Filetype c,cpp nnoremap <C-]> :ALEGoToDefinition<CR>
+" autocmd Filetype c,cpp nnoremap <leader>r :ALEFindReferences<CR>
 
 nnoremap <leader>f :ALEFix<CR>
 
@@ -144,12 +165,12 @@ autocmd FileType go nmap <leader>gg  <Plug>(go-def)
 autocmd FileType go nmap <leader>gf  <Plug>(go-referrers)
 autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 
-" configure vim-go to use quickfix instead of location, since ALE use location
-" list
-let g:go_list_type = "quickfix"
-
 " Automatic identifier highlighting
 let g:go_auto_sameids = 1
+
+" " configure vim-go to use quickfix instead of location, since ALE use location
+" " list
+" let g:go_list_type = "quickfix"
 
 autocmd Filetype yaml,markdown set sw=2 ts=2
 
@@ -171,11 +192,11 @@ endfunction
 
 "initialize the generateUUID function here and map it to a local command
 noremap <Leader>u :call GenerateUUID()<CR>
+
 " use rtags for tag shortcuts
 autocmd Filetype c,cpp nnoremap <C-]> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
 autocmd Filetype c,cpp autocmd BufWritePost,FileWritePost,FileAppendPost <buffer> call rtags#ReindexFile()
 " autocmd Filetype c nnoremap <C-[> :call rtags#FindRefs()<CR>
-" autocmd Filetype c nnoremap <c-leftmouse> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
 
 " abbreviations TODO move to project
 autocmd FileType c iabbrev <buffer> TO  TIBEX_OK(e)
@@ -193,6 +214,10 @@ autocmd FileType c iabbrev <buffer> tdgcpl _tibdgCheckpointList
 " adjust commentstring for c
 autocmd FileType c setlocal commentstring=//\ %s
 
+" format file
+autocmd Filetype c,cpp xnoremap <Leader>f :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
+" format function
+autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O><C-O>
 
 " TagBar activation
 nnoremap <leader>t :TagbarToggle<CR>

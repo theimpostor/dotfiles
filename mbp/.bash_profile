@@ -69,7 +69,8 @@ alias scratchpad='vim ~/Dropbox/work/pad.txt'
 
 # ag but open results in vim's quickfix window
 function vg {
-    vim -q <(ag --vimgrep "$@") +copen
+    vim +LAck\ \""$*"\"
+    # vim -q <(ag --vimgrep "$@") +copen
 }
 
 export BRANCH=$HOME/src/messaging/branches
