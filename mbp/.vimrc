@@ -18,13 +18,17 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'elzr/vim-json'
+" cd ~/.vim/bundle/LanguageClient-neovim && ./install.sh
+Plugin 'autozimu/LanguageClient-neovim'
+" Plugin 'junegunn/fzf'
 " Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
+" cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer --go-completer
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'lyuts/vim-rtags'
+" Plugin 'leafgarland/typescript-vim'
+" Plugin 'lyuts/vim-rtags'
 Plugin 'towolf/vim-helm'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'vim-airline/vim-airline'
@@ -32,6 +36,7 @@ Plugin 'majutsushi/tagbar'
 " Plugin 'file:///Users/shoda/src/vim-helm'
 Plugin 'pangloss/vim-javascript'
 Plugin 'posva/vim-vue'
+Plugin 'pboettch/vim-cmake-syntax'
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -125,13 +130,17 @@ endif
 " !: don't immediately open first result
 nnoremap <leader>a :LAck!<CR>
 
+" ===
+" BEGIN ALE
+" ===
+
 " set c/cpp linters, disable ale for Java
 let g:ale_linters = {'c': ['clangtidy'], 'cpp': ['clangtidy'], 'java': []}
 " let g:ale_linters = {'c': ['cquery'], 'cpp': []}
 " let g:ale_linters = {'c': [], 'cc': [], 'cpp': [], 'java': []}
 
-" use clang-tidy defaults instead of enabling EVERYTHING
-let g:ale_c_clangtidy_checks = []
+" " use clang-tidy defaults instead of enabling EVERYTHING
+" let g:ale_c_clangtidy_checks = []
 
 let g:ale_fixers = { 'javascript': ['standard'], 'go': ['gofmt'], 'c': ['clang-format'] }
 
@@ -150,6 +159,14 @@ let g:ale_set_quickfix = 1
 
 nnoremap <leader>f :ALEFix<CR>
 
+" ===
+" END ALE
+" ===
+
+" ===
+" BEGIN YCM
+" ===
+
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
 nnoremap <leader>yd :YcmCompleter GoToDefinition<CR>
@@ -160,10 +177,23 @@ nnoremap <leader>yc :YcmCompleter GetDoc<CR>
 " Close the preview window after completion
 let g:ycm_autoclose_preview_window_after_completion = 1
 
+" disable YCM diagnostics in favor of languageserver diagnostics
+let g:ycm_show_diagnostics_ui = 0
+
+" ===
+" END YCM
+" ===
+
+" ===
+" BEGIN vim-go
+" ===
+
 " vim-go shortcuts
 autocmd FileType go nmap <leader>gg  <Plug>(go-def)
 autocmd FileType go nmap <leader>gf  <Plug>(go-referrers)
 autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
+autocmd FileType go nmap <leader>rf  <Plug>(go-referrers)
+autocmd FileType go nmap <leader>rF  <Plug>(go-callers))
 
 " Automatic identifier highlighting
 let g:go_auto_sameids = 1
@@ -171,6 +201,10 @@ let g:go_auto_sameids = 1
 " " configure vim-go to use quickfix instead of location, since ALE use location
 " " list
 " let g:go_list_type = "quickfix"
+
+" ===
+" END vim-go
+" ===
 
 autocmd Filetype yaml,markdown set sw=2 ts=2
 
@@ -193,10 +227,10 @@ endfunction
 "initialize the generateUUID function here and map it to a local command
 noremap <Leader>u :call GenerateUUID()<CR>
 
-" use rtags for tag shortcuts
-autocmd Filetype c,cpp nnoremap <C-]> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
-autocmd Filetype c,cpp autocmd BufWritePost,FileWritePost,FileAppendPost <buffer> call rtags#ReindexFile()
-" autocmd Filetype c nnoremap <C-[> :call rtags#FindRefs()<CR>
+" " use rtags for tag shortcuts
+" autocmd Filetype c,cpp nnoremap <C-]> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
+" autocmd Filetype c,cpp autocmd BufWritePost,FileWritePost,FileAppendPost <buffer> call rtags#ReindexFile()
+" " autocmd Filetype c nnoremap <C-[> :call rtags#FindRefs()<CR>
 
 " abbreviations TODO move to project
 autocmd FileType c iabbrev <buffer> TO  TIBEX_OK(e)
@@ -215,9 +249,53 @@ autocmd FileType c iabbrev <buffer> tdgcpl _tibdgCheckpointList
 autocmd FileType c setlocal commentstring=//\ %s
 
 " format file
+" normal mode whole file formatting provided by ALE
 autocmd Filetype c,cpp xnoremap <Leader>f :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
+autocmd Filetype c,cpp xnoremap <Leader>F :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
 " format function
 autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O><C-O>
 
 " TagBar activation
 nnoremap <leader>t :TagbarToggle<CR>
+
+" ===
+" BEGIN LanguageClient-neovim
+" ===
+
+" let g:LanguageClient_serverCommands = {
+"             \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+"             \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+"             \ }
+" let g:LanguageClient_loadSettings = 1
+" let g:LanguageClient_settingsPath = '.cquery.json'
+"
+let g:LanguageClient_serverCommands = {
+            \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ }
+" set completefunc=LanguageClient#complete
+let g:LanguageClient_selectionUI='location-list'
+let g:LanguageClient_fzfContextMenu=0
+
+function LC_maps()
+    if has_key(g:LanguageClient_serverCommands, &filetype)
+        nnoremap <buffer> <silent> <C-]> :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <buffer> <silent> <Leader>rw :call LanguageClient#textDocument_rename()<CR>
+        nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references()<CR>
+
+        nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#findLocations({'method':'$ccls/call'})<CR>
+        " nnoremap <buffer> <silent> <Leader>rh :call LanguageClient#textDocument_documentHighlight()<CR>
+        " nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#cquery_callers<CR>
+        " nnoremap <buffer> <silent> <Leader>rv :call LanguageClient#cquery_vars<CR>
+        " nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<cr>
+        " nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+        " nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+    endif
+endfunction
+
+autocmd FileType * call LC_maps()
+
+" ===
+" END LanguageClient-neovim
+" ===
+
