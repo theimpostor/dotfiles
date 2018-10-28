@@ -46,6 +46,8 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 " vundle end
 
+" set background=dark
+
 " enable mouse support
 set mouse=a
 
