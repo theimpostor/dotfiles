@@ -49,6 +49,10 @@ shopt -s direxpand
 # use vi key bindings on cmd line
 set -o vi
 
+if shopt | grep globstar >/dev/null 2>&1; then
+    shopt -s globstar
+fi
+
 # suppress shellcheck warning:
 # shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
