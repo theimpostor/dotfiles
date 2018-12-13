@@ -23,10 +23,12 @@ Plugin 'autozimu/LanguageClient-neovim'
 " Plugin 'junegunn/fzf'
 " Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
+" vim +GoUpdateBinaries
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
+Plugin 'zxqfl/tabnine-vim'
 " cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer --go-completer
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 " Plugin 'leafgarland/typescript-vim'
 " Plugin 'lyuts/vim-rtags'
 Plugin 'towolf/vim-helm'
@@ -37,6 +39,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'pangloss/vim-javascript'
 Plugin 'posva/vim-vue'
 Plugin 'pboettch/vim-cmake-syntax'
+" Plugin 'file://' . $HOME . '/src/lldb', { 'rtp': '/utils/vim-lldb' }
 " Plugin 'file:///usr/local/opt/fzf/plugin/fzf.vim'
 " Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'mustache/vim-mustache-handlebars'
@@ -133,6 +136,8 @@ nnoremap <leader>a :LAck!<CR>
 " ===
 " BEGIN ALE
 " ===
+" javascript/go: error linting, formatting
+" c: static analysis / formatting
 
 " set c/cpp linters, disable ale for Java
 let g:ale_linters = {'c': ['clangtidy'], 'cpp': ['clangtidy'], 'java': []}
@@ -164,8 +169,9 @@ nnoremap <leader>f :ALEFix<CR>
 " ===
 
 " ===
-" BEGIN YCM
+" BEGIN YCM / TabNine
 " ===
+" Provides completion for all file types. See also ~/Library/Preferences/TabNine
 
 " YCM shortcuts
 nnoremap <leader>yg :YcmCompleter GoTo<CR>
@@ -187,6 +193,8 @@ let g:ycm_show_diagnostics_ui = 0
 " ===
 " BEGIN vim-go
 " ===
+" go: provides jump to definition, symbol rename, compile error/warning,
+" completion
 
 " vim-go shortcuts
 autocmd FileType go nmap <leader>gg  <Plug>(go-def)
@@ -261,17 +269,23 @@ nnoremap <leader>t :TagbarToggle<CR>
 " ===
 " BEGIN LanguageClient-neovim
 " ===
+" C/CPP/sh: provides jump to definition, symbol rename, compile error/warning
+" highlighting
 
 " let g:LanguageClient_serverCommands = {
 "             \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
 "             \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
 "             \ }
-" let g:LanguageClient_loadSettings = 1
-" let g:LanguageClient_settingsPath = '.cquery.json'
-"
+
+if filereadable($HOME . '/.vim/.ccls.json')
+    let g:LanguageClient_loadSettings = 1
+    let g:LanguageClient_settingsPath = $HOME . '/.vim/.ccls.json'
+endif
+
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'sh': ['bash-language-server', 'start']
             \ }
 " set completefunc=LanguageClient#complete
 let g:LanguageClient_selectionUI='location-list'
@@ -284,10 +298,13 @@ function LC_maps()
         nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references()<CR>
 
         nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#findLocations({'method':'$ccls/call'})<CR>
+        nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<cr>
+
+        " currently fails with: 'Vim(let):E117: Unknown function: nvim_win_get_buf'
         " nnoremap <buffer> <silent> <Leader>rh :call LanguageClient#textDocument_documentHighlight()<CR>
+
         " nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#cquery_callers<CR>
         " nnoremap <buffer> <silent> <Leader>rv :call LanguageClient#cquery_vars<CR>
-        " nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<cr>
         " nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
         " nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
     endif
