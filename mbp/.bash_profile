@@ -71,6 +71,11 @@ alias dc='docker-compose'
 
 alias scratchpad='vim ~/Dropbox/work/pad.txt'
 
+alias vim=nvim
+function vimdiff {
+    nvim -d "$@"
+}
+
 # ag but open results in vim's quickfix window
 function vg {
     vim +LAck\ \""$*"\"
@@ -102,3 +107,4 @@ __err_prompt_command() {
 
 PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command prompt
 
+export LLVM_PROFILE_FILE=".llvm-cov/%h-%9m.profraw"
