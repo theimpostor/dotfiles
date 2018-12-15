@@ -149,6 +149,8 @@ shopt -s direxpand
 # use vi key bindings on cmd line
 set -o vi
 
+# suppress shellcheck warning:
+# shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 alias l='ls -laFh'
@@ -161,20 +163,18 @@ alias mypstop="watch -n 2 -t ps -u $(id -u) -f -H -ww"
 
 # ag but open results in vim's quickfix window
 function vg {
-    vim -q <(ag --vimgrep "$@") +copen
-}
-
-function pbcopy {
-    xclip -selection clipboard
-}
-
-function pbpaste {
-    xclip -o -selection clipboard
+    vim +LAck\ \""$*"\"
+    # vim -q <(ag --vimgrep "$@") +copen
 }
 
 export GOPATH="${HOME}/go"
 export PATH="/usr/local/go/bin:${GOPATH//://bin:}/bin:${PATH}"
+export PATH="${HOME}/neovim/bin:${PATH}"
 
 # echo ip address:
 # ip -br -4 address
 
+# Source goto
+[[ -s "/usr/local/share/goto.sh" ]] && source /usr/local/share/goto.sh
+
+source <(npm completion)

@@ -22,7 +22,8 @@ Plugin 'elzr/vim-json'
 Plugin 'w0rp/ale'
 Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
-" Plugin 'Valloric/YouCompleteMe'
+" " cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer --go-completer
+" Plugin 'Valloric/YouCompleteMe' " provided by vim addon managaer
 Plugin 'leafgarland/typescript-vim'
 " Plugin 'lyuts/vim-rtags'
 " Plugin 'towolf/vim-helm'
@@ -122,11 +123,14 @@ endif
 
 " Search word under cursor with ack.vim (ag)
 " !: don't immediately open first result
-nnoremap <leader>a :Ack!<CR>
+nnoremap <leader>a :LAck!<CR>
 
-let g:ale_linters = { 'bash': ['shellcheck'], 'javascript': ['standard'] }
+let g:ale_linters = { 'javascript': ['standard'], 'bash': ['shellcheck']  }
+let g:ale_fixers  = { 'javascript': ['standard'], 'go': ['gofmt'] }
 
-let g:ale_fixers = { 'javascript': ['standard'] }
+" put ale in the quickfix
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
 
 nnoremap <leader>f :ALEFix<CR>
 
@@ -145,12 +149,12 @@ autocmd FileType go nmap <leader>gg  <Plug>(go-def)
 autocmd FileType go nmap <leader>gf  <Plug>(go-referrers)
 autocmd FileType go nmap <leader>gF  <Plug>(go-callstack))
 
-" configure vim-go to use quickfix instead of location, since ALE use location
-" list
-let g:go_list_type = "quickfix"
-
 " Automatic identifier highlighting
 let g:go_auto_sameids = 1
+
+" " configure vim-go to use quickfix instead of location, since ALE use location
+" " list
+" let g:go_list_type = "quickfix"
 
 autocmd Filetype yaml,markdown set sw=2 ts=2
 
