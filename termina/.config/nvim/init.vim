@@ -1,6 +1,6 @@
 " fzf plugin
 set rtp+=~/.fzf
-nnoremap <leader>f :FZF<CR>
+nnoremap <leader>s :FZF<CR>
 
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
@@ -231,4 +231,19 @@ nnoremap <leader>f :ALEFix<CR>
 
 " ===
 " END ALE
+" ===
+
+" ===
+" BEGIN YCM / TabNine
+" ===
+" Provides completion for all file types. See also ~/Library/Preferences/TabNine
+
+" Close the preview window after completion
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+" disable YCM diagnostics in favor of languageserver diagnostics
+let g:ycm_show_diagnostics_ui = 0
+
+" ===
+" END YCM
 " ===
