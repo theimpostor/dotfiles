@@ -24,15 +24,18 @@ set mouse=a
 " allow modified buffers in the background
 set hidden
 
-" yank to clipboard (via
-" http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
-if has("clipboard")
-  set clipboard=unnamed " copy to the system clipboard
+set clipboard=unnamedplus
 
-  if has("unnamedplus") " X11 support
-    set clipboard+=unnamedplus
-  endif
-endif
+" Doesn't work in termina
+" " yank to clipboard (via
+" " http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
+" if has("clipboard")
+"   set clipboard=unnamed " copy to the system clipboard
+
+"   if has("unnamedplus") " X11 support
+"     set clipboard+=unnamedplus
+"   endif
+" endif
 
 " enable persistent undo
 set undofile
@@ -137,6 +140,7 @@ endif
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'html': ['html-languageserver', '--stdio'],
             \ 'go': ['go-langserver'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'sh': ['bash-language-server', 'start']

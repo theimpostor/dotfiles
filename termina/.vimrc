@@ -52,6 +52,9 @@ set background=dark
 " disable mouse support
 " set mouse=
 
+" yank to clipboard
+set clipboard=unnamedplus
+
 " " yank to clipboard (via
 " " http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
 " if has("clipboard")
