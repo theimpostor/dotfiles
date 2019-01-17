@@ -82,6 +82,16 @@ function vg {
     # vim -q <(ag --vimgrep "$@") +copen
 }
 
+# removes newline on each line of arg (stdin default) and prints to stdout
+function chomp {
+    perl -pe 'chomp' "$@"
+}
+
+# shuffles lines of each arg (stdin default) and prints to stdout
+function shuffle {
+    perl -MList::Util -e 'print List::Util::shuffle <>' "$@"
+}
+
 export BRANCH=$HOME/src/messaging/branches
 export TRUNK=$HOME/src/messaging/trunk
 
