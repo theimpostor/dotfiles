@@ -72,6 +72,7 @@ alias dc='docker-compose'
 alias scratchpad='vim ~/Dropbox/work/pad.txt'
 
 alias vim=nvim
+alias ovim=/usr/local/bin/vim
 function vimdiff {
     nvim -d "$@"
 }

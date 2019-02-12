@@ -2,9 +2,11 @@
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>s :FZF<CR>
 
+" Plug 'autozimu/LanguageClient-neovim', { 'tag': '0.1.132', 'do': 'bash install.sh', }
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
 Plug 'editorconfig/editorconfig-vim'
+Plug 'elzr/vim-json'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -66,6 +68,9 @@ xnoremap // y/\V<C-R>"<CR>
 " delete selected text to 'blackhole' register, then paste
 xnoremap p "_dp
 xnoremap P "_dP
+
+let g:python_host_prog = '/usr/local/bin/python2'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 " use indent of 2 for yaml and markdown
 autocmd Filetype yaml,markdown set sw=2 ts=2
@@ -142,15 +147,12 @@ nnoremap <leader>t :TagbarToggle<CR>
 "             \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
 "             \ }
 
-if filereadable($HOME . '/.vim/.ccls.json')
-    let g:LanguageClient_loadSettings = 1
-    let g:LanguageClient_settingsPath = $HOME . '/.vim/.ccls.json'
-endif
-
+            " \ 'go': ['bingo', '--diagnostics-style', 'instant'],
+            " \ 'go': ['go-langserver', '-diagnostics', '-format-tool', 'gofmt', '-lint-tool', 'golint'],
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
-            \ 'go': ['go-langserver'],
+            \ 'go': ['go-langserver', '-diagnostics'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'sh': ['bash-language-server', 'start']
             \ }
@@ -183,6 +185,10 @@ function LC_maps()
 endfunction
 
 function LC_C_maps()
+    if filereadable($HOME . '/.config/nvim/ccls.json')
+        let g:LanguageClient_loadSettings = 1
+        let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/ccls.json'
+    endif
     if has_key(g:LanguageClient_serverCommands, &filetype)
         nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#findLocations({'method':'$ccls/call'})<CR>
         " nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#cquery_callers<CR>
@@ -208,9 +214,9 @@ autocmd FileType c,cpp call LC_C_maps()
 " ===
 " set c/cpp linters, disable ale for Java
 let g:ale_linters = {
-            \ 'bash': ['shellcheck'],
             \ 'c': ['clangtidy'],
             \ 'cpp': ['clangtidy'],
+            \ 'bash': ['shellcheck'],
             \ 'go': ['golint'],
             \ 'javascript': ['standard'],
             \ 'sh': ['shellcheck'],
@@ -229,6 +235,9 @@ let g:ale_set_quickfix = 1
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
+
+" enable go format on save
+autocmd FileType go let b:ale_fix_on_save = 1
 
 " " Enable ale autocompletion
 " let g:ale_completion_enabled = 1
