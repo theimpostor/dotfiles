@@ -1,0 +1,14 @@
+{
+  "initializationOptions": {
+    "cacheDirectory": "/tmp/ccls",
+    "clang": {
+      "extraArgs": [
+        "-isystem",
+        "/Library/Developer/CommandLineTools/usr/include/c++/v1"
+      ]
+    },
+    "index": {
+      "threads": 8
+    }
+  }
+}

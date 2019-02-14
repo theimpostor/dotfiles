@@ -72,6 +72,7 @@ alias dc='docker-compose'
 alias scratchpad='vim ~/Dropbox/work/pad.txt'
 
 alias vim=nvim
+alias ovim=/usr/local/bin/vim
 function vimdiff {
     nvim -d "$@"
 }
@@ -80,6 +81,16 @@ function vimdiff {
 function vg {
     vim +LAck\ \""$*"\"
     # vim -q <(ag --vimgrep "$@") +copen
+}
+
+# removes newline on each line of arg (stdin default) and prints to stdout
+function chomp {
+    perl -pe 'chomp' "$@"
+}
+
+# shuffles lines of each arg (stdin default) and prints to stdout
+function shuffle {
+    perl -MList::Util -e 'print List::Util::shuffle <>' "$@"
 }
 
 export BRANCH=$HOME/src/messaging/branches
