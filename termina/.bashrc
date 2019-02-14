@@ -126,16 +126,24 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh ]; then
+        export BASH_COMPLETION_COMPAT_DIR="/home/linuxbrew/.linuxbrew/etc/bash_completion.d"
+        . "/home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh"
+    elif [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
+
+export PATH="/home/linuxbrew/.linuxbrew/opt/node@10/bin:$PATH"
+source <(npm completion)
 
 EDITOR=$(command -v vim)
 export EDITOR
@@ -149,17 +157,11 @@ shopt -s direxpand
 # use vi key bindings on cmd line
 set -o vi
 
-# suppress shellcheck warning:
-# shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
 alias l='ls -laFh'
 alias lll='ls -laFh --color | less -R'
 
 alias cls='echo -e "\ec\e[3J"'
-
-alias myps="ps -u $(id -u) -f -H -ww"
-alias mypstop="watch -n 2 -t ps -u $(id -u) -f -H -ww"
 
 # ag but open results in vim's quickfix window
 function vg {
@@ -168,13 +170,4 @@ function vg {
 }
 
 export GOPATH="${HOME}/go"
-export PATH="/usr/local/go/bin:${GOPATH//://bin:}/bin:${PATH}"
-export PATH="${HOME}/neovim/bin:${PATH}"
-
-# echo ip address:
-# ip -br -4 address
-
-# Source goto
-[[ -s "/usr/local/share/goto.sh" ]] && source /usr/local/share/goto.sh
-
-source <(npm completion)
+export PATH="${GOPATH//://bin:}/bin:${PATH}"
