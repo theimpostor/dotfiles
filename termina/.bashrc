@@ -163,6 +163,7 @@ alias lll='ls -laFh --color | less -R'
 
 alias cls='echo -e "\ec\e[3J"'
 
+alias vim='nvim'
 # ag but open results in vim's quickfix window
 function vg {
     vim +LAck\ \""$*"\"
