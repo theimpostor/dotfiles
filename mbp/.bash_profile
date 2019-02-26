@@ -18,9 +18,8 @@ PS1="${blue}\\w${reset} "
 
 PROMPT_COMMAND='history -a'
 
-if [ -f /usr/local/etc/bash_completion ]; then
-    . /usr/local/etc/bash_completion
-fi
+export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 export PATH=${PATH}:${HOME}/bin:${HOME}/go/bin
 
@@ -75,6 +74,10 @@ alias vim=nvim
 alias ovim=/usr/local/bin/vim
 function vimdiff {
     nvim -d "$@"
+}
+
+function vimcfg {
+    vim "${HOME}/.config/nvim/init.vim"
 }
 
 # ag but open results in vim's quickfix window

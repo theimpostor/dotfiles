@@ -147,12 +147,13 @@ nnoremap <leader>t :TagbarToggle<CR>
 "             \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
 "             \ }
 
-            " \ 'go': ['bingo', '--diagnostics-style', 'instant'],
             " \ 'go': ['go-langserver', '-diagnostics', '-format-tool', 'gofmt', '-lint-tool', 'golint'],
+            " \ 'go': ['go-langserver', '-diagnostics'],
+            " \ 'go': ['gopls', '-logfile', '/tmp/gopls.log'],
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
-            \ 'go': ['go-langserver', '-diagnostics'],
+            \ 'go': ['bingo', '--logfile', '/tmp/bingo.log', '--diagnostics-style', 'instant'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'sh': ['bash-language-server', 'start']
             \ }
