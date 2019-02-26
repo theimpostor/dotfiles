@@ -1,5 +1,5 @@
 " fzf plugin
-set rtp+=~/.fzf
+set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
 nnoremap <leader>s :FZF<CR>
 
 call plug#begin('~/.local/share/nvim/plugged')
@@ -24,15 +24,18 @@ set mouse=a
 " allow modified buffers in the background
 set hidden
 
-" yank to clipboard (via
-" http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
-if has("clipboard")
-  set clipboard=unnamed " copy to the system clipboard
+set clipboard=unnamedplus
 
-  if has("unnamedplus") " X11 support
-    set clipboard+=unnamedplus
-  endif
-endif
+" Doesn't work in termina
+" " yank to clipboard (via
+" " http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html)
+" if has("clipboard")
+"   set clipboard=unnamed " copy to the system clipboard
+
+"   if has("unnamedplus") " X11 support
+"     set clipboard+=unnamedplus
+"   endif
+" endif
 
 " enable persistent undo
 set undofile
@@ -86,12 +89,6 @@ noremap <Leader>u :call GenerateUUID()<CR>
 " adjust commentstring for c
 autocmd FileType c setlocal commentstring=//\ %s
 
-" clang-format visual selection
-autocmd Filetype c,cpp xnoremap <Leader>f :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
-autocmd Filetype c,cpp xnoremap <Leader>F :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
-" clang-format function
-autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O><C-O>
-
 " ===
 " BEGIN Ack
 " ===
@@ -121,22 +118,8 @@ nnoremap <leader>t :TagbarToggle<CR>
 " ===
 " BEGIN LanguageClient-neovim
 " ===
-" C/CPP/sh: provides jump to definition, symbol rename, compile error/warning
-" highlighting
-
-" let g:LanguageClient_serverCommands = {
-"             \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
-"             \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
-"             \ }
-
-if filereadable($HOME . '/.vim/.ccls.json')
-    let g:LanguageClient_loadSettings = 1
-    let g:LanguageClient_settingsPath = $HOME . '/.vim/.ccls.json'
-endif
-
 let g:LanguageClient_serverCommands = {
-            \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
-            \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'html': ['html-languageserver', '--stdio'],
             \ 'go': ['go-langserver'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'sh': ['bash-language-server', 'start']
@@ -148,18 +131,6 @@ let g:LanguageClient_serverCommands = {
 let g:LanguageClient_selectionUI='location-list'
 let g:LanguageClient_fzfContextMenu=0
 
-" Works inconsistently
-" " auto highlight symbol under cursor
-" augroup LanguageClient_config
-"   au!
-"   au BufEnter * let b:Plugin_LanguageClient_started = 0
-"   au User LanguageClientStarted setl signcolumn=yes
-"   au User LanguageClientStarted let b:Plugin_LanguageClient_started = 1
-"   au User LanguageClientStopped setl signcolumn=auto
-"   au User LanguageClientStopped let b:Plugin_LanguageClient_stopped = 0
-"   au CursorMoved * if b:Plugin_LanguageClient_started | sil call LanguageClient#textDocument_documentHighlight() | endif
-" augroup END
-
 function LC_maps()
     if has_key(g:LanguageClient_serverCommands, &filetype)
         nnoremap <buffer> <silent> <C-]> :call LanguageClient#textDocument_definition()<CR>
@@ -169,22 +140,7 @@ function LC_maps()
     endif
 endfunction
 
-function LC_C_maps()
-    if has_key(g:LanguageClient_serverCommands, &filetype)
-        nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#findLocations({'method':'$ccls/call'})<CR>
-        " nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#cquery_callers<CR>
-        " nnoremap <buffer> <silent> <Leader>rv :call LanguageClient#cquery_vars<CR>
-    endif
-endfunction
-
 autocmd FileType * call LC_maps()
-autocmd FileType c,cpp call LC_C_maps()
-
-" use ccls for formatting, uses clang-format
-" fu! C_init()
-"   setl formatexpr=LanguageClient#textDocument_rangeFormatting()
-" endf
-" au FileType c,cpp :call C_init()
 
 " ===
 " END LanguageClient-neovim
@@ -196,16 +152,12 @@ autocmd FileType c,cpp call LC_C_maps()
 " set c/cpp linters, disable ale for Java
 let g:ale_linters = {
             \ 'bash': ['shellcheck'],
-            \ 'c': ['clangtidy'],
-            \ 'cpp': ['clangtidy'],
             \ 'go': ['golint'],
             \ 'javascript': ['standard'],
             \ 'sh': ['shellcheck'],
             \ }
 
 let g:ale_fixers = {
-            \ 'c': ['clang-format'],
-            \ 'cpp': ['clang-format'],
             \ 'go': ['gofmt'],
             \ 'javascript': ['standard'],
             \ }
