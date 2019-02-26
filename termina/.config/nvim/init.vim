@@ -5,6 +5,7 @@ nnoremap <leader>s :FZF<CR>
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
 Plug 'editorconfig/editorconfig-vim'
+Plug 'elzr/vim-json'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -119,8 +120,8 @@ nnoremap <leader>t :TagbarToggle<CR>
 " BEGIN LanguageClient-neovim
 " ===
 let g:LanguageClient_serverCommands = {
-            \ 'html': ['html-languageserver', '--stdio'],
             \ 'go': ['go-langserver'],
+            \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'sh': ['bash-language-server', 'start']
             \ }
@@ -168,6 +169,9 @@ let g:ale_set_quickfix = 1
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
+
+" enable go format on save
+autocmd FileType go let b:ale_fix_on_save = 1
 
 " " Enable ale autocompletion
 " let g:ale_completion_enabled = 1

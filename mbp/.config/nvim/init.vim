@@ -154,6 +154,7 @@ let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'go': ['bingo', '--logfile', '/tmp/bingo.log', '--diagnostics-style', 'instant'],
+            \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'sh': ['bash-language-server', 'start']
             \ }
