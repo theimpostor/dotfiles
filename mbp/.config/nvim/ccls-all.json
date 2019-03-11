@@ -1,0 +1,102 @@
+{
+  "cache": {
+    "directory": "/tmp/ccls",
+    "format": "binary",
+    "hierarchicalPath": false,
+    "retainInMemory": 1
+  },
+  "capabilities": {
+    "documentOnTypeFormattingProvider": {
+      "firstTriggerCharacter": "}",
+      "moreTriggerCharacter": []
+    },
+    "foldingRangeProvider": true,
+    "workspace": {
+      "workspaceFolders": {
+        "changeNotifications": true,
+        "supported": true
+      }
+    }
+  },
+  "clang": {
+    "excludeArgs": [],
+    "extraArgs": [
+      "-isystem",
+      "/Library/Developer/CommandLineTools/usr/include/c++/v1",
+      "-Wextra"
+    ],
+    "pathMappings": [],
+    "resourceDir": ""
+  },
+  "client": {
+    "hierarchicalDocumentSymbolSupport": true,
+    "linkSupport": true,
+    "snippetSupport": true
+  },
+  "codeLens": {
+    "localVariables": true
+  },
+  "compilationDatabaseCommand": "",
+  "compilationDatabaseDirectory": "",
+  "completion": {
+    "caseSensitivity": 2,
+    "detailedLabel": true,
+    "dropOldRequests": true,
+    "duplicateOptional": true,
+    "filterAndSort": true,
+    "include": {
+      "blacklist": [],
+      "maxPathSize": 30,
+      "suffixWhitelist": [
+        ".h",
+        ".hpp",
+        ".hh",
+        ".inc"
+      ],
+      "whitelist": []
+    },
+    "maxNum": 100
+  },
+  "diagnostics": {
+    "blacklist": [],
+    "onChange": 1000,
+    "onOpen": 0,
+    "onSave": 0,
+    "spellChecking": true,
+    "whitelist": []
+  },
+  "highlight": {
+    "blacklist": [],
+    "largeFileSize": 2097152,
+    "lsRanges": false,
+    "whitelist": []
+  },
+  "index": {
+    "blacklist": [],
+    "comments": 2,
+    "initialBlacklist": [],
+    "initialWhitelist": [],
+    "maxInitializerLines": 5,
+    "multiVersion": 0,
+    "multiVersionBlacklist": [],
+    "multiVersionWhitelist": [],
+    "onChange": false,
+    "threads": 0,
+    "trackDependency": 2,
+    "whitelist": []
+  },
+  "request": {
+    "timeout": 5000
+  },
+  "session": {
+    "maxNum": 10
+  },
+  "workspaceSymbol": {
+    "caseSensitivity": 1,
+    "maxNum": 1000,
+    "sort": true
+  },
+  "xref": {
+    "maxNum": 2000
+  }
+}

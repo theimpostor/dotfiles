@@ -4,11 +4,23 @@
     "clang": {
       "extraArgs": [
         "-isystem",
-        "/Library/Developer/CommandLineTools/usr/include/c++/v1"
+        "/Library/Developer/CommandLineTools/usr/include/c++/v1",
+        "-Wextra",
+        "-Wcast-qual",
+        "-Wcast-align",
+        "-Wstrict-aliasing=1",
+        "-Wpointer-arith",
+        "-Winit-self",
+        "-Wshadow",
+        "-Wswitch-enum",
+        "-Wstrict-prototypes",
+        "-Wmissing-prototypes",
+        "-Wredundant-decls",
+        "-Wfloat-equal",
+        "-Wundef",
+        "-Wformat=2",
+        "-Wconversion"
       ]
-    },
-    "index": {
-      "threads": 8
     }
   }
 }
