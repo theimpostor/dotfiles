@@ -114,7 +114,9 @@ autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/c
 " BEGIN Ack
 " ===
 " Use ag with ack.vim plugin
-if executable('ag')
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
+elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
@@ -150,6 +152,8 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'go': ['go-langserver', '-diagnostics', '-format-tool', 'gofmt', '-lint-tool', 'golint'],
             " \ 'go': ['go-langserver', '-diagnostics'],
             " \ 'go': ['gopls', '-logfile', '/tmp/gopls.log'],
+            " \ 'cpp': ['/Users/shoda/src/ccls/Debug/ccls', '--log-file=/tmp/ccls.log'],
+            " \ 'c': ['/Users/shoda/src/ccls/Debug/ccls', '--log-file=/tmp/ccls.log'],
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],

@@ -81,9 +81,12 @@ function vimcfg {
 }
 
 # ag but open results in vim's quickfix window
+function nvg {
+    nvim +LAck\ \""$*"\"
+}
+
 function vg {
-    vim +LAck\ \""$*"\"
-    # vim -q <(ag --vimgrep "$@") +copen
+    /usr/local/bin/vim -q <(rg --vimgrep "$@") +copen
 }
 
 # removes newline on each line of arg (stdin default) and prints to stdout
@@ -102,7 +105,7 @@ export TRUNK=$HOME/src/messaging/trunk
 # source "$HOME/goto/goto.bash"
 
 export ASAN_OPTIONS=detect_leaks=1
-export LSAN_OPTIONS=fast_unwind_on_malloc=false
+export LSAN_OPTIONS=report_objects=1:fast_unwind_on_malloc=false
 
 ERR_SAVED_PS1=$PS1
 ERR_SAVED_PROMPT_COMMAND=$PROMPT_COMMAND
@@ -122,3 +125,4 @@ __err_prompt_command() {
 PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command prompt
 
 export LLVM_PROFILE_FILE=".llvm-cov/%h-%9m.profraw"
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
