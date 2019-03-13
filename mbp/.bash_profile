@@ -21,7 +21,7 @@ PROMPT_COMMAND='history -a'
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-export PATH=${PATH}:${HOME}/bin:${HOME}/go/bin
+export PATH="/usr/local/opt/node@10/bin:${PATH}:${HOME}/bin:${HOME}/go/bin"
 
 JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
