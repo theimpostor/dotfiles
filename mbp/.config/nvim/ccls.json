@@ -1,11 +1,15 @@
 {
   "initializationOptions": {
+    "cache": {
+      "directory": "/tmp/ccls",
+      "retainInMemory": 1
+    },
     "cacheDirectory": "/tmp/ccls",
     "clang": {
       "extraArgs": [
-        "-isystem",
-        "/Library/Developer/CommandLineTools/usr/include/c++/v1",
-        "-Weverything"
+        "-Weverything",
+        "-Wno-sign-conversion",
+        "-DTIB_DEBUG_EX"
       ]
     }
   }

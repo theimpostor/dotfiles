@@ -1,4 +1,4 @@
-echo "sourcing .bash_profile"
+# echo "sourcing .bash_profile"
 
 # Tell ls to be colourful
 export CLICOLOR=1
@@ -81,11 +81,12 @@ function vimcfg {
 }
 
 # ag but open results in vim's quickfix window
-function nvg {
-    nvim +LAck\ \""$*"\"
-}
-
 function vg {
+    vim +LAck\ \""$*"\"
+}
+alias nvg=vg
+
+function ovg {
     /usr/local/bin/vim -q <(rg --vimgrep "$@") +copen
 }
 

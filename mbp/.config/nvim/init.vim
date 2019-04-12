@@ -110,6 +110,9 @@ autocmd Filetype c,cpp xnoremap <Leader>F :py3f /usr/local/opt/llvm/share/clang/
 " clang-format function
 autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O><C-O>
 
+" enable line numbers for some file types
+autocmd FileType c,go,sh setlocal number
+
 " ===
 " BEGIN Ack
 " ===
@@ -154,10 +157,12 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'go': ['gopls', '-logfile', '/tmp/gopls.log'],
             " \ 'cpp': ['/Users/shoda/src/ccls/Debug/ccls', '--log-file=/tmp/ccls.log'],
             " \ 'c': ['/Users/shoda/src/ccls/Debug/ccls', '--log-file=/tmp/ccls.log'],
+            " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log', '--diagnostics-style', 'instant', '--format-style', 'gofmt'],
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
-            \ 'go': ['bingo', '--logfile', '/tmp/bingo.log', '--diagnostics-style', 'instant'],
+            \ 'Dockerfile': ['docker-langserver', '--stdio'],
+            \ 'go': ['bingo', '--logfile', '/tmp/bingo.log'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'sh': ['bash-language-server', 'start']
@@ -220,13 +225,14 @@ autocmd FileType c,cpp call LC_C_maps()
 " ===
 " set c/cpp linters, disable ale for Java
 let g:ale_linters = {
+            \ 'bash': ['shellcheck'],
             \ 'c': ['clangtidy'],
             \ 'cpp': ['clangtidy'],
-            \ 'bash': ['shellcheck'],
-            \ 'go': ['golint'],
+            \ 'go': ['golint', 'go vet'],
             \ 'javascript': ['standard'],
             \ 'sh': ['shellcheck'],
             \ }
+" let g:ale_c_clangtidy_executable = $HOME . '/clang+llvm-8.0.0-x86_64-apple-darwin/bin/clang-tidy'
 
 let g:ale_fixers = {
             \ 'c': ['clang-format'],

@@ -1,6 +1,8 @@
 > npm list -g --depth=0
+
 /usr/local/lib
 ├── bash-language-server@1.5.5
+├── dockerfile-language-server-nodejs@0.0.20
 ├── firebase-tools@6.5.0
 ├── flow-bin@0.94.0
 ├── javascript-typescript-langserver@2.11.3
