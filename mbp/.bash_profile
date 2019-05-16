@@ -67,6 +67,7 @@ alias cls='echo -e "\ec\e[3J"'
 # alias ptree="tree -ACF"
 
 alias dc='docker-compose'
+complete -F _docker_compose dc
 
 alias scratchpad='vim ~/Dropbox/work/pad.txt'
 
@@ -127,3 +128,5 @@ PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command promp
 
 export LLVM_PROFILE_FILE=".llvm-cov/%h-%9m.profraw"
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+export PATH="$HOME/.cargo/bin:$PATH"

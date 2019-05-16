@@ -5,6 +5,7 @@ nnoremap <leader>s :FZF<CR>
 " Plug 'autozimu/LanguageClient-neovim', { 'tag': '0.1.132', 'do': 'bash install.sh', }
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
+Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'majutsushi/tagbar'
@@ -158,15 +159,20 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'cpp': ['/Users/shoda/src/ccls/Debug/ccls', '--log-file=/tmp/ccls.log'],
             " \ 'c': ['/Users/shoda/src/ccls/Debug/ccls', '--log-file=/tmp/ccls.log'],
             " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log', '--diagnostics-style', 'instant', '--format-style', 'gofmt'],
+            " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log'],
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'Dockerfile': ['docker-langserver', '--stdio'],
-            \ 'go': ['bingo', '--logfile', '/tmp/bingo.log'],
+            \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
+            \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
             \ 'sh': ['bash-language-server', 'start']
             \ }
+
+" Run gofmt and goimports on save
+autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 
 " synchronous call, slow
 " set completefunc=LanguageClient#complete
@@ -224,21 +230,23 @@ autocmd FileType c,cpp call LC_C_maps()
 " BEGIN ALE
 " ===
 " set c/cpp linters, disable ale for Java
+            " \ 'go': ['golint', 'go vet'],
 let g:ale_linters = {
             \ 'bash': ['shellcheck'],
             \ 'c': ['clangtidy'],
             \ 'cpp': ['clangtidy'],
-            \ 'go': ['golint', 'go vet'],
             \ 'javascript': ['standard'],
+            \ 'rust': ['cargo'],
             \ 'sh': ['shellcheck'],
             \ }
 " let g:ale_c_clangtidy_executable = $HOME . '/clang+llvm-8.0.0-x86_64-apple-darwin/bin/clang-tidy'
 
+            " \ 'go': ['gofmt'],
 let g:ale_fixers = {
             \ 'c': ['clang-format'],
             \ 'cpp': ['clang-format'],
-            \ 'go': ['gofmt'],
             \ 'javascript': ['standard'],
+            \ 'rust': ['rustfmt'],
             \ }
 
 " put ale in the quickfix
@@ -249,7 +257,8 @@ let g:ale_set_quickfix = 1
 let g:ale_linters_explicit = 1
 
 " enable go format on save
-autocmd FileType go let b:ale_fix_on_save = 1
+" autocmd FileType go,rust let b:ale_fix_on_save = 1
+autocmd FileType rust let b:ale_fix_on_save = 1
 
 " " Enable ale autocompletion
 " let g:ale_completion_enabled = 1
