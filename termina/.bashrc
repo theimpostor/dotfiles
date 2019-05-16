@@ -158,17 +158,38 @@ shopt -s direxpand
 set -o vi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 alias l='ls -laFh'
 alias lll='ls -laFh --color | less -R'
 
 alias cls='echo -e "\ec\e[3J"'
 
 alias vim='nvim'
+alias ovim=/usr/bin/vim
+function vimdiff {
+    nvim -d "$@"
+}
+
+function vimcfg {
+    vim "${HOME}/.config/nvim/init.vim"
+}
+
 # ag but open results in vim's quickfix window
 function vg {
     vim +LAck\ \""$*"\"
     # vim -q <(ag --vimgrep "$@") +copen
 }
 
+# removes newline on each line of arg (stdin default) and prints to stdout
+function chomp {
+    perl -pe 'chomp' "$@"
+}
+
+# shuffles lines of each arg (stdin default) and prints to stdout
+function shuffle {
+    perl -MList::Util -e 'print List::Util::shuffle <>' "$@"
+}
+
 export GOPATH="${HOME}/go"
 export PATH="${GOPATH//://bin:}/bin:${PATH}"
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
