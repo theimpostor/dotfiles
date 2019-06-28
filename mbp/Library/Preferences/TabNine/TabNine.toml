@@ -2,6 +2,10 @@
 command = 'bash-language-server'
 args = ['start']
 
+[language.yaml]
+command = 'yaml-language-server'
+args = ['--stdio']
+
 # [language.cpp]
 # command = 'ccls'
 # # args = ['--log=/tmp/cclsT9.log']

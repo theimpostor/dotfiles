@@ -8,6 +8,7 @@ Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.s
 Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
+Plug 'inkarkat/vcscommand.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -160,6 +161,7 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'c': ['/Users/shoda/src/ccls/Debug/ccls', '--log-file=/tmp/ccls.log'],
             " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log', '--diagnostics-style', 'instant', '--format-style', 'gofmt'],
             " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log'],
+            " \ 'yaml': ['yaml-language-server', '--stdio']
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
@@ -221,6 +223,32 @@ autocmd FileType c,cpp call LC_C_maps()
 "   setl formatexpr=LanguageClient#textDocument_rangeFormatting()
 " endf
 " au FileType c,cpp :call C_init()
+
+" yaml-language-server config
+if &ft ==# 'yaml' || &ft ==# 'json'
+    let settings = json_decode('
+    \{
+    \    "yaml": {
+    \        "completion": true,
+    \        "hover": true,
+    \        "validate": true,
+    \        "schemas": {
+    \            "Kubernetes": "/*"
+    \        },
+    \        "format": {
+    \            "enable": true
+    \        }
+    \    },
+    \    "http": {
+    \        "proxyStrictSSL": true
+    \    }
+    \}')
+    aug LanguageClient_config
+        au!
+        au User LanguageClientStarted call LanguageClient#Notify(
+            \ 'workspace/didChangeConfiguration', {'settings': settings})
+    aug END
+endif
 
 " ===
 " END LanguageClient-neovim

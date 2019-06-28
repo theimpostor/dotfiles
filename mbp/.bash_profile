@@ -21,7 +21,8 @@ PROMPT_COMMAND='history -a'
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-export PATH="/usr/local/opt/node@10/bin:${PATH}:${HOME}/bin:${HOME}/go/bin"
+# export PATH="/usr/local/opt/node@10/bin:${PATH}:${HOME}/bin:${HOME}/go/bin:${HOME}/Library/Python/3.7/bin"
+export PATH="${PATH}:/usr/local/opt/node@10/bin:${HOME}/bin:${HOME}/go/bin"
 
 JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
@@ -68,6 +69,21 @@ alias cls='echo -e "\ec\e[3J"'
 
 alias dc='docker-compose'
 complete -F _docker_compose dc
+
+alias kc='kubectl'
+complete -o default -o nospace -F __start_kubectl kc
+
+alias g='goto'
+if ! [[ $(uname -s) =~ Darwin* ]]; then
+    complete -o filenames -F _complete_goto_bash g
+else
+    complete -F _complete_goto_bash g
+fi
+
+if command -v eksctl >/dev/null 2>&1; then
+    # shellcheck source=/dev/null
+    source <(eksctl completion bash)
+fi
 
 alias scratchpad='vim ~/Dropbox/work/pad.txt'
 
@@ -128,5 +144,6 @@ PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command promp
 
 export LLVM_PROFILE_FILE=".llvm-cov/%h-%9m.profraw"
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+export BAT_THEME="ansi-light"
 
 export PATH="$HOME/.cargo/bin:$PATH"

@@ -1,1 +1,1 @@
-{"version":"1.0.9","hide_promotional_message":false,"beta_enabled":"No","ignore_all_lsp":false,"semantic_status":{"cpp":"Suppressed","go":"Enabled","html":"Enabled","javascript":"Enabled"},"disable_auto_update":false}
+{"version":"1.0.9","hide_promotional_message":false,"beta_enabled":"No","ignore_all_lsp":false,"semantic_status":{"html":"Enabled","go":"Enabled","yaml":"Enabled","cpp":"Suppressed","javascript":"Enabled"},"disable_auto_update":false}
