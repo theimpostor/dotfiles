@@ -4,6 +4,7 @@ nnoremap <leader>s :FZF<CR>
 
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
+Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'majutsushi/tagbar'
@@ -90,11 +91,16 @@ noremap <Leader>u :call GenerateUUID()<CR>
 " adjust commentstring for c
 autocmd FileType c setlocal commentstring=//\ %s
 
+" enable line numbers for some file types
+autocmd FileType c,go,sh setlocal number
+
 " ===
 " BEGIN Ack
 " ===
 " Use ag with ack.vim plugin
-if executable('ag')
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
+elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
@@ -123,6 +129,7 @@ let g:LanguageClient_serverCommands = {
             \ 'go': ['go-langserver'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
+            \ 'rust': ['rustup', 'run', 'stable', 'rls'],
             \ 'sh': ['bash-language-server', 'start']
             \ }
 
@@ -155,12 +162,14 @@ let g:ale_linters = {
             \ 'bash': ['shellcheck'],
             \ 'go': ['golint'],
             \ 'javascript': ['standard'],
+            \ 'rust': ['cargo'],
             \ 'sh': ['shellcheck'],
             \ }
 
 let g:ale_fixers = {
             \ 'go': ['gofmt'],
             \ 'javascript': ['standard'],
+            \ 'rust': ['rustfmt'],
             \ }
 
 " put ale in the quickfix
@@ -171,8 +180,7 @@ let g:ale_set_quickfix = 1
 let g:ale_linters_explicit = 1
 
 " enable go format on save
-autocmd FileType go let b:ale_fix_on_save = 1
-autocmd FileType javascript let b:ale_fix_on_save = 1
+autocmd FileType go,rust,javascript let b:ale_fix_on_save = 1
 
 " " Enable ale autocompletion
 " let g:ale_completion_enabled = 1

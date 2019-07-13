@@ -142,7 +142,7 @@ if ! shopt -oq posix; then
     fi
 fi
 
-export PATH="/home/linuxbrew/.linuxbrew/opt/node@10/bin:$PATH"
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/opt/node@10/bin"
 source <(npm completion)
 
 EDITOR=$(command -v vim)

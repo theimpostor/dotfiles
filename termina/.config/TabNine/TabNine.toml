@@ -1,0 +1,22 @@
+[language.bash]
+command = 'bash-language-server'
+args = ['start']
+
+[language.yaml]
+command = 'yaml-language-server'
+args = ['--stdio']
+
+# [language.cpp]
+# command = 'ccls'
+# # args = ['--log=/tmp/cclsT9.log']
+# synchronous_triggers = ['.']
+# synchronous_timeout_ms = 200
+# num_server_instances = 2
+# always_prefer = false
+
+# [language.go]
+# command = "bingo"
+# args = ['--logfile', '/tmp/bingoT9.log']
+
+[language.go]
+command = "gopls"
