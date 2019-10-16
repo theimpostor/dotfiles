@@ -67,6 +67,8 @@ alias cls='echo -e "\ec\e[3J"'
 
 # alias ptree="tree -ACF"
 
+alias nproc='sysctl -n hw.activecpu'
+
 alias dc='docker-compose'
 complete -F _docker_compose dc
 
@@ -85,7 +87,7 @@ if command -v eksctl >/dev/null 2>&1; then
     source <(eksctl completion bash)
 fi
 
-alias scratchpad='vim ~/Dropbox/work/pad.txt'
+alias scratchpad='vim ~/notes/pad.txt'
 
 alias vim=nvim
 alias ovim=/usr/local/bin/vim
@@ -95,6 +97,10 @@ function vimdiff {
 
 function vimcfg {
     vim "${HOME}/.config/nvim/init.vim"
+}
+
+function bashcfg {
+    vim "${HOME}/.bash_profile"
 }
 
 # ag but open results in vim's quickfix window
@@ -115,6 +121,15 @@ function chomp {
 # shuffles lines of each arg (stdin default) and prints to stdout
 function shuffle {
     perl -MList::Util -e 'print List::Util::shuffle <>' "$@"
+}
+
+function cdr { 
+    cd "${PWD/$1/$2}"
+}
+
+# pwd relative to home - prints path to $PWD from the $HOME directory
+function pwdrth {
+    python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
 }
 
 export BRANCH=$HOME/src/messaging/branches

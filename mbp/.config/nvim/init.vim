@@ -12,6 +12,7 @@ Plug 'inkarkat/vcscommand.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -169,8 +170,10 @@ let g:LanguageClient_serverCommands = {
             \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
+            \ 'python': ['pyls'],
             \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-            \ 'sh': ['bash-language-server', 'start']
+            \ 'sh': ['bash-language-server', 'start'],
+            \ 'yaml': ['yaml-language-server', '--stdio']
             \ }
 
 " Run gofmt and goimports on save
@@ -196,7 +199,8 @@ let g:LanguageClient_fzfContextMenu=0
 
 function LC_maps()
     if has_key(g:LanguageClient_serverCommands, &filetype)
-        nnoremap <buffer> <silent> <C-]> :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <buffer> <silent> <C-]>      :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <buffer> <silent> <C-w><C-]> :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
         nnoremap <buffer> <silent> <Leader>rw :call LanguageClient#textDocument_rename()<CR>
         nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references()<CR>
         nnoremap <buffer> <silent> <Leader>rh :call LanguageClient#textDocument_documentHighlight()<CR>
