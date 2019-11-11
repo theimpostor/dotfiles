@@ -7,6 +7,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
 Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'elzr/vim-json'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'majutsushi/tagbar'
@@ -150,6 +151,13 @@ nnoremap <leader>t :TagbarToggle<CR>
 " C/CPP/sh: provides jump to definition, symbol rename, compile error/warning
 " highlighting
 
+
+" let s:ccls_settings = {
+"          \ 'highlight': { 'lsRanges' : v:true },
+"          \ }
+" let s:ccls_command = ['ccls', '--init=' . json_encode(s:ccls_settings)]
+
+
 " let g:LanguageClient_serverCommands = {
 "             \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
 "             \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
@@ -202,8 +210,10 @@ function LC_maps()
         nnoremap <buffer> <silent> <C-]>      :call LanguageClient#textDocument_definition()<CR>
         nnoremap <buffer> <silent> <C-w><C-]> :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
         nnoremap <buffer> <silent> <Leader>rw :call LanguageClient#textDocument_rename()<CR>
-        nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references()<CR>
+        nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references({'includeDeclaration': v:false})<CR>
         nnoremap <buffer> <silent> <Leader>rh :call LanguageClient#textDocument_documentHighlight()<CR>
+        nnoremap <buffer> <silent> H          :call LanguageClient#textDocument_documentHighlight()<CR>
+        nnoremap <buffer> <silent> K          :call LanguageClient#textDocument_hover()<CR>
     endif
 endfunction
 
@@ -221,6 +231,9 @@ endfunction
 
 autocmd FileType * call LC_maps()
 autocmd FileType c,cpp call LC_C_maps()
+
+" jackguo380/vim-lsp-cxx-highlight: change member variables from white to blue
+hi LspCxxHlGroupMemberVariable ctermfg=Blue guifg=Blue
 
 " use ccls for formatting, uses clang-format
 " fu! C_init()

@@ -6,13 +6,13 @@ args = ['start']
 command = 'yaml-language-server'
 args = ['--stdio']
 
-# [language.cpp]
-# command = 'ccls'
-# # args = ['--log=/tmp/cclsT9.log']
-# synchronous_triggers = ['.']
-# synchronous_timeout_ms = 200
+[language.cpp]
+command = 'ccls'
+args = ['--log-file=/tmp/cclsT9.log', "--init={\"cache\": { \"directory\": \"/tmp/cclsT9\", \"retainInMemory\": 1 }, \"clang\": { \"extraArgs\": [ \"-DTIB_DEBUG_EX\" ] }}"]
+synchronous_triggers = ['.']
+synchronous_timeout_ms = 200
+always_prefer = false
 # num_server_instances = 2
-# always_prefer = false
 
 # [language.go]
 # command = "bingo"

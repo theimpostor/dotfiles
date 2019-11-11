@@ -5,12 +5,12 @@
   "ignore_all_lsp": false,
   "creation_time": "2019-08-20T14:29:09.828673Z",
   "semantic_status": {
-    "cpp": "Suppressed",
-    "html": "Enabled",
+    "bash": "Enabled",
     "go": "Enabled",
     "javascript": "Enabled",
-    "bash": "Enabled",
-    "yaml": "Enabled"
+    "yaml": "Enabled",
+    "html": "Enabled",
+    "cpp": "Enabled"
   },
   "disable_auto_update": false,
   "user_understands_that_enabling_tabnine_cloud_sends_code_to_tabnine_servers": false,

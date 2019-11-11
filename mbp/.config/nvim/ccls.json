@@ -4,7 +4,9 @@
       "directory": "/tmp/ccls",
       "retainInMemory": 1
     },
-    "cacheDirectory": "/tmp/ccls",
+    "highlight": {
+        "lsRanges": true
+    },
     "clang": {
       "extraArgs": [
         "-Weverything",
