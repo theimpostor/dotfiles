@@ -92,29 +92,29 @@ endfunction
 noremap <Leader>u :call GenerateUUID()<CR>
 
 " abbreviations TODO move to project
-autocmd FileType c iabbrev <buffer> TO  TIBEX_OK(e)
-autocmd FileType c iabbrev <buffer> TNO TIBEX_NOT_OK(e)
-autocmd FileType c iabbrev <buffer> TA  TIB_ARGS(e)
-autocmd FileType c iabbrev <buffer> TAI TIB_ARGS_IGNR_EX(e)
-autocmd FileType c iabbrev <buffer> TAP TIB_ARG_PUBLIC(ep)
+autocmd FileType c,cpp iabbrev <buffer> TO  TIBEX_OK(e)
+autocmd FileType c,cpp iabbrev <buffer> TNO TIBEX_NOT_OK(e)
+autocmd FileType c,cpp iabbrev <buffer> TA  TIB_ARGS(e)
+autocmd FileType c,cpp iabbrev <buffer> TAI TIB_ARGS_IGNR_EX(e)
+autocmd FileType c,cpp iabbrev <buffer> TAP TIB_ARG_PUBLIC(ep)
 
-autocmd FileType c iabbrev <buffer> cL checkpointList
-autocmd FileType c iabbrev <buffer> cp checkpoint
-autocmd FileType c iabbrev <buffer> cps checkpoints
-autocmd FileType c iabbrev <buffer> tdgcp _tibdgCheckpoint
-autocmd FileType c iabbrev <buffer> tdgcpl _tibdgCheckpointList
+autocmd FileType c,cpp iabbrev <buffer> cL checkpointList
+autocmd FileType c,cpp iabbrev <buffer> cp checkpoint
+autocmd FileType c,cpp iabbrev <buffer> cps checkpoints
+autocmd FileType c,cpp iabbrev <buffer> tdgcp _tibdgCheckpoint
+autocmd FileType c,cpp iabbrev <buffer> tdgcpl _tibdgCheckpointList
 
 " adjust commentstring for c
-autocmd FileType c setlocal commentstring=//\ %s
+autocmd FileType c,cpp setlocal commentstring=//\ %s
 
 " clang-format visual selection
 autocmd Filetype c,cpp xnoremap <Leader>f :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
 autocmd Filetype c,cpp xnoremap <Leader>F :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
 " clang-format function
-autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O><C-O>
+autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O>
 
 " enable line numbers for some file types
-autocmd FileType c,go,sh setlocal number
+autocmd FileType c,cpp,go,sh setlocal number
 
 " ===
 " BEGIN Ack
@@ -164,9 +164,9 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log'],
             " \ 'yaml': ['yaml-language-server', '--stdio']
 let g:LanguageClient_serverCommands = {
-            \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
-            \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'Dockerfile': ['docker-langserver', '--stdio'],
+            \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
@@ -228,31 +228,31 @@ autocmd FileType c,cpp call LC_C_maps()
 " endf
 " au FileType c,cpp :call C_init()
 
-" yaml-language-server config
-if &ft ==# 'yaml' || &ft ==# 'json'
-    let settings = json_decode('
-    \{
-    \    "yaml": {
-    \        "completion": true,
-    \        "hover": true,
-    \        "validate": true,
-    \        "schemas": {
-    \            "Kubernetes": "/*"
-    \        },
-    \        "format": {
-    \            "enable": true
-    \        }
-    \    },
-    \    "http": {
-    \        "proxyStrictSSL": true
-    \    }
-    \}')
-    aug LanguageClient_config
-        au!
-        au User LanguageClientStarted call LanguageClient#Notify(
-            \ 'workspace/didChangeConfiguration', {'settings': settings})
-    aug END
-endif
+" " yaml-language-server config
+" if &ft ==# 'yaml' || &ft ==# 'json'
+"     let settings = json_decode('
+"     \{
+"     \    "yaml": {
+"     \        "completion": true,
+"     \        "hover": true,
+"     \        "validate": true,
+"     \        "schemas": {
+"     \            "Kubernetes": "/*"
+"     \        },
+"     \        "format": {
+"     \            "enable": true
+"     \        }
+"     \    },
+"     \    "http": {
+"     \        "proxyStrictSSL": true
+"     \    }
+"     \}')
+"     aug LanguageClient_config
+"         au!
+"         au User LanguageClientStarted call LanguageClient#Notify(
+"             \ 'workspace/didChangeConfiguration', {'settings': settings})
+"     aug END
+" endif
 
 " ===
 " END LanguageClient-neovim
@@ -263,10 +263,10 @@ endif
 " ===
 " set c/cpp linters, disable ale for Java
             " \ 'go': ['golint', 'go vet'],
+            " \ 'cpp': ['clangtidy'],
+            " \ 'c': ['clangtidy'],
 let g:ale_linters = {
             \ 'bash': ['shellcheck'],
-            \ 'c': ['clangtidy'],
-            \ 'cpp': ['clangtidy'],
             \ 'javascript': ['standard'],
             \ 'rust': ['cargo'],
             \ 'sh': ['shellcheck'],
@@ -314,6 +314,22 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 
 " disable YCM diagnostics in favor of languageserver diagnostics
 let g:ycm_show_diagnostics_ui = 0
+
+" " only enable for known filetypes.
+" let g:ycm_filetype_whitelist = {
+"             \ 'bash': 1,
+"             \ 'c': 1,
+"             \ 'cpp': 1,
+"             \ 'Dockerfile': 1,
+"             \ 'go': 1,
+"             \ 'html': 1,
+"             \ 'javascript': 1,
+"             \ 'python': 1,
+"             \ 'rust': 1,
+"             \ 'sh': 1,
+"             \ 'vim': 1,
+"             \ 'yaml': 1
+"             \ }
 
 " ===
 " END YCM
