@@ -2,12 +2,26 @@
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>s :FZF<CR>
 
-" Plug 'autozimu/LanguageClient-neovim', { 'tag': '0.1.132', 'do': 'bash install.sh', }
+let programming_filetypes = [ 
+    \ 'Dockerfile', 
+    \ 'bash', 
+    \ 'c', 
+    \ 'cpp', 
+    \ 'go', 
+    \ 'html', 
+    \ 'javascript', 
+    \ 'python', 
+    \ 'rust', 
+    \ 'sh', 
+    \ 'vim', 
+    \ 'yaml',
+    \ ]
+
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', 'for': programming_filetypes,  }
 Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'elzr/vim-json'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'majutsushi/tagbar'
@@ -18,8 +32,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
-Plug 'w0rp/ale'
-Plug 'zxqfl/tabnine-vim', { 'for': [ 'bash', 'c', 'cpp', 'Dockerfile', 'go', 'html', 'javascript', 'python', 'rust', 'sh', 'vim', 'yaml' ] }
+Plug 'w0rp/ale', { 'for': programming_filetypes, }
+Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes, }
 call plug#end()
 
 set background=light
