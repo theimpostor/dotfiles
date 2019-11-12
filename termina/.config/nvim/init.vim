@@ -10,6 +10,7 @@ Plug 'elzr/vim-json'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -127,6 +128,8 @@ nnoremap <leader>t :TagbarToggle<CR>
 " ===
 let g:LanguageClient_serverCommands = {
             \ 'go': ['go-langserver'],
+            \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'rust': ['rustup', 'run', 'stable', 'rls'],
@@ -141,14 +144,28 @@ let g:LanguageClient_fzfContextMenu=0
 
 function LC_maps()
     if has_key(g:LanguageClient_serverCommands, &filetype)
-        nnoremap <buffer> <silent> <C-]> :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <buffer> <silent> <C-]>      :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <buffer> <silent> <C-w><C-]> :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
         nnoremap <buffer> <silent> <Leader>rw :call LanguageClient#textDocument_rename()<CR>
         nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references()<CR>
         nnoremap <buffer> <silent> <Leader>rh :call LanguageClient#textDocument_documentHighlight()<CR>
     endif
 endfunction
 
+function LC_C_maps()
+    if filereadable($HOME . '/.config/nvim/ccls.json')
+        let g:LanguageClient_loadSettings = 1
+        let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/ccls.json'
+    endif
+    if has_key(g:LanguageClient_serverCommands, &filetype)
+        nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#findLocations({'method':'$ccls/call'})<CR>
+        " nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#cquery_callers<CR>
+        " nnoremap <buffer> <silent> <Leader>rv :call LanguageClient#cquery_vars<CR>
+    endif
+endfunction
+
 autocmd FileType * call LC_maps()
+autocmd FileType c,cpp call LC_C_maps()
 
 " ===
 " END LanguageClient-neovim
@@ -160,6 +177,8 @@ autocmd FileType * call LC_maps()
 " set c/cpp linters, disable ale for Java
 let g:ale_linters = {
             \ 'bash': ['shellcheck'],
+            \ 'c': ['clangtidy'],
+            \ 'cpp': ['clangtidy'],
             \ 'go': ['golint'],
             \ 'javascript': ['standard'],
             \ 'rust': ['cargo'],
@@ -167,6 +186,8 @@ let g:ale_linters = {
             \ }
 
 let g:ale_fixers = {
+            \ 'c': ['clang-format'],
+            \ 'cpp': ['clang-format'],
             \ 'go': ['gofmt'],
             \ 'javascript': ['standard'],
             \ 'rust': ['rustfmt'],
