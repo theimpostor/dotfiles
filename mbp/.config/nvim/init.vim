@@ -19,7 +19,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale'
-Plug 'zxqfl/tabnine-vim'
+Plug 'zxqfl/tabnine-vim', { 'for': [ 'bash', 'c', 'cpp', 'Dockerfile', 'go', 'html', 'javascript', 'python', 'rust', 'sh', 'vim', 'yaml' ] }
 call plug#end()
 
 set background=light
