@@ -105,7 +105,7 @@ function bashcfg {
 
 # ag but open results in vim's quickfix window
 function vg {
-    vim +LAck\ \""$*"\"
+    echo :LAck "$@" | vim -s -
 }
 alias nvg=vg
 

@@ -136,7 +136,7 @@ autocmd FileType c,cpp,go,sh setlocal number
 " ===
 " Use ag with ack.vim plugin
 if executable('rg')
-  let g:ackprg = 'rg --vimgrep'
+  let g:ackprg = 'rg --vimgrep --sort path'
 elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
