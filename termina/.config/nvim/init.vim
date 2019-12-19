@@ -2,11 +2,28 @@
 set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
 nnoremap <leader>s :FZF<CR>
 
+let programming_filetypes = [ 
+    \ 'Dockerfile', 
+    \ 'bash', 
+    \ 'c', 
+    \ 'cpp', 
+    \ 'go', 
+    \ 'html', 
+    \ 'javascript', 
+    \ 'python', 
+    \ 'rust', 
+    \ 'sh', 
+    \ 'vim', 
+    \ 'yaml',
+    \ ]
+
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', 'for': programming_filetypes,  }
 Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'elzr/vim-json'
+Plug 'inkarkat/vcscommand.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -15,8 +32,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
-Plug 'w0rp/ale'
-Plug 'zxqfl/tabnine-vim'
+Plug 'w0rp/ale', { 'for': programming_filetypes, }
+Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes, }
 call plug#end()
 
 set background=dark
@@ -93,14 +110,14 @@ noremap <Leader>u :call GenerateUUID()<CR>
 autocmd FileType c setlocal commentstring=//\ %s
 
 " enable line numbers for some file types
-autocmd FileType c,go,sh setlocal number
+autocmd FileType c,cpp,go,sh setlocal number
 
 " ===
 " BEGIN Ack
 " ===
 " Use ag with ack.vim plugin
 if executable('rg')
-  let g:ackprg = 'rg --vimgrep'
+  let g:ackprg = 'rg --vimgrep --sort path'
 elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
@@ -127,9 +144,9 @@ nnoremap <leader>t :TagbarToggle<CR>
 " BEGIN LanguageClient-neovim
 " ===
 let g:LanguageClient_serverCommands = {
-            \ 'go': ['go-langserver'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'go': ['go-langserver'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'rust': ['rustup', 'run', 'stable', 'rls'],
@@ -147,8 +164,10 @@ function LC_maps()
         nnoremap <buffer> <silent> <C-]>      :call LanguageClient#textDocument_definition()<CR>
         nnoremap <buffer> <silent> <C-w><C-]> :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
         nnoremap <buffer> <silent> <Leader>rw :call LanguageClient#textDocument_rename()<CR>
-        nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references()<CR>
+        nnoremap <buffer> <silent> <Leader>rf :call LanguageClient#textDocument_references({'includeDeclaration': v:false})<CR>
         nnoremap <buffer> <silent> <Leader>rh :call LanguageClient#textDocument_documentHighlight()<CR>
+        nnoremap <buffer> <silent> H          :call LanguageClient#textDocument_documentHighlight()<CR>
+        nnoremap <buffer> <silent> K          :call LanguageClient#textDocument_hover()<CR>
     endif
 endfunction
 

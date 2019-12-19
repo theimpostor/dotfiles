@@ -174,6 +174,10 @@ function vimcfg {
     vim "${HOME}/.config/nvim/init.vim"
 }
 
+function bashcfg {
+    vim "${HOME}/.bashrc"
+}
+
 # ag but open results in vim's quickfix window
 function vg {
     vim +LAck\ \""$*"\"
@@ -188,6 +192,10 @@ function chomp {
 # shuffles lines of each arg (stdin default) and prints to stdout
 function shuffle {
     perl -MList::Util -e 'print List::Util::shuffle <>' "$@"
+}
+
+function cdr { 
+    cd "${PWD/$1/$2}"
 }
 
 export GOPATH="${HOME}/go"
