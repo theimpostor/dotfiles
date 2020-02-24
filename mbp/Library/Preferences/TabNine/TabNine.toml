@@ -11,7 +11,7 @@ command = 'ccls'
 args = ['--log-file=/tmp/cclsT9.log', "--init={\"cache\": { \"directory\": \"/tmp/cclsT9\", \"retainInMemory\": 1 }, \"clang\": { \"extraArgs\": [ \"-DTIB_DEBUG_EX\" ] }}"]
 synchronous_triggers = ['.']
 synchronous_timeout_ms = 200
-always_prefer = false
+always_prefer = true
 # num_server_instances = 2
 
 # [language.go]

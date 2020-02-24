@@ -107,11 +107,13 @@ endfunction
 noremap <Leader>u :call GenerateUUID()<CR>
 
 " abbreviations TODO move to project
-autocmd FileType c,cpp iabbrev <buffer> TO  TIBEX_OK(e)
-autocmd FileType c,cpp iabbrev <buffer> TNO TIBEX_NOT_OK(e)
-autocmd FileType c,cpp iabbrev <buffer> TA  TIB_ARGS(e)
-autocmd FileType c,cpp iabbrev <buffer> TAI TIB_ARGS_IGNR_EX(e)
-autocmd FileType c,cpp iabbrev <buffer> TAP TIB_ARG_PUBLIC(ep)
+autocmd FileType c,cpp iabbrev <buffer> TO   TIBEX_OK(e)
+autocmd FileType c,cpp iabbrev <buffer> TNO  TIBEX_NOT_OK(e)
+autocmd FileType c,cpp iabbrev <buffer> TA   TIB_ARGS(e)
+autocmd FileType c,cpp iabbrev <buffer> TAI  TIB_ARGS_IGNR_EX(e)
+autocmd FileType c,cpp iabbrev <buffer> TAP  TIB_ARG_PUBLIC(ep)
+autocmd FileType c,cpp iabbrev <buffer> TAD  TIB_ARGS_DECL(e)
+autocmd FileType c,cpp iabbrev <buffer> TADI TIB_ARGS_DECL_IGNR_EX(e)
 
 autocmd FileType c,cpp iabbrev <buffer> cL checkpointList
 autocmd FileType c,cpp iabbrev <buffer> cp checkpoint
