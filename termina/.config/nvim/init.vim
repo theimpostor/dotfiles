@@ -143,6 +143,36 @@ nnoremap <leader>t :TagbarToggle<CR>
 " ===
 " BEGIN LanguageClient-neovim
 " ===
+"
+" TODO: fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
+" let diagnosticsDisplaySettings={
+"   \       '1': {
+"   \           'name': 'Error',
+"   \           'texthl': 'ALEError',
+"   \           'signText': 'X',
+"   \           'signTexthl': 'ALEErrorSign',
+"   \       },
+"   \       '2': {
+"   \           'name': 'Warning',
+"   \           'texthl': 'ALEWarning',
+"   \           'signText': '!',
+"   \           'signTexthl': 'ALEWarningSign',
+"   \       },
+"   \       '3': {
+"   \           'name': 'Information',
+"   \           'texthl': 'ALEInfo',
+"   \           'signText': 'i',
+"   \           'signTexthl': 'ALEInfoSign',
+"   \       },
+"   \       '4': {
+"   \           'name': 'Hint',
+"   \           'texthl': 'ALEInfo',
+"   \           'signText': 'h',
+"   \           'signTexthl': 'ALEInfoSign',
+"   \       },
+"   \  }
+
+let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
 let g:LanguageClient_serverCommands = {
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
