@@ -18,5 +18,5 @@ args = ['--stdio']
 # command = "bingo"
 # args = ['--logfile', '/tmp/bingoT9.log']
 
-[language.go]
-command = "gopls"
+# [language.go]
+# command = "gopls"

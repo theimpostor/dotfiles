@@ -44,7 +44,7 @@ set mouse=a
 " allow modified buffers in the background
 set hidden
 
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 
 " Doesn't work in termina
 " " yank to clipboard (via
@@ -102,7 +102,7 @@ import vim
 vim.command("let generatedUUID = \"%s\"" % str(uuid.uuid4()))
 EOF
     " insert the python generated uuid into the current cursor's position
-    :execute "normal i" . generatedUUID . ""
+    :execute "normal i" . generatedUUID . ""
 endfunction
 noremap <Leader>u :call GenerateUUID()<CR>
 
@@ -143,44 +143,21 @@ nnoremap <leader>t :TagbarToggle<CR>
 " ===
 " BEGIN LanguageClient-neovim
 " ===
-"
-" TODO: fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
-" let diagnosticsDisplaySettings={
-"   \       '1': {
-"   \           'name': 'Error',
-"   \           'texthl': 'ALEError',
-"   \           'signText': 'X',
-"   \           'signTexthl': 'ALEErrorSign',
-"   \       },
-"   \       '2': {
-"   \           'name': 'Warning',
-"   \           'texthl': 'ALEWarning',
-"   \           'signText': '!',
-"   \           'signTexthl': 'ALEWarningSign',
-"   \       },
-"   \       '3': {
-"   \           'name': 'Information',
-"   \           'texthl': 'ALEInfo',
-"   \           'signText': 'i',
-"   \           'signTexthl': 'ALEInfoSign',
-"   \       },
-"   \       '4': {
-"   \           'name': 'Hint',
-"   \           'texthl': 'ALEInfo',
-"   \           'signText': 'h',
-"   \           'signTexthl': 'ALEInfoSign',
-"   \       },
-"   \  }
-
-let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
+            " \ 'javascript': ['javascript-typescript-stdio'],
+            
 let g:LanguageClient_serverCommands = {
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
-            \ 'go': ['go-langserver'],
+            \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
-            \ 'javascript': ['javascript-typescript-stdio'],
+            \ 'javascript': ['flow', 'lsp'],
+            \ 'javascript.jsx': ['flow', 'lsp'],
             \ 'rust': ['rustup', 'run', 'stable', 'rls'],
             \ 'sh': ['bash-language-server', 'start']
+            \ }
+
+let g:LanguageClient_rootMarkers = {
+            \ 'javascript': ['.flowconfig', 'package.json'],
             \ }
 
 " synchronous call, slow
@@ -215,6 +192,35 @@ endfunction
 
 autocmd FileType * call LC_maps()
 autocmd FileType c,cpp call LC_C_maps()
+
+" fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
+let diagnosticsDisplaySettings={
+  \       '1': {
+  \           'name': 'Error',
+  \           'texthl': 'ALEError',
+  \           'signText': 'X',
+  \           'signTexthl': 'ALEErrorSign',
+  \       },
+  \       '2': {
+  \           'name': 'Warning',
+  \           'texthl': 'ALEWarning',
+  \           'signText': '!',
+  \           'signTexthl': 'ALEWarningSign',
+  \       },
+  \       '3': {
+  \           'name': 'Information',
+  \           'texthl': 'ALEInfo',
+  \           'signText': 'i',
+  \           'signTexthl': 'ALEInfoSign',
+  \       },
+  \       '4': {
+  \           'name': 'Hint',
+  \           'texthl': 'ALEInfo',
+  \           'signText': 'h',
+  \           'signTexthl': 'ALEInfoSign',
+  \       },
+  \  }
+let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
 
 " ===
 " END LanguageClient-neovim

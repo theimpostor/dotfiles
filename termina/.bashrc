@@ -63,35 +63,35 @@ else
 fi
 unset color_prompt force_color_prompt
 
-__prompt_command() {
-    local EXIT="$?"             # This needs to be first
+# __prompt_command() {
+#     local EXIT="$?"             # This needs to be first
 
-    local reset='\[\e[0m\]'
-    # local magenta='\[\e[1;35m\]'
-    local blue='\[\e[1;34m\]'
+#     local reset='\[\e[0m\]'
+#     # local magenta='\[\e[1;35m\]'
+#     local blue='\[\e[1;34m\]'
 
-    local color=${blue}
+#     local color=${blue}
 
-    PS1="${color}\\w${reset} "
+#     PS1="${color}\\w${reset} "
 
-    # if [ $EXIT != 0 ]; then
-    #     color="${magenta}"          # Add magenta if exit code non 0
-    # fi
+#     # if [ $EXIT != 0 ]; then
+#     #     color="${magenta}"          # Add magenta if exit code non 0
+#     # fi
 
-    if [[ $EXIT -ne 0 ]]; then
-        PS1="💩 ${PS1}"
-    fi
+#     if [[ $EXIT -ne 0 ]]; then
+#         PS1="💩 ${PS1}"
+#     fi
 
-    # append to history after every command
-    # export PROMPT_COMMAND='history -a'
-    history -a
-}
+#     # append to history after every command
+#     # export PROMPT_COMMAND='history -a'
+#     history -a
+# }
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    # PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    PROMPT_COMMAND=__prompt_command # runs prior to printing every command prompt
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    # PROMPT_COMMAND=__prompt_command # runs prior to printing every command prompt
     ;;
 *)
     ;;
@@ -132,20 +132,24 @@ eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh ]; then
-        export BASH_COMPLETION_COMPAT_DIR="/home/linuxbrew/.linuxbrew/etc/bash_completion.d"
-        . "/home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh"
-    elif [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+  if [ -f /home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh ]; then
+    export BASH_COMPLETION_COMPAT_DIR="/home/linuxbrew/.linuxbrew/etc/bash_completion.d"
+    . "/home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh"
+  elif [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
 
-export PATH="$PATH:/home/linuxbrew/.linuxbrew/opt/node@10/bin"
+export PATH="/home/linuxbrew/.linuxbrew/opt/node@12/bin:$PATH"
 source <(npm completion)
 
-EDITOR=$(command -v vim)
+export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.8/bin:$PATH"
+
+export PATH="/home/sahirhoda/go/bin:$PATH"
+
+EDITOR=$(command -v nvim)
 export EDITOR
 
 # cd to directory just by typing dir name
@@ -197,7 +201,4 @@ function shuffle {
 function cdr { 
     cd "${PWD/$1/$2}"
 }
-
-export GOPATH="${HOME}/go"
-export PATH="${GOPATH//://bin:}/bin:${PATH}"
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"

@@ -2,13 +2,18 @@
 command = "rls"
 install = [
   ["rustup", "update"],
-  ["rustup", "component", "add", "rls-preview", "rust-analysis", "rust-src"],
+  ["rustup", "component", "add", "rls", "rust-analysis", "rust-src"],
 ]
 
 [language.javascript]
 command = "flow"
 args = ["lsp"]
 install = [["npm", "install", "-g", "flow-bin"]]
+
+[language.typescript]
+command = "typescript-language-server"
+args = ["--stdio"]
+install = [["npm", "install", "-g", "typescript-language-server"]]
 
 [language.html]
 command = "html-languageserver"
@@ -33,9 +38,9 @@ command = "hie"
 args = ["--lsp"]
 
 [language.go]
-command = "go-langserver"
-args = ["-mode", "stdio", "-gocodecompletion"]
-install = [["go", "get", "-u", "github.com/sourcegraph/go-langserver"]]
+command = "gopls"
+args = ["serve"]
+install = [["go", "get", "-u", "golang.org/x/tools/cmd/gopls"]]
 
 [language.dart]
 command = "dart_language_server"
@@ -45,3 +50,18 @@ install = [["pub", "global", "activate", "dart_language_server"]]
 command = "solargraph"
 args = ["stdio"]
 install = [["gem", "install", "solargraph"]]
+
+[language.css]
+command = "css-languageserver"
+args = ["--stdio"]
+install = [["npm", "install", "-g", "vscode-css-languageserver-bin"]]
+
+[language.scss]
+command = "css-languageserver"
+args = ["--stdio"]
+install = [["npm", "install", "-g", "vscode-css-languageserver-bin"]]
+
+[language.purescript]
+command = "purescript-language-server"
+args = ["--stdio"]
+install = [["npm", "install", "-g", "purescript-language-server"]]
