@@ -18,12 +18,13 @@ let programming_filetypes = [
     \ ]
 
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'AndrewRadev/linediff.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', 'for': programming_filetypes,  }
 Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'elzr/vim-json'
 Plug 'inkarkat/vcscommand.vim'
+Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -362,4 +363,15 @@ let g:ycm_show_diagnostics_ui = 0
 
 " ===
 " END YCM
+" ===
+
+" ===
+" BEGIN linediff
+" ===
+
+" Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
+xnoremap <leader>l :Linediff<CR>
+
+" ===
+" END linediff
 " ===
