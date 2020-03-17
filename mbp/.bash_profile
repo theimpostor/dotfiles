@@ -14,7 +14,7 @@ export TERM="xterm-color"
 
 reset='\[\e[0m\]'
 blue='\[\e[1;34m\]'
-PS1=" ${blue}\\w${reset} "
+PS1="${blue}\\w${reset} "
 
 PROMPT_COMMAND='history -a'
 
@@ -23,6 +23,7 @@ export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 
 # export PATH="/usr/local/opt/node@10/bin:${PATH}:${HOME}/bin:${HOME}/go/bin:${HOME}/Library/Python/3.7/bin"
 export PATH="${PATH}:/usr/local/opt/node@12/bin:${HOME}/bin:${HOME}/go/bin"
+# shellcheck source=/dev/null
 source <(npm completion)
 
 JAVA_HOME="$(/usr/libexec/java_home)"
@@ -50,12 +51,12 @@ shopt -s direxpand
 # use vi key bindings on cmd line
 set -o vi
 
-# show vi mode in prompt, and colorize
-# readline: https://stackoverflow.com/a/32614367/8370398
-# tput codes: http://linuxcommand.org/lc3_adv_tput.php
-bind "set show-mode-in-prompt on"
-bind "set vi-ins-mode-string $(tput bold)$(tput setaf 4)+$(tput sgr0)"
-bind "set vi-cmd-mode-string $(tput bold)$(tput setaf 1):$(tput sgr0)"
+# # show vi mode in prompt, and colorize
+# # readline: https://stackoverflow.com/a/32614367/8370398
+# # tput codes: http://linuxcommand.org/lc3_adv_tput.php
+# bind "set show-mode-in-prompt on"
+# bind "set vi-ins-mode-string $(tput bold)$(tput setaf 4)+$(tput sgr0)"
+# bind "set vi-cmd-mode-string $(tput bold)$(tput setaf 1):$(tput sgr0)"
 
 if shopt | grep globstar >/dev/null 2>&1; then
     shopt -s globstar

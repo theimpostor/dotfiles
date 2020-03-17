@@ -1,7 +1,3 @@
-[language.bash]
-command = 'bash-language-server'
-args = ['start']
-
 [language.yaml]
 command = 'yaml-language-server'
 args = ['--stdio']

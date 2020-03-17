@@ -147,6 +147,9 @@ endif
 " Search word under cursor with ack.vim (ag)
 " !: don't immediately open first result
 nnoremap <leader>a :LAck!<CR>
+nnoremap <leader>gg :LAck 
+nnoremap <leader>ga :LAckAdd 
+nnoremap <leader>gs :LAck "ssh todo"<CR>
 " ===
 " END Ack
 " ===
