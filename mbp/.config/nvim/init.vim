@@ -37,7 +37,7 @@ Plug 'w0rp/ale', { 'for': programming_filetypes, }
 Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes, }
 call plug#end()
 
-set background=light
+" set background=light
 
 " enable mouse support
 set mouse=a
@@ -253,7 +253,7 @@ autocmd FileType * call LC_maps()
 autocmd FileType c,cpp call LC_C_maps()
 
 " jackguo380/vim-lsp-cxx-highlight: change member variables from white to blue
-hi LspCxxHlGroupMemberVariable ctermfg=Blue guifg=Blue
+" hi LspCxxHlGroupMemberVariable ctermfg=Blue guifg=Blue
 
 " use ccls for formatting, uses clang-format
 " fu! C_init()

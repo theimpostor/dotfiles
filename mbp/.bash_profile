@@ -2,7 +2,7 @@
 
 # Tell ls to be colourful
 export CLICOLOR=1
-export LSCOLORS=Exfxcxdxbxegedabagacad
+# export LSCOLORS=Exfxcxdxbxegedabagacad
 
 # Tell grep to highlight matches
 export GREP_OPTIONS='--color=auto'
@@ -14,7 +14,8 @@ export TERM="xterm-color"
 
 reset='\[\e[0m\]'
 blue='\[\e[1;34m\]'
-PS1="${blue}\\w${reset} "
+purple='\[\e[1;35m\]'
+PS1="${purple}\\w${reset} "
 
 PROMPT_COMMAND='history -a'
 
@@ -25,6 +26,8 @@ export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 export PATH="${PATH}:/usr/local/opt/node@12/bin:${HOME}/bin:${HOME}/go/bin"
 # shellcheck source=/dev/null
 source <(npm completion)
+
+eval "$(jira --completion-script-bash)"
 
 JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
@@ -170,9 +173,10 @@ PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command promp
 
 export LLVM_PROFILE_FILE=".llvm-cov/%h-%9m.profraw"
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
-export BAT_THEME="ansi-light"
+# export BAT_THEME="ansi-light"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/usr/local/opt/helm@2/bin:$PATH"
 
 # broot
 source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
