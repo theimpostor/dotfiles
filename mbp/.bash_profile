@@ -176,7 +176,6 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # export BAT_THEME="ansi-light"
 
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="/usr/local/opt/helm@2/bin:$PATH"
 
 # broot
 source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
