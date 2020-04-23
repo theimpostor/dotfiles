@@ -24,6 +24,8 @@ Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'inkarkat/vcscommand.vim'
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-mark'
 Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
@@ -125,14 +127,22 @@ autocmd FileType c,cpp iabbrev <buffer> tdgcpl _tibdgCheckpointList
 " adjust commentstring for c
 autocmd FileType c,cpp setlocal commentstring=//\ %s
 
-" clang-format visual selection
-autocmd Filetype c,cpp xnoremap <Leader>f :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
-autocmd Filetype c,cpp xnoremap <Leader>F :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
-" clang-format function
-autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O>
+" " clang-format visual selection
+" autocmd Filetype c,cpp xnoremap <Leader>f :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
+" autocmd Filetype c,cpp xnoremap <Leader>F :py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR>
+" " clang-format function
+" autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O>
 
 " enable line numbers for some file types
 autocmd FileType c,cpp,go,sh setlocal number
+
+" ===
+" BEGIN vcscommand
+" ===
+nnoremap <leader>vd :VCSVimDiff<CR>
+" ===
+" END vcscommand
+" ===
 
 " ===
 " BEGIN Ack
@@ -191,6 +201,9 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log', '--diagnostics-style', 'instant', '--format-style', 'gofmt'],
             " \ 'go': ['bingo', '--logfile', '/tmp/bingo.log'],
             " \ 'yaml': ['yaml-language-server', '--stdio']
+            " Use pending semantic hightlight support
+            " \ 'c': ['clangd', '--background-index', '--clang-tidy', '-j', '4'],
+            " \ 'cpp': ['clangd', '--background-index', '--clang-tidy', '-j', '4'],
 let g:LanguageClient_serverCommands = {
             \ 'Dockerfile': ['docker-langserver', '--stdio'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
@@ -199,7 +212,7 @@ let g:LanguageClient_serverCommands = {
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'python': ['pyls'],
-            \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+            \ 'rust': ['rustup', 'run', 'stable', 'rls'],
             \ 'sh': ['bash-language-server', 'start'],
             \ 'yaml': ['yaml-language-server', '--stdio']
             \ }
@@ -238,6 +251,9 @@ function LC_maps()
 endfunction
 
 function LC_C_maps()
+    setl formatexpr=LanguageClient#textDocument_rangeFormatting()
+    nnoremap <buffer> <silent> <Leader>= gqq
+    nnoremap <buffer> <silent> <Leader>F mfvi}gq`f
     if filereadable($HOME . '/.config/nvim/ccls.json')
         let g:LanguageClient_loadSettings = 1
         let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/ccls.json'
@@ -254,12 +270,6 @@ autocmd FileType c,cpp call LC_C_maps()
 
 " jackguo380/vim-lsp-cxx-highlight: change member variables from white to blue
 " hi LspCxxHlGroupMemberVariable ctermfg=Blue guifg=Blue
-
-" use ccls for formatting, uses clang-format
-" fu! C_init()
-"   setl formatexpr=LanguageClient#textDocument_rangeFormatting()
-" endf
-" au FileType c,cpp :call C_init()
 
 " " yaml-language-server config
 " if &ft ==# 'yaml' || &ft ==# 'json'
@@ -298,18 +308,18 @@ autocmd FileType c,cpp call LC_C_maps()
             " \ 'go': ['golint', 'go vet'],
             " \ 'cpp': ['clangtidy'],
             " \ 'c': ['clangtidy'],
+            " \ 'rust': ['cargo'],
 let g:ale_linters = {
             \ 'bash': ['shellcheck'],
             \ 'javascript': ['standard'],
-            \ 'rust': ['cargo'],
             \ 'sh': ['shellcheck'],
             \ }
 " let g:ale_c_clangtidy_executable = $HOME . '/clang+llvm-8.0.0-x86_64-apple-darwin/bin/clang-tidy'
 
             " \ 'go': ['gofmt'],
+            " \ 'c': ['clang-format'],   " use lsp/clangd now
+            " \ 'cpp': ['clang-format'], " use lsp/clangd now
 let g:ale_fixers = {
-            \ 'c': ['clang-format'],
-            \ 'cpp': ['clang-format'],
             \ 'javascript': ['standard'],
             \ 'rust': ['rustfmt'],
             \ }
