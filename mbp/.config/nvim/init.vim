@@ -27,6 +27,7 @@ Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
+Plug 'jez/vim-superman'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -204,6 +205,7 @@ nnoremap <leader>t :TagbarToggle<CR>
             " Use pending semantic hightlight support
             " \ 'c': ['clangd', '--background-index', '--clang-tidy', '-j', '4'],
             " \ 'cpp': ['clangd', '--background-index', '--clang-tidy', '-j', '4'],
+            " \ 'rust': ['rustup', 'run', 'stable', 'rls'],
 let g:LanguageClient_serverCommands = {
             \ 'Dockerfile': ['docker-langserver', '--stdio'],
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
@@ -212,7 +214,7 @@ let g:LanguageClient_serverCommands = {
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
             \ 'python': ['pyls'],
-            \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+            \ 'rust': ['rust-analyzer'],
             \ 'sh': ['bash-language-server', 'start'],
             \ 'yaml': ['yaml-language-server', '--stdio']
             \ }

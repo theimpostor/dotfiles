@@ -40,7 +40,7 @@ export HISTCONTROL=ignoreboth
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
 
-EDITOR=$(command -v vim)
+EDITOR=$(command -v nvim)
 export EDITOR
 
 # cd to directory just by typing dir name
@@ -112,12 +112,14 @@ function vimcfg {
 }
 
 function bashcfg {
-    vim "${HOME}/.bash_profile"
+    vim "${HOME}/.bashrc"
 }
 
 # ag but open results in vim's quickfix window
 function vg {
-    echo :LAck "$@" | vim -s -
+    # printf %q reprints each arg with shell escapes
+    # shellcheck disable=SC2046
+    echo :LAck $(printf '%q ' "$@") | vim -s -
 }
 alias nvg=vg
 
