@@ -141,6 +141,11 @@ function cdr {
     cd "${PWD/$1/$2}"
 }
 
+# prints joined argument list using ":" delimiter, removing duplicates and preserving order
+function merge-args() {
+    perl -e 'print join ":", grep {!$h{$_}++} split ":", join ":", @ARGV' "$@"
+}
+
 # pwd relative to home - prints path to $PWD from the $HOME directory
 function pwdrth {
     python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
@@ -180,3 +185,4 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # broot
 source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
+[ -f ~/.project-functions.bash ] && source ~/.project-functions.bash
