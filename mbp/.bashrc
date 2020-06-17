@@ -97,10 +97,6 @@ if command -v eksctl >/dev/null 2>&1; then
     source <(eksctl completion bash)
 fi
 
-function scratchpad {
-    vim "/Volumes/GoogleDrive/My Drive/notes/pad.txt"
-}
-
 alias vim=nvim
 alias ovim=/usr/local/bin/vim
 function vimdiff {
