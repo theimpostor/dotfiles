@@ -1,3 +1,6 @@
+# raise open files limit
+ulimit -n 1024
+
 # Tell ls to be colourful
 export CLICOLOR=1
 # export LSCOLORS=Exfxcxdxbxegedabagacad
@@ -25,7 +28,10 @@ export PATH="${PATH}:/usr/local/opt/node@12/bin:${HOME}/bin:${HOME}/go/bin"
 # shellcheck source=/dev/null
 source <(npm completion)
 
-eval "$(jira --completion-script-bash)"
+# use local::lib
+eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
+
+# eval "$(jira --completion-script-bash)"
 
 JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
@@ -145,6 +151,10 @@ function merge-args() {
 # pwd relative to home - prints path to $PWD from the $HOME directory
 function pwdrth {
     python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
+}
+
+function coc {
+    PATH="$(merge-args /usr/local/opt/llvm/bin "$PATH")" XDG_CONFIG_HOME=$HOME/.nvim-coc/config XDG_DATA_HOME=$HOME/.nvim-coc/data nvim "$@"
 }
 
 export BRANCH=$HOME/src/messaging/branches
