@@ -80,6 +80,10 @@ set tabstop=4
 " use spaces instead of tabs
 set expandtab
 
+" center search results - https://vim.fandom.com/wiki/Keep_your_cursor_centered_vertically_on_the_screen
+" toggle scrolloff setting
+nnoremap <Leader>zz :let &scrolloff=999-&scrolloff<CR>
+
 " Easier location list navigation
 nnoremap <C-J> :lprev<CR>
 nnoremap <C-K> :lnext<CR>

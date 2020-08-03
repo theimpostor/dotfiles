@@ -157,6 +157,10 @@ function coc {
     PATH="$(merge-args /usr/local/opt/llvm/bin "$PATH")" XDG_CONFIG_HOME=$HOME/.nvim-coc/config XDG_DATA_HOME=$HOME/.nvim-coc/data nvim "$@"
 }
 
+function cocupdate {
+    coc +PlugUpgrade +qa && coc +PlugUpdate +CocUpdate
+}
+
 export BRANCH=$HOME/src/messaging/branches
 export TRUNK=$HOME/src/messaging/trunk
 
