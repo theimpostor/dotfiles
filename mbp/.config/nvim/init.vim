@@ -28,6 +28,7 @@ Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'jez/vim-superman'
+Plug 'junegunn/goyo.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -37,7 +38,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale', { 'for': programming_filetypes, }
-Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes, }
+Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown' ], }
 call plug#end()
 
 " set background=light
@@ -83,6 +84,10 @@ set expandtab
 " center search results - https://vim.fandom.com/wiki/Keep_your_cursor_centered_vertically_on_the_screen
 " toggle scrolloff setting
 nnoremap <Leader>zz :let &scrolloff=999-&scrolloff<CR>
+
+" chmod +x current file
+" https://unix.stackexchange.com/questions/102455/make-script-executable-from-vi-vim
+nnoremap <Leader>x :! chmod +x %<CR><CR>
 
 " Easier location list navigation
 nnoremap <C-J> :lprev<CR>
@@ -332,6 +337,7 @@ endfunction
 function LC_C_maps()
     setl formatexpr=LanguageClient#textDocument_rangeFormatting()
     nnoremap <buffer> <silent> <Leader>= gqq
+    xnoremap <buffer> <silent> <leader>f gq
     nnoremap <buffer> <silent> <Leader>F mfvi}gq`f
     if filereadable($HOME . '/.config/nvim/ccls.json')
         let g:LanguageClient_loadSettings = 1
@@ -420,7 +426,7 @@ autocmd FileType rust let b:ale_fix_on_save = 1
 " autocmd Filetype c,cpp nnoremap <C-]> :ALEGoToDefinition<CR>
 " autocmd Filetype c,cpp nnoremap <leader>r :ALEFindReferences<CR>
 
-nnoremap <leader>f :ALEFix<CR>
+" nnoremap <leader>f :ALEFix<CR>
 
 " ===
 " END ALE
@@ -461,7 +467,6 @@ let g:ycm_show_diagnostics_ui = 0
 " BEGIN linediff
 " ===
 
-" Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
 xnoremap <leader>l :Linediff<CR>
 
 " ===

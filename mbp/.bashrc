@@ -28,6 +28,9 @@ export PATH="${PATH}:/usr/local/opt/node@12/bin:${HOME}/bin:${HOME}/go/bin"
 # shellcheck source=/dev/null
 source <(npm completion)
 
+# gnu tar
+export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:${PATH}"
+
 # use local::lib
 eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 
@@ -148,6 +151,12 @@ function merge-args() {
     perl -e 'print join ":", grep {!$h{$_}++} split ":", join ":", @ARGV' "$@"
 }
 
+# join args by a delimiter
+# https://stackoverflow.com/questions/1527049/how-can-i-join-elements-of-an-array-in-bash/17841619#comment37571340_17841619
+function join-by() {
+    perl -e 'print join shift, @ARGV' -- "$@"; 
+}
+
 # pwd relative to home - prints path to $PWD from the $HOME directory
 function pwdrth {
     python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
@@ -161,13 +170,9 @@ function cocupdate {
     coc +PlugUpgrade +qa && coc +PlugUpdate +CocUpdate
 }
 
-export BRANCH=$HOME/src/messaging/branches
-export TRUNK=$HOME/src/messaging/trunk
-
-# source "$HOME/goto/goto.bash"
-
 export ASAN_OPTIONS=detect_leaks=1
-export LSAN_OPTIONS=report_objects=1:fast_unwind_on_malloc=false
+export LSAN_OPTIONS=report_objects=1
+# export LSAN_OPTIONS=report_objects=1:fast_unwind_on_malloc=false
 
 ERR_SAVED_PS1=$PS1
 ERR_SAVED_PROMPT_COMMAND=$PROMPT_COMMAND
