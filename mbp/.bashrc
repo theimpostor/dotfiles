@@ -16,7 +16,8 @@ export TERM="xterm-color"
 reset='\[\e[0m\]'
 blue='\[\e[1;34m\]'
 purple='\[\e[1;35m\]'
-PS1="${purple}\\w${reset} "
+# PS1="\[\033]0;\u@\h: \w\007\]${purple}\\w${reset} "
+PS1="\[\033]0;\w\007\]${purple}\\w${reset} "
 
 PROMPT_COMMAND='history -a'
 
@@ -104,6 +105,12 @@ fi
 if command -v eksctl >/dev/null 2>&1; then
     # shellcheck source=/dev/null
     source <(eksctl completion bash)
+fi
+
+if command -v bat >/dev/null 2>&1; then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    # can also use neovim
+    # export MANPAGER='nvim +Man!'
 fi
 
 alias vim=nvim
