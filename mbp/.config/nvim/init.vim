@@ -38,7 +38,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale', { 'for': programming_filetypes, }
-Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown' ], }
+Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown', 'conf' ], }
 call plug#end()
 
 " set background=light
@@ -288,10 +288,13 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'c': ['clangd', '--background-index', '--clang-tidy', '-j', '4'],
             " \ 'cpp': ['clangd', '--background-index', '--clang-tidy', '-j', '4'],
             " \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+            " before wrapper:
+            " \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
+            " \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
 let g:LanguageClient_serverCommands = {
             \ 'Dockerfile': ['docker-langserver', '--stdio'],
-            \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
-            \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
+            \ 'c': [$HOME . '/ccls-wrapper/ccls-wrapper'],
+            \ 'cpp': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
             \ 'javascript': ['javascript-typescript-stdio'],
@@ -300,6 +303,8 @@ let g:LanguageClient_serverCommands = {
             \ 'sh': ['bash-language-server', 'start'],
             \ 'yaml': ['yaml-language-server', '--stdio']
             \ }
+
+
 
 " Run gofmt and goimports on save
 autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
@@ -339,10 +344,10 @@ function LC_C_maps()
     nnoremap <buffer> <silent> <Leader>= gqq
     xnoremap <buffer> <silent> <leader>f gq
     nnoremap <buffer> <silent> <Leader>F mfvi}gq`f
-    if filereadable($HOME . '/.config/nvim/ccls.json')
-        let g:LanguageClient_loadSettings = 1
-        let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/ccls.json'
-    endif
+    " if filereadable($HOME . '/.config/nvim/ccls.json')
+    "     let g:LanguageClient_loadSettings = 1
+    "     let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/ccls.json'
+    " endif
     if has_key(g:LanguageClient_serverCommands, &filetype)
         nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#findLocations({'method':'$ccls/call'})<CR>
         " nnoremap <buffer> <silent> <Leader>rF :call LanguageClient#cquery_callers<CR>
