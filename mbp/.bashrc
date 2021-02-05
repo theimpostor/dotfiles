@@ -19,7 +19,25 @@ purple='\[\e[1;35m\]'
 # PS1="\[\033]0;\u@\h: \w\007\]${purple}\\w${reset} "
 PS1="\[\033]0;\w\007\]${purple}\\w${reset} "
 
-PROMPT_COMMAND='history -a'
+# append to history instead of overwriting
+shopt -s histappend
+
+# don't log duplicate commands or commands starting w/a space
+export HISTCONTROL=ignoreboth
+
+# https://github.com/fotinakis/bashrc/blob/c4945f655f8d2071467201d2e76da5ba7df8d61c/init.sh#L47
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+
+PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }history -a"
 
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
@@ -39,16 +57,6 @@ eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 
 JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
-
-# append to history instead of overwriting
-shopt -s histappend
-
-# don't log duplicate commands or commands starting w/a space
-export HISTCONTROL=ignoreboth
-
-# expand history size
-export HISTFILESIZE=1000000
-export HISTSIZE=1000000
 
 EDITOR=$(command -v nvim)
 export EDITOR
@@ -175,6 +183,10 @@ function coc {
 
 function cocupdate {
     coc +PlugUpgrade +qa && coc +PlugUpdate +CocUpdate
+}
+
+function rgs {
+    rg --sort path "$@"
 }
 
 export ASAN_OPTIONS=detect_leaks=1

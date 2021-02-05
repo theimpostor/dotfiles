@@ -291,13 +291,14 @@ nnoremap <leader>t :TagbarToggle<CR>
             " before wrapper:
             " \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             " \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
+            " \ 'javascript': ['javascript-typescript-stdio'],
 let g:LanguageClient_serverCommands = {
             \ 'Dockerfile': ['docker-langserver', '--stdio'],
             \ 'c': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'cpp': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
-            \ 'javascript': ['javascript-typescript-stdio'],
+            \ 'javascript': ['typescript-typescript', '--stdio'],
             \ 'python': ['pyls'],
             \ 'rust': ['rust-analyzer'],
             \ 'sh': ['bash-language-server', 'start'],
