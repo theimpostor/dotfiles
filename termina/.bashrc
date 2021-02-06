@@ -8,16 +8,25 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
+# append to history instead of overwriting
 shopt -s histappend
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=100000
-HISTFILESIZE=200000
+# don't log duplicate commands or commands starting w/a space
+export HISTCONTROL=ignoreboth
+
+# https://github.com/fotinakis/bashrc/blob/c4945f655f8d2071467201d2e76da5ba7df8d61c/init.sh#L47
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+
+PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }history -a"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -142,7 +151,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PATH="/home/linuxbrew/.linuxbrew/opt/node@12/bin:$PATH"
+# Make sure npm found in /home/linuxbrew/.linuxbrew/bin is ahead of npm included with node@12
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/opt/node@12/bin"
 source <(npm completion)
 
 export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.8/bin:$PATH"
@@ -160,6 +170,10 @@ shopt -s direxpand
 
 # use vi key bindings on cmd line
 set -o vi
+
+if shopt | grep globstar >/dev/null 2>&1; then
+    shopt -s globstar
+fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
@@ -184,8 +198,11 @@ function bashcfg {
 
 # ag but open results in vim's quickfix window
 function vg {
-    vim +LAck\ \""$*"\"
+    # vim +LAck\ \""$*"\"
     # vim -q <(ag --vimgrep "$@") +copen
+    # printf %q reprints each arg with shell escapes
+    # shellcheck disable=SC2046
+    echo :LAck $(printf '%q ' "$@") | vim -s -
 }
 
 # removes newline on each line of arg (stdin default) and prints to stdout
@@ -200,5 +217,21 @@ function shuffle {
 
 function cdr { 
     cd "${PWD/$1/$2}"
+}
+
+# prints joined argument list using ":" delimiter, removing duplicates and preserving order
+function merge-args() {
+    perl -e 'print join ":", grep {!$h{$_}++} split ":", join ":", @ARGV' "$@"
+}
+
+# join args by a delimiter
+# https://stackoverflow.com/questions/1527049/how-can-i-join-elements-of-an-array-in-bash/17841619#comment37571340_17841619
+function join-by() {
+    perl -e 'print join shift, @ARGV' -- "$@"; 
+}
+
+# pwd relative to home - prints path to $PWD from the $HOME directory
+function pwdrth {
+    python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
 }
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
