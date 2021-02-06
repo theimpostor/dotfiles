@@ -18,12 +18,15 @@ let programming_filetypes = [
     \ ]
 
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'AndrewRadev/linediff.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh', 'for': programming_filetypes,  }
 Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'elzr/vim-json'
 Plug 'inkarkat/vcscommand.vim'
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-mark'
+Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -33,7 +36,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale', { 'for': programming_filetypes, }
-Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes, }
+Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown', 'conf' ], }
 call plug#end()
 
 set background=dark
@@ -79,6 +82,14 @@ set tabstop=4
 " use spaces instead of tabs
 set expandtab
 
+" center search results - https://vim.fandom.com/wiki/Keep_your_cursor_centered_vertically_on_the_screen
+" toggle scrolloff setting
+nnoremap <Leader>zz :let &scrolloff=999-&scrolloff<CR>
+
+" chmod +x current file
+" https://unix.stackexchange.com/questions/102455/make-script-executable-from-vi-vim
+nnoremap <Leader>x :! chmod +x %<CR><CR>
+
 " Easier location list navigation
 nnoremap <C-J> :lprev<CR>
 nnoremap <C-K> :lnext<CR>
@@ -89,6 +100,12 @@ xnoremap // y/\V<C-R>"<CR>
 " delete selected text to 'blackhole' register, then paste
 xnoremap p "_dp
 xnoremap P "_dP
+
+" In normal Vim Q switches you to Ex mode, which is almost never what you want. Instead, we’ll have it repeat the last macro you used, which makes using macros a lot more pleasant.
+nnoremap Q @@
+
+" " Normally Vim rerenders the screen after every step of the macro, which looks weird and slows the execution down. With this change it only rerenders at the end of the macro.
+" set lazyredraw
 
 " use indent of 2 for yaml and markdown
 autocmd Filetype yaml,markdown set sw=2 ts=2
@@ -107,7 +124,7 @@ endfunction
 noremap <Leader>u :call GenerateUUID()<CR>
 
 " adjust commentstring for c
-autocmd FileType c setlocal commentstring=//\ %s
+autocmd FileType c,cpp setlocal commentstring=//\ %s
 
 " enable line numbers for some file types
 autocmd FileType c,cpp,go,sh setlocal number
@@ -144,21 +161,22 @@ nnoremap <leader>t :TagbarToggle<CR>
 " BEGIN LanguageClient-neovim
 " ===
             " \ 'javascript': ['javascript-typescript-stdio'],
+            " \ 'javascript': ['flow', 'lsp'],
+            " \ 'javascript.jsx': ['flow', 'lsp'],
             
 let g:LanguageClient_serverCommands = {
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
-            \ 'javascript': ['flow', 'lsp'],
-            \ 'javascript.jsx': ['flow', 'lsp'],
+            \ 'javascript': ['typescript-language-server', '--stdio'],
             \ 'rust': ['rustup', 'run', 'stable', 'rls'],
             \ 'sh': ['bash-language-server', 'start']
             \ }
 
-let g:LanguageClient_rootMarkers = {
-            \ 'javascript': ['.flowconfig', 'package.json'],
-            \ }
+" let g:LanguageClient_rootMarkers = {
+"             \ 'javascript': ['.flowconfig', 'package.json'],
+"             \ }
 
 " synchronous call, slow
 " set completefunc=LanguageClient#complete
@@ -283,4 +301,14 @@ let g:ycm_show_diagnostics_ui = 0
 
 " ===
 " END YCM
+" ===
+
+" ===
+" BEGIN linediff
+" ===
+
+xnoremap <leader>l :Linediff<CR>
+
+" ===
+" END linediff
 " ===
