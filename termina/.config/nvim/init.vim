@@ -163,6 +163,8 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'javascript': ['javascript-typescript-stdio'],
             " \ 'javascript': ['flow', 'lsp'],
             " \ 'javascript.jsx': ['flow', 'lsp'],
+            " Requires: npm install -g typescript typescript-language-server
+            " \ 'javascript': ['typescript-language-server', '--stdio'],
             
 let g:LanguageClient_serverCommands = {
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
