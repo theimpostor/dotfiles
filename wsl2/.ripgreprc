@@ -1,0 +1,6 @@
+--smart-case
+--type-add=ant:build.xml
+--type-add=eclipse:.classpath
+--type-add=javasrc:*.java
+--type-add=soap:*.wsdl
+--type-add=mustache:*.mustache
