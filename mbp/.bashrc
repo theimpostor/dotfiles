@@ -43,7 +43,7 @@ export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 # export PATH="/usr/local/opt/node@10/bin:${PATH}:${HOME}/bin:${HOME}/go/bin:${HOME}/Library/Python/3.7/bin"
-export PATH="${PATH}:/usr/local/opt/node@12/bin:${HOME}/bin:${HOME}/go/bin"
+export PATH="${PATH}:/usr/local/opt/node@14/bin:${HOME}/bin:${HOME}/go/bin"
 # shellcheck source=/dev/null
 source <(npm completion)
 
@@ -81,6 +81,10 @@ if shopt | grep globstar >/dev/null 2>&1; then
     shopt -s globstar
 fi
 
+if command -v fd >/dev/null 2>&1; then
+    export FZF_DEFAULT_COMMAND='fd --type file'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
 # suppress shellcheck warning:
 # shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -292,13 +292,15 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
             " \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log'],
             " \ 'javascript': ['javascript-typescript-stdio'],
+            " Requires: npm install -g typescript typescript-language-server
+            " \ 'javascript': ['typescript-language-server', '--stdio'],
 let g:LanguageClient_serverCommands = {
             \ 'Dockerfile': ['docker-langserver', '--stdio'],
             \ 'c': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'cpp': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
-            \ 'javascript': ['typescript-typescript', '--stdio'],
+            \ 'javascript': ['typescript-language-server', '--stdio'],
             \ 'python': ['pyls'],
             \ 'rust': ['rust-analyzer'],
             \ 'sh': ['bash-language-server', 'start'],
