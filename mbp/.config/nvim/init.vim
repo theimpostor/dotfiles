@@ -426,7 +426,7 @@ let g:ale_linters_explicit = 1
 
 " enable go format on save
 " autocmd FileType go,rust let b:ale_fix_on_save = 1
-autocmd FileType rust let b:ale_fix_on_save = 1
+autocmd FileType rust,javascript let b:ale_fix_on_save = 1
 
 " " Enable ale autocompletion
 " let g:ale_completion_enabled = 1
