@@ -37,8 +37,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
-Plug 'w0rp/ale', { 'for': programming_filetypes, }
-Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown', 'conf' ], }
+Plug 'w0rp/ale', { 'for': programming_filetypes + [ 'perl' ], }
+Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown', 'conf', 'perl' ], }
 call plug#end()
 
 " set background=light
@@ -217,7 +217,7 @@ autocmd FileType c,cpp setlocal commentstring=//\ %s
 " autocmd Filetype c,cpp nnoremap <Leader>F [[v][:py3f /usr/local/opt/llvm/share/clang/clang-format.py<CR><C-O>
 
 " enable line numbers for some file types
-autocmd FileType c,cpp,go,sh setlocal number
+autocmd FileType bash,c,cpp,go,javascript,perl,sh setlocal number
 
 " ===
 " BEGIN vcscommand
@@ -406,12 +406,14 @@ let g:ale_linters = {
             \ 'bash': ['shellcheck'],
             \ 'javascript': ['standard'],
             \ 'sh': ['shellcheck'],
+            \ 'perl': ['perl']
             \ }
 " let g:ale_c_clangtidy_executable = $HOME . '/clang+llvm-8.0.0-x86_64-apple-darwin/bin/clang-tidy'
 
             " \ 'go': ['gofmt'],
             " \ 'c': ['clang-format'],   " use lsp/clangd now
             " \ 'cpp': ['clang-format'], " use lsp/clangd now
+            " \ 'perl': ['perltidy']
 let g:ale_fixers = {
             \ 'javascript': ['standard'],
             \ 'rust': ['rustfmt'],
@@ -426,7 +428,7 @@ let g:ale_linters_explicit = 1
 
 " enable go format on save
 " autocmd FileType go,rust let b:ale_fix_on_save = 1
-autocmd FileType rust,javascript let b:ale_fix_on_save = 1
+autocmd FileType rust,javascript,perl let b:ale_fix_on_save = 1
 
 " " Enable ale autocompletion
 " let g:ale_completion_enabled = 1

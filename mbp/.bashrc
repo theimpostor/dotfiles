@@ -193,6 +193,12 @@ function rgs {
     rg --sort path "$@"
 }
 
+# prints the single latest file/dir
+function latest {
+    # -l auto chomps command line input
+    find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
+}
+
 export ASAN_OPTIONS=detect_leaks=1
 export LSAN_OPTIONS=report_objects=1
 # export LSAN_OPTIONS=report_objects=1:fast_unwind_on_malloc=false
