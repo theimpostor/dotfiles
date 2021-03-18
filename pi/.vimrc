@@ -19,7 +19,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'elzr/vim-json'
 " Plugin 'ntpeters/vim-better-whitespace'
-" Plugin 'w0rp/ale'
+Plugin 'w0rp/ale'
 " Plugin 'fatih/vim-go'
 Plugin 'mileszs/ack.vim'
 " " cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer --go-completer
@@ -128,8 +128,8 @@ endif
 " !: don't immediately open first result
 nnoremap <leader>a :LAck!<CR>
 
-let g:ale_linters = { 'javascript': ['standard'], 'bash': ['shellcheck']  }
-let g:ale_fixers  = { 'javascript': ['standard'], 'go': ['gofmt'] }
+let g:ale_linters = { 'bash': ['shellcheck']  }
+" let g:ale_fixers  = { 'javascript': ['standard'], 'go': ['gofmt'] }
 
 " put ale in the quickfix
 let g:ale_set_loclist = 0
