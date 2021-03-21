@@ -181,7 +181,8 @@ function bashcfg {
 
 # ag but open results in vim's quickfix window
 function vg {
-    vim +LAck\ \""$*"\"
+    echo :LAck $(printf '%q ' "$@") | vim -s -
+    # vim +LAck\ \""$*"\"
     # vim -q <(ag --vimgrep "$@") +copen
 }
 
