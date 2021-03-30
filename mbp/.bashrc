@@ -55,7 +55,8 @@ eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 
 # eval "$(jira --completion-script-bash)"
 
-JAVA_HOME="$(/usr/libexec/java_home)"
+JAVA_HOME="$(brew --prefix openjdk@11)/libexec/openjdk.jdk/Contents/Home"
+# JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
 
 EDITOR=$(command -v nvim)
@@ -89,7 +90,11 @@ fi
 # shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-alias l='ls -laFh'
+if command -v fd >/dev/null 2>&1; then
+    alias l='exa --long --all --links --git'
+else
+    alias l='ls -laFh'
+fi
 alias lll='ls -laFh --color | less -R'
 
 alias cls='echo -e "\ec\e[3J"'
@@ -227,6 +232,6 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # broot
-source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
+# source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 [ -f ~/.project-functions.bash ] && source ~/.project-functions.bash

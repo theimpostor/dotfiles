@@ -173,7 +173,7 @@ set lazyredraw
 " …
 " Look Vim has a lot of cool techniques for mass edits, and while macros are powerful, writing recursive macros usually means you picked the wrong tool for the job. But if you want to try recursive macros, this is a pretty decent guide. Although I think they chose the wrong tool. I probably would have done :s!\v(\d\d)/(\d\d)/(\d+)!& : \1-\2\-\3 instead.
 
-let g:python_host_prog = '/usr/local/bin/python2'
+" let g:python_host_prog = '/usr/local/bin/python2'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 " use indent of 2 for yaml and markdown
