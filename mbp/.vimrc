@@ -2,6 +2,9 @@
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>s :FZF<CR>
 
+" installing vundle:
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
 " vundle begin
 set nocompatible              " be iMproved, required
 filetype off                  " required
