@@ -106,11 +106,22 @@ alias cls='echo -e "\ec\e[3J"'
 
 alias nproc='sysctl -n hw.activecpu'
 
-alias dc='docker-compose'
-complete -F _docker_compose dc
+if command -v docker >/dev/null 2>&1; then
+    alias d='docker'
+    complete -F _docker d
+fi
 
-alias kc='kubectl'
-complete -o default -o nospace -F __start_kubectl kc
+if command -v docker-compose >/dev/null 2>&1; then
+    alias dc='docker-compose'
+    complete -F _docker_compose dc
+fi
+
+if command -v kubectl >/dev/null 2>&1; then
+    # shellcheck source=/dev/null
+    source <(kubectl completion bash)
+    alias k='kubectl'
+    complete -F __start_kubectl k
+fi
 
 alias g='goto'
 if ! [[ $(uname -s) =~ Darwin* ]]; then
