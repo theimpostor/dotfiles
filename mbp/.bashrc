@@ -14,10 +14,10 @@ export GREP_OPTIONS='--color=auto'
 # PS1='\[\e[0;34m\]\w\[\e[0m\] '
 
 reset='\[\e[0m\]'
-blue='\[\e[1;34m\]'
+# blue='\[\e[1;34m\]'
 purple='\[\e[1;35m\]'
 # PS1="\[\033]0;\u@\h: \w\007\]${purple}\\w${reset} "
-PS1="\[\033]0;\w\007\]${purple}\\w${reset} "
+# PS1="\[\033]0;\w\007\]${purple}\\w${reset} "
 
 # append to history instead of overwriting
 shopt -s histappend
@@ -208,7 +208,14 @@ export ASAN_OPTIONS=detect_leaks=1
 export LSAN_OPTIONS=report_objects=1
 # export LSAN_OPTIONS=report_objects=1:fast_unwind_on_malloc=false
 
-ERR_SAVED_PS1=$PS1
+if type __git_ps1 &> /dev/null; then
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    export GIT_PS1_SHOWCOLORHINTS=1
+fi
+
+# ERR_SAVED_PS1=$PS1
 ERR_SAVED_PROMPT_COMMAND=$PROMPT_COMMAND
 
 __err_prompt_command() {
@@ -216,10 +223,21 @@ __err_prompt_command() {
 
     $ERR_SAVED_PROMPT_COMMAND
 
+    # via git-prompt.sh:
+    # __git_ps1 requires 2 or 3 arguments when called from PROMPT_COMMAND (pc)
+    # in that case it _sets_ PS1. The arguments are parts of a PS1 string.
+    # when two arguments are given, the first is prepended and the second appended
+    # to the state string when assigned to PS1.
+    # The optional third parameter will be used as printf format string to further
+    # customize the output of the git-status string.
+    # In this mode you can request colored hints using GIT_PS1_SHOWCOLORHINTS=true
+
     if [[ $EXIT -ne 0 ]]; then
-        PS1="💩 ${ERR_SAVED_PS1}"
+        __git_ps1 "💩 \[\033]0;\w\007\]${purple}\\w${reset}" " "
+        # PS1="💩 $(__git_ps1 "(%s) ")${ERR_SAVED_PS1}"
     else
-        PS1=${ERR_SAVED_PS1}
+        __git_ps1 "\[\033]0;\w\007\]${purple}\\w${reset}" " "
+        # PS1="$(__git_ps1 "(%s) ")${ERR_SAVED_PS1}"
     fi
 }
 
