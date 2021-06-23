@@ -205,8 +205,13 @@ function cocupdate {
     coc +PlugUpgrade +qa && coc +PlugUpdate +CocUpdate
 }
 
+# list files that match the pattern and sort the output
+function rgls {
+    rg --files-with-matches "$@" | sort
+}
+
 function rgs {
-    rg --sort path "$@"
+    rg --line-number --with-filename --color always "$@" | sort --stable --field-separator=: --key=1,1
 }
 
 # prints the single latest file/dir
