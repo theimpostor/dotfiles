@@ -103,6 +103,17 @@
 
 # Font configuration
 font:
+  normal:
+    family: FiraCode Nerd Font
+  bold:
+    family: FiraCode Nerd Font
+  italic:
+    family: FiraCode Nerd Font
+  bold italic:
+    family: FiraCode Nerd Font
+  size: 8.0
+
+#font:
   # Normal (roman) font face
   #normal:
     # Font family
@@ -150,8 +161,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  # size: 11.0
-  size: 8.0
+  #size: 11.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -175,6 +185,7 @@ font:
 
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: true
 
 # Colors (Tomorrow Night)
 #colors:
