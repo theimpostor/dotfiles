@@ -232,6 +232,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # broot
 # source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
+
 if command -v starship >/dev/null 2>&1; then
     eval "$(starship init bash)"
 else

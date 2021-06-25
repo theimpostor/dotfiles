@@ -30,7 +30,7 @@ truncate_to_repo = false
 
 [env_var]
 format = '[$env_value]($style) '
-variable = 'DEVENV_EMOJII'
+variable = 'DEVENV_PROMPT'
 style = ''
 
 [memory_usage]
