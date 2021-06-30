@@ -90,7 +90,7 @@ fi
 # shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-if command -v fd >/dev/null 2>&1; then
+if command -v exa >/dev/null 2>&1; then
     alias l='exa --long --all --links --git'
 else
     alias l='ls -laFh'
