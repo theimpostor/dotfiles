@@ -234,6 +234,11 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 if command -v starship >/dev/null 2>&1; then
+    _set_win_title() {
+        echo -ne "\033]0;${PWD}\007"
+    }
+    # shellcheck disable=SC2034
+    starship_precmd_user_func="_set_win_title"
     eval "$(starship init bash)"
 else
     if type __git_ps1 &> /dev/null; then
