@@ -259,6 +259,14 @@ nnoremap <leader>t :TagbarToggle<CR>
 " ===
 
 " ===
+" BEGIN vim-airline
+" ===
+let g:airline_powerline_fonts = 1
+" ===
+" END vim-airline
+" ===
+"
+" ===
 " BEGIN LanguageClient-neovim
 " ===
 " C/CPP/sh: provides jump to definition, symbol rename, compile error/warning
