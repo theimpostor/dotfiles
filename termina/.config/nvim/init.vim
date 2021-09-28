@@ -1,7 +1,3 @@
-" fzf plugin
-set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
-nnoremap <leader>s :FZF<CR>
-
 let programming_filetypes = [ 
     \ 'Dockerfile', 
     \ 'bash', 
@@ -27,6 +23,7 @@ Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
@@ -129,6 +126,8 @@ autocmd FileType c,cpp setlocal commentstring=//\ %s
 " enable line numbers for some file types
 autocmd FileType c,cpp,go,sh setlocal number
 
+nnoremap <leader>s :FZF<CR>
+
 " ===
 " BEGIN Ack
 " ===
@@ -213,34 +212,34 @@ endfunction
 autocmd FileType * call LC_maps()
 autocmd FileType c,cpp call LC_C_maps()
 
-" fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
-let diagnosticsDisplaySettings={
-  \       '1': {
-  \           'name': 'Error',
-  \           'texthl': 'ALEError',
-  \           'signText': 'X',
-  \           'signTexthl': 'ALEErrorSign',
-  \       },
-  \       '2': {
-  \           'name': 'Warning',
-  \           'texthl': 'ALEWarning',
-  \           'signText': '!',
-  \           'signTexthl': 'ALEWarningSign',
-  \       },
-  \       '3': {
-  \           'name': 'Information',
-  \           'texthl': 'ALEInfo',
-  \           'signText': 'i',
-  \           'signTexthl': 'ALEInfoSign',
-  \       },
-  \       '4': {
-  \           'name': 'Hint',
-  \           'texthl': 'ALEInfo',
-  \           'signText': 'h',
-  \           'signTexthl': 'ALEInfoSign',
-  \       },
-  \  }
-let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
+" " fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
+" let diagnosticsDisplaySettings={
+"   \       '1': {
+"   \           'name': 'Error',
+"   \           'texthl': 'ALEError',
+"   \           'signText': 'X',
+"   \           'signTexthl': 'ALEErrorSign',
+"   \       },
+"   \       '2': {
+"   \           'name': 'Warning',
+"   \           'texthl': 'ALEWarning',
+"   \           'signText': '!',
+"   \           'signTexthl': 'ALEWarningSign',
+"   \       },
+"   \       '3': {
+"   \           'name': 'Information',
+"   \           'texthl': 'ALEInfo',
+"   \           'signText': 'i',
+"   \           'signTexthl': 'ALEInfoSign',
+"   \       },
+"   \       '4': {
+"   \           'name': 'Hint',
+"   \           'texthl': 'ALEInfo',
+"   \           'signText': 'h',
+"   \           'signTexthl': 'ALEInfoSign',
+"   \       },
+"   \  }
+" let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
 
 " ===
 " END LanguageClient-neovim

@@ -37,7 +37,7 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -72,35 +72,10 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# __prompt_command() {
-#     local EXIT="$?"             # This needs to be first
-
-#     local reset='\[\e[0m\]'
-#     # local magenta='\[\e[1;35m\]'
-#     local blue='\[\e[1;34m\]'
-
-#     local color=${blue}
-
-#     PS1="${color}\\w${reset} "
-
-#     # if [ $EXIT != 0 ]; then
-#     #     color="${magenta}"          # Add magenta if exit code non 0
-#     # fi
-
-#     if [[ $EXIT -ne 0 ]]; then
-#         PS1="💩 ${PS1}"
-#     fi
-
-#     # append to history after every command
-#     # export PROMPT_COMMAND='history -a'
-#     history -a
-# }
-
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    # PROMPT_COMMAND=__prompt_command # runs prior to printing every command prompt
     ;;
 *)
     ;;
@@ -109,14 +84,21 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+    # alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
+
+if command -v exa >/dev/null 2>&1; then
+    alias l='exa --long --all --links --git'
+else
+    alias l='ls -laFh'
+fi
+alias lll='ls -laFh --color | less -R'
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -135,32 +117,21 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh ]; then
-    export BASH_COMPLETION_COMPAT_DIR="/home/linuxbrew/.linuxbrew/etc/bash_completion.d"
-    . "/home/linuxbrew/.linuxbrew/etc/profile.d/bash_completion.sh"
-  elif [ -f /usr/share/bash-completion/bash_completion ]; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
 fi
 
-# Make sure npm found in /home/linuxbrew/.linuxbrew/bin is ahead of npm included with node@12
-export PATH="$PATH:/home/linuxbrew/.linuxbrew/opt/node@12/bin"
-source <(npm completion)
-
-export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.8/bin:$PATH"
-
-export PATH="/home/sahirhoda/go/bin:$PATH"
-
-EDITOR=$(command -v nvim)
-export EDITOR
+if command -v nvim >/dev/null 2>&1; then
+    EDITOR=$(command -v nvim)
+    export EDITOR
+fi
 
 # cd to directory just by typing dir name
 shopt -s autocd
@@ -175,12 +146,11 @@ if shopt | grep globstar >/dev/null 2>&1; then
     shopt -s globstar
 fi
 
+if command -v fd >/dev/null 2>&1; then
+    export FZF_DEFAULT_COMMAND='fd --type file'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-alias l='ls -laFh'
-alias lll='ls -laFh --color | less -R'
-
-alias cls='echo -e "\ec\e[3J"'
 
 alias vim='nvim'
 alias ovim=/usr/bin/vim
@@ -234,4 +204,11 @@ function join-by() {
 function pwdrth {
     python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
 }
+
+# prints the single latest file/dir
+function latest {
+    # -l auto chomps command line input
+    find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
+}
+
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
