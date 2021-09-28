@@ -212,3 +212,5 @@ function latest {
 }
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+eval "$(starship init bash)"
