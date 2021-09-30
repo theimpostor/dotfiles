@@ -152,6 +152,14 @@ if command -v fd >/dev/null 2>&1; then
 fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+[[ -f "$HOME/.local/goto/goto.sh" ]] && source "$HOME/.local/goto/goto.sh"
+alias g='goto'
+if ! [[ $(uname -s) =~ Darwin* ]]; then
+    complete -o filenames -F _complete_goto_bash g
+else
+    complete -F _complete_goto_bash g
+fi
+
 alias vim='nvim'
 alias ovim=/usr/bin/vim
 function vimdiff {
