@@ -162,6 +162,12 @@ fi
 
 alias vim='nvim'
 alias ovim=/usr/bin/vim
+if command -v bat >/dev/null 2>&1; then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    # can also use neovim
+    # export MANPAGER='nvim +Man!'
+fi
+
 function vimdiff {
     nvim -d "$@"
 }
@@ -213,6 +219,15 @@ function pwdrth {
     python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
 }
 
+# list files that match the pattern and sort the output
+function rgls {
+    rg --files-with-matches "$@" | sort
+}
+
+function rgs {
+    rg --line-number --with-filename --color always "$@" | sort --stable --field-separator=: --key=1,1
+}
+
 # prints the single latest file/dir
 function latest {
     # -l auto chomps command line input
@@ -221,4 +236,47 @@ function latest {
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-eval "$(starship init bash)"
+if command -v starship >/dev/null 2>&1; then
+    _set_win_title() {
+        echo -ne "\033]0;${PWD}\007"
+    }
+    # shellcheck disable=SC2034
+    starship_precmd_user_func="_set_win_title"
+    eval "$(starship init bash)"
+else
+    if type __git_ps1 &> /dev/null; then
+        export GIT_PS1_SHOWDIRTYSTATE=1
+        export GIT_PS1_SHOWSTASHSTATE=1
+        export GIT_PS1_SHOWUNTRACKEDFILES=1
+        export GIT_PS1_SHOWCOLORHINTS=1
+    fi
+
+    # ERR_SAVED_PS1=$PS1
+    ERR_SAVED_PROMPT_COMMAND=$PROMPT_COMMAND
+
+    __err_prompt_command() {
+        local EXIT="$?"             # This needs to be first
+
+        $ERR_SAVED_PROMPT_COMMAND
+
+        # via git-prompt.sh:
+        # __git_ps1 requires 2 or 3 arguments when called from PROMPT_COMMAND (pc)
+        # in that case it _sets_ PS1. The arguments are parts of a PS1 string.
+        # when two arguments are given, the first is prepended and the second appended
+        # to the state string when assigned to PS1.
+        # The optional third parameter will be used as printf format string to further
+        # customize the output of the git-status string.
+        # In this mode you can request colored hints using GIT_PS1_SHOWCOLORHINTS=true
+
+        if [[ $EXIT -ne 0 ]]; then
+            __git_ps1 "💩 \[\033]0;\w\007\]${purple}\\w${reset}" " "
+            # PS1="💩 $(__git_ps1 "(%s) ")${ERR_SAVED_PS1}"
+        else
+            __git_ps1 "\[\033]0;\w\007\]${purple}\\w${reset}" " "
+            # PS1="$(__git_ps1 "(%s) ")${ERR_SAVED_PS1}"
+        fi
+    }
+
+    PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command prompt
+fi
+
