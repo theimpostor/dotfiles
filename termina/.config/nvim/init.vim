@@ -209,37 +209,50 @@ function LC_C_maps()
     endif
 endfunction
 
+function LC_JS_maps()
+    if filereadable($HOME . '/.config/nvim/typescript.json')
+        let g:LanguageClient_loadSettings = 1
+        let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/typescript.json'
+    endif
+endfunction
+
 autocmd FileType * call LC_maps()
 autocmd FileType c,cpp call LC_C_maps()
+autocmd FileType javascript call LC_JS_maps()
 
-" " fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
-" let diagnosticsDisplaySettings={
-"   \       '1': {
-"   \           'name': 'Error',
-"   \           'texthl': 'ALEError',
-"   \           'signText': 'X',
-"   \           'signTexthl': 'ALEErrorSign',
-"   \       },
-"   \       '2': {
-"   \           'name': 'Warning',
-"   \           'texthl': 'ALEWarning',
-"   \           'signText': '!',
-"   \           'signTexthl': 'ALEWarningSign',
-"   \       },
-"   \       '3': {
-"   \           'name': 'Information',
-"   \           'texthl': 'ALEInfo',
-"   \           'signText': 'i',
-"   \           'signTexthl': 'ALEInfoSign',
-"   \       },
-"   \       '4': {
-"   \           'name': 'Hint',
-"   \           'texthl': 'ALEInfo',
-"   \           'signText': 'h',
-"   \           'signTexthl': 'ALEInfoSign',
-"   \       },
-"   \  }
-" let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
+" fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
+let diagnosticsDisplaySettings=
+ \  {
+ \      1: {
+ \          "name": "Error",
+ \          "texthl": "LanguageClientError",
+ \          "signText": "X",
+ \          "signTexthl": "LanguageClientErrorSign",
+ \          "virtualTexthl": "Error",
+ \      },
+ \      2: {
+ \          "name": "Warning",
+ \          "texthl": "LanguageClientWarning",
+ \          "signText": "!",
+ \          "signTexthl": "LanguageClientWarningSign",
+ \          "virtualTexthl": "Todo",
+ \      },
+ \      3: {
+ \          "name": "Information",
+ \          "texthl": "LanguageClientInfo",
+ \          "signText": "I",
+ \          "signTexthl": "LanguageClientInfoSign",
+ \          "virtualTexthl": "Todo",
+ \      },
+ \      4: {
+ \          "name": "Hint",
+ \          "texthl": "LanguageClientInfo",
+ \          "signText": ">",
+ \          "signTexthl": "LanguageClientInfoSign",
+ \          "virtualTexthl": "Todo",
+ \      },
+ \  }
+let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
 
 " ===
 " END LanguageClient-neovim
