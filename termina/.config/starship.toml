@@ -19,6 +19,7 @@ $character"""
 
 [status]
 disabled = false
+symbol = 'x'
 
 [time]
 format = '[$time]($style) '
