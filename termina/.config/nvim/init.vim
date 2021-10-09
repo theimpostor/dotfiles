@@ -26,6 +26,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': programming_filetypes, }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
+Plug 'ojroques/vim-oscyank' " hterm/chromeOS yank to clipboard support
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -56,6 +57,13 @@ set hidden
 "     set clipboard+=unnamedplus
 "   endif
 " endif
+
+vnoremap <leader>c :OSCYank<CR>
+
+" You can also use the OSCYank operator:
+" like so for instance:
+" <leader>oip  " copy the inner paragraph
+nmap <leader>o <Plug>OSCYank
 
 " enable persistent undo
 set undofile
