@@ -303,7 +303,7 @@ let g:airline_powerline_fonts = 1
             " Requires: npm install -g typescript typescript-language-server
             " \ 'javascript': ['typescript-language-server', '--stdio'],
 let g:LanguageClient_serverCommands = {
-            \ 'Dockerfile': ['docker-langserver', '--stdio'],
+            \ 'dockerfile': ['docker-langserver', '--stdio'],
             \ 'c': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'cpp': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'go': ['gopls'],
