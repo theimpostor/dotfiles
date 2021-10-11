@@ -172,6 +172,7 @@ nnoremap <leader>t :TagbarToggle<CR>
             " \ 'javascript.jsx': ['flow', 'lsp'],
             " Requires: npm install -g typescript typescript-language-server
             " \ 'javascript': ['typescript-language-server', '--stdio'],
+            " \ 'javascript': ['typescript-language-server', '--stdio', '--tsserver-log-file=' . $HOME . '/.log/ts.log', '--tsserver-log-verbosity=verbose', '--log-level=4'],
             
 let g:LanguageClient_serverCommands = {
             \ 'c': ['ccls', '--log-file=/tmp/ccls.log'],
@@ -217,16 +218,9 @@ function LC_C_maps()
     endif
 endfunction
 
-function LC_JS_maps()
-    if filereadable($HOME . '/.config/nvim/typescript.json')
-        let g:LanguageClient_loadSettings = 1
-        let g:LanguageClient_settingsPath = $HOME . '/.config/nvim/typescript.json'
-    endif
-endfunction
-
 autocmd FileType * call LC_maps()
 autocmd FileType c,cpp call LC_C_maps()
-autocmd FileType javascript call LC_JS_maps()
+" autocmd FileType javascript call LC_JS_maps()
 
 " fix nvim issues [https://github.com/autozimu/LanguageClient-neovim/issues/269#issuecomment-520157389]:
 let diagnosticsDisplaySettings=
@@ -261,6 +255,10 @@ let diagnosticsDisplaySettings=
  \      },
  \  }
 let g:LanguageClient_diagnosticsDisplay=diagnosticsDisplaySettings
+
+" let g:LanguageClient_loggingFile = expand('~/.log/LanguageClient.log')
+" let g:LanguageClient_serverStderr = expand('~/.log/LanguageClient.stderr')
+" let g:LanguageClient_loggingLevel = 'DEBUG'
 
 " ===
 " END LanguageClient-neovim
