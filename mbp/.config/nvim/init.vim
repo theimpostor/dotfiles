@@ -6,6 +6,7 @@ let programming_filetypes = [
     \ 'Dockerfile', 
     \ 'bash', 
     \ 'c', 
+    \ 'cmake',
     \ 'cpp', 
     \ 'go', 
     \ 'html', 
@@ -305,6 +306,7 @@ let g:airline_powerline_fonts = 1
 let g:LanguageClient_serverCommands = {
             \ 'dockerfile': ['docker-langserver', '--stdio'],
             \ 'c': [$HOME . '/ccls-wrapper/ccls-wrapper'],
+            \ 'cmake': ['cmake-language-server'],
             \ 'cpp': [$HOME . '/ccls-wrapper/ccls-wrapper'],
             \ 'go': ['gopls'],
             \ 'html': ['html-languageserver', '--stdio'],
@@ -314,8 +316,6 @@ let g:LanguageClient_serverCommands = {
             \ 'sh': ['bash-language-server', 'start'],
             \ 'yaml': ['yaml-language-server', '--stdio']
             \ }
-
-
 
 " Run gofmt and goimports on save
 autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
