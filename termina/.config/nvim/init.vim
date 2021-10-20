@@ -132,7 +132,7 @@ noremap <Leader>u :call GenerateUUID()<CR>
 autocmd FileType c,cpp setlocal commentstring=//\ %s
 
 " enable line numbers for some file types
-autocmd FileType c,cpp,go,sh setlocal number
+autocmd FileType bash,c,cpp,go,javascript,perl,sh setlocal number
 
 nnoremap <leader>s :FZF<CR>
 
@@ -272,7 +272,7 @@ let g:ale_linters = {
             \ 'bash': ['shellcheck'],
             \ 'c': ['clangtidy'],
             \ 'cpp': ['clangtidy'],
-            \ 'go': ['golint'],
+            \ 'go': ['govet'],
             \ 'javascript': ['standard'],
             \ 'rust': ['cargo'],
             \ 'sh': ['shellcheck'],

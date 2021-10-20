@@ -412,6 +412,7 @@ autocmd FileType c,cpp call LC_C_maps()
             " \ 'rust': ['cargo'],
 let g:ale_linters = {
             \ 'bash': ['shellcheck'],
+            \ 'go': ['govet'],
             \ 'javascript': ['standard'],
             \ 'sh': ['shellcheck'],
             \ 'perl': ['perl']
