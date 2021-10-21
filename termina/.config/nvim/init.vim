@@ -283,7 +283,7 @@ let g:ale_linters = {
             \ 'bash': ['shellcheck'],
             \ 'c': ['clangtidy'],
             \ 'cpp': ['clangtidy'],
-            \ 'go': ['golint'],
+            \ 'go': ['govet'],
             \ 'javascript': ['standard'],
             \ 'rust': ['cargo'],
             \ 'sh': ['shellcheck'],
