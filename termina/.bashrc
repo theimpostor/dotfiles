@@ -173,7 +173,7 @@ function vimdiff {
 }
 
 function vimcfg {
-    vim "${HOME}/.config/nvim/init.vim"
+    vim "$(vim --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
 }
 
 function bashcfg {
