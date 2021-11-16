@@ -1,3 +1,9 @@
+# TODO: profile
+# PS4='+ $EPOCHREALTIME\011 '
+# exec 5>/tmp/bashstart.$$.log
+# BASH_XTRACEFD=5
+# set -x
+
 # raise open files limit
 ulimit -n 1024
 
@@ -148,7 +154,7 @@ function vimdiff {
 }
 
 function vimcfg {
-    vim "${HOME}/.config/nvim/init.vim"
+    vim "$(vim --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
 }
 
 function bashcfg {
@@ -277,4 +283,10 @@ else
     PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command prompt
 fi
 
+function microsecondsSinceEpoch {
+    perl -MTime::HiRes=gettimeofday -e '($s, $us) = gettimeofday; print $s * 1000000 + $us'
+}
+
 [ -f ~/.project-functions.bash ] && source ~/.project-functions.bash
+# TODO: PROFILE
+# set +x

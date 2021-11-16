@@ -43,6 +43,7 @@ Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown',
 call plug#end()
 
 " set background=light
+set termguicolors
 
 " enable mouse support
 set mouse=a
