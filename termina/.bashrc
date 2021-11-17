@@ -150,8 +150,10 @@ if command -v fd >/dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND='fd --type file'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
+# shellcheck source=.fzf.bash
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# shellcheck source=.local/goto/goto.sh
 [[ -f "$HOME/.local/goto/goto.sh" ]] && source "$HOME/.local/goto/goto.sh"
 alias g='goto'
 if ! [[ $(uname -s) =~ Darwin* ]]; then
@@ -164,8 +166,9 @@ alias vim='nvim'
 alias ovim=/usr/bin/vim
 if command -v bat >/dev/null 2>&1; then
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+elif command -v nvim >/dev/null 2>&1; then
     # can also use neovim
-    # export MANPAGER='nvim +Man!'
+    export MANPAGER='nvim +Man!'
 fi
 
 function vimdiff {
@@ -200,6 +203,7 @@ function shuffle {
 }
 
 function cdr { 
+    #shellcheck disable=2164
     cd "${PWD/$1/$2}"
 }
 
@@ -280,3 +284,5 @@ else
     PROMPT_COMMAND=__err_prompt_command # runs prior to printing every command prompt
 fi
 
+# TODO: test for hterm
+export COLORTERM=truecolor

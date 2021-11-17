@@ -37,6 +37,8 @@ Plug 'w0rp/ale', { 'for': programming_filetypes, }
 Plug 'zxqfl/tabnine-vim', { 'for': programming_filetypes + [ 'text', 'markdown', 'conf' ], }
 call plug#end()
 
+set termguicolors
+
 set background=dark
 
 " enable mouse support
