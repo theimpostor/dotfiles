@@ -39,17 +39,20 @@ nnoremap Y Y
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
+-- updatetime is milliseconds before cursorhold events fire, and also how often swap file is written
+vim.o.updatetime = 1000
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-    -- Enable completion triggered by <c-x><c-o>
-    -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
     -- Mappings.
     local opts = { noremap=true, silent=true }
+
+    -- enable line number for lsp filetypes
+    vim.wo.number = true
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     buf_set_keymap('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -73,7 +76,6 @@ local on_attach = function(client, bufnr)
             hi LspReferenceText cterm=bold gui=bold ctermbg=red guibg=Purple
             hi LspReferenceWrite cterm=bold gui=bold ctermbg=red guibg=Purple
         ]], false)
-        vim.api.nvim_set_option('updatetime', 1000)
         vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
         vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
@@ -244,9 +246,6 @@ noremap <Leader>u :call GenerateUUID()<CR>
 " adjust commentstring for c
 autocmd FileType c,cpp setlocal commentstring=//\ %s
 
-" enable line numbers for some file types
-autocmd FileType bash,c,cpp,go,javascript,perl,sh setlocal number
-
 " abbreviations TODO move to project
 autocmd FileType c,cpp iabbrev <buffer> TO   TIBEX_OK(e)
 autocmd FileType c,cpp iabbrev <buffer> TNO  TIBEX_NOT_OK(e)
@@ -342,7 +341,6 @@ let g:ale_linters_explicit = 1
 autocmd FileType go,javascript let b:ale_fix_on_save = 1
 
 " nnoremap <leader>f :ALEFix<CR>
-
 " ===
 " END ALE
 " ===
@@ -350,9 +348,7 @@ autocmd FileType go,javascript let b:ale_fix_on_save = 1
 " ===
 " BEGIN linediff
 " ===
-
 xnoremap <leader>l :Linediff<CR>
-
 " ===
 " END linediff
 " ===
