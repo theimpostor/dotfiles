@@ -94,8 +94,8 @@ for _, lsp in ipairs(servers) do
     }
 end
 nvim_lsp.tsserver.setup{
+    on_attach = on_attach,
     init_options = {
-        on_attach = on_attach,
         capabilities = capabilities,
         preferences = {
             disableSuggestions = true
