@@ -137,13 +137,14 @@ require'nvim-treesitter.configs'.setup {
     }
 }
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+-- -- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menu,menuone,noselect'
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
     mapping = {
+        ['<C-Space>'] = cmp.mapping.complete(),
         ['<Tab>'] = function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -160,8 +161,8 @@ cmp.setup {
         end,
     },
     sources = {
-        { name = 'nvim_lsp' },
         { name = 'cmp_tabnine' },
+        { name = 'nvim_lsp' },
     },
 }
 EOF
