@@ -63,9 +63,15 @@ eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 # eval "$(jira --completion-script-bash)"
 
 # JAVA_HOME="$(brew --prefix openjdk@11)/libexec/openjdk.jdk/Contents/Home"
-JAVA_HOME="/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home"
+# JAVA_HOME="/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home"
+JAVA_HOME="$HOME/.local/jdk-11.0.13+8/Contents/Home"
 # JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
+export PATH="$JAVA_HOME/bin:$PATH"
+export PATH="$HOME/.local/gradle-7.3.3/bin:$PATH"
+# per https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
+export JDTLS_HOME="$HOME/.local/eclipse-eclipse.jdt.ls-b7e8020/org.eclipse.jdt.ls.product/target/repository"
+export WORKSPACE="$HOME/jdt-workspace"
 
 EDITOR=$(command -v nvim)
 export EDITOR
