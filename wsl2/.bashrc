@@ -84,7 +84,7 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+    # alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
@@ -93,14 +93,21 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+if command -v exa >/dev/null 2>&1; then
+    alias l='exa --long --all --links --git'
+else
+    alias l='ls -laFh'
+fi
+alias lll='ls -laFh --color | less -R'
+
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-#alias l='ls -CF'
-alias l='ls -laFh'
+# alias ll='ls -alF'
+# alias la='ls -A'
+# #alias l='ls -CF'
+# alias l='ls -laFh'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -124,6 +131,10 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+fi
+
+if [ -f "$HOME/nvim-nightly/setup-env.sh" ]; then
+    source "$HOME/nvim-nightly/setup-env.sh"
 fi
 
 if command -v nvim >/dev/null 2>&1; then
@@ -150,14 +161,30 @@ if command -v fd >/dev/null 2>&1; then
 fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+# shellcheck source=.local/goto/goto.sh
+[[ -f "$HOME/.local/goto/goto.sh" ]] && source "$HOME/.local/goto/goto.sh"
+alias g='goto'
+if ! [[ $(uname -s) =~ Darwin* ]]; then
+    complete -o filenames -F _complete_goto_bash g
+else
+    complete -F _complete_goto_bash g
+fi
+
 alias vim='nvim'
 alias ovim=/usr/bin/vim
+if command -v bat >/dev/null 2>&1; then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+elif command -v nvim >/dev/null 2>&1; then
+    # can also use neovim
+    export MANPAGER='nvim +Man!'
+fi
+
 function vimdiff {
     nvim -d "$@"
 }
 
 function vimcfg {
-    vim "${HOME}/.config/nvim/init.vim"
+    vim "$(vim --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
 }
 
 function bashcfg {
@@ -184,6 +211,7 @@ function shuffle {
 }
 
 function cdr { 
+    #shellcheck disable=2164
     cd "${PWD/$1/$2}"
 }
 
@@ -203,6 +231,15 @@ function pwdrth {
     python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
 }
 
+# list files that match the pattern and sort the output
+function rgls {
+    rg --files-with-matches "$@" | sort
+}
+
+function rgs {
+    rg --line-number --with-filename --color always "$@" | sort --stable --field-separator=: --key=1,1
+}
+
 # prints the single latest file/dir
 function latest {
     # -l auto chomps command line input
@@ -210,3 +247,15 @@ function latest {
 }
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+if command -v starship >/dev/null 2>&1; then
+    _set_win_title() {
+        echo -ne "\033]0;$NAME@$PWD\007"
+    }
+    # shellcheck disable=SC2034
+    starship_precmd_user_func="_set_win_title"
+    eval "$(starship init bash)"
+fi
+
+# TODO: test for hterm
+export COLORTERM=truecolor
