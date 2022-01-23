@@ -35,4 +35,4 @@ variable = 'DEVENV_PROMPT'
 style = ''
 
 [memory_usage]
-disabled = false
+disabled = true

@@ -8,6 +8,11 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# put snap in front, usually has newer stuff
+if [ -d "/snap/bin" ] ; then
+    PATH="/snap/bin:${PATH/:\/snap\/bin/}"
+fi
+
 if [ -d "$HOME/.npm-global/bin" ] ; then
     PATH="$HOME/.npm-global/bin:$PATH"
 fi
