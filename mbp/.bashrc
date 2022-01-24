@@ -73,6 +73,9 @@ export PATH="$HOME/.local/gradle-7.3.3/bin:$PATH"
 export JDTLS_HOME="$HOME/.local/eclipse-eclipse.jdt.ls-b7e8020/org.eclipse.jdt.ls.product/target/repository"
 export WORKSPACE="$HOME/jdt-workspace"
 
+export GROOVY_HOME=/Users/shoda/.local/groovy-3.0.9
+export PATH="$GROOVY_HOME/bin:$PATH"
+
 EDITOR=$(command -v nvim)
 export EDITOR
 
