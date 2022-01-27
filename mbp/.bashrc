@@ -48,8 +48,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }history -a"
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-# export PATH="/usr/local/opt/node@10/bin:${PATH}:${HOME}/bin:${HOME}/go/bin:${HOME}/Library/Python/3.7/bin"
-export PATH="${PATH}:/usr/local/opt/node@14/bin:${HOME}/bin:${HOME}/go/bin"
+export PATH="${PATH}:/usr/local/opt/node@16/bin:${HOME}/bin:${HOME}/go/bin"
 # slows down new shell
 ## shellcheck source=/dev/null
 # source <(npm completion)
