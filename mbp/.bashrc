@@ -48,7 +48,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }history -a"
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-export PATH="${PATH}:/usr/local/opt/node@16/bin:${HOME}/bin:${HOME}/go/bin"
+export PATH="${HOME}/bin:${HOME}/go/bin:/usr/local/opt/node@16/bin:${PATH}"
 # slows down new shell
 ## shellcheck source=/dev/null
 # source <(npm completion)
@@ -172,6 +172,10 @@ function bashcfg {
     vim "${HOME}/.bashrc"
 }
 
+function termcfg {
+    vim "${HOME}/.config/alacritty/alacritty.yml"
+}
+
 # ag but open results in vim's quickfix window
 function vg {
     # printf %q reprints each arg with shell escapes
@@ -235,6 +239,10 @@ function rgs {
 function latest {
     # -l auto chomps command line input
     find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
+}
+
+function lastdl {
+    latest "$HOME/Downloads"
 }
 
 export ASAN_OPTIONS=detect_leaks=1
