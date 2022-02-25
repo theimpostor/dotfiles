@@ -1,0 +1,49 @@
+format = """
+$time\
+$env_var\
+$username\
+$hostname\
+$sudo\
+$shlvl\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$memory_usage\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$status\
+$character"""
+
+[status]
+disabled = false
+symbol = 'x'
+
+[time]
+format = '[$time]($style) '
+disabled = false
+
+[directory]
+truncation_length = 256
+truncate_to_repo = false
+
+[env_var]
+format = '[$env_value]($style) '
+variable = 'DEVENV_PROMPT'
+style = ''
+
+[memory_usage]
+disabled = true
+
+[username]
+format = '[$user@]($style)'
+
+[hostname]
+format = '[$hostname]($style) '
+
+[sudo]
+disabled = false
+
