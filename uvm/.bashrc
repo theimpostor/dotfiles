@@ -246,7 +246,7 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 if command -v starship >/dev/null 2>&1; then
     _set_win_title() {
-        echo -ne "\033]0;$NAME@$PWD\007"
+        echo -ne "\033]0;$USER $PWD\007"
     }
     # shellcheck disable=SC2034
     starship_precmd_user_func="_set_win_title"
