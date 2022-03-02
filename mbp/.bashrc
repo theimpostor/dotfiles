@@ -63,7 +63,7 @@ eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 
 # JAVA_HOME="$(brew --prefix openjdk@11)/libexec/openjdk.jdk/Contents/Home"
 # JAVA_HOME="/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home"
-JAVA_HOME="$HOME/.local/jdk-11.0.13+8/Contents/Home"
+JAVA_HOME="$HOME/.local/jdk-11.0.14.1+1/Contents/Home"
 # JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
