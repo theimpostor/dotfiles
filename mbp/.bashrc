@@ -69,7 +69,7 @@ export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
 export PATH="$HOME/.local/gradle-7.3.3/bin:$PATH"
 # per https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
-export JDTLS_HOME="$HOME/.local/eclipse-eclipse.jdt.ls-b7e8020/org.eclipse.jdt.ls.product/target/repository"
+export JDTLS_HOME="$HOME/.local/eclipse-jdt-ls"
 export WORKSPACE="$HOME/jdt-workspace"
 
 export GROOVY_HOME=/Users/shoda/.local/groovy-3.0.9
