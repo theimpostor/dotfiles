@@ -133,6 +133,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
+if [ -f "$HOME/nvim-nightly/setup-env.sh" ]; then
+    source "$HOME/nvim-nightly/setup-env.sh"
+fi
+
 if command -v nvim >/dev/null 2>&1; then
     EDITOR=$(command -v nvim)
     export EDITOR
