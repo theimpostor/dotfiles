@@ -152,6 +152,8 @@ if command -v eksctl >/dev/null 2>&1; then
 fi
 
 if command -v bat >/dev/null 2>&1; then
+    # -X: dont' clear the screen on exit
+    export BAT_PAGER='less -RFX'
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
     # can also use neovim
     # export MANPAGER='nvim +Man!'
@@ -216,14 +218,6 @@ function join-by() {
 # pwd relative to home - prints path to $PWD from the $HOME directory
 function pwdrth {
     python -c 'import os, sys; print(os.path.relpath(*sys.argv[1:]))' "$PWD" "$HOME"
-}
-
-function coc {
-    PATH="$(merge-args /usr/local/opt/llvm/bin "$PATH")" XDG_CONFIG_HOME=$HOME/.nvim-coc/config XDG_DATA_HOME=$HOME/.nvim-coc/data nvim "$@"
-}
-
-function cocupdate {
-    coc +PlugUpgrade +qa && coc +PlugUpdate +CocUpdate
 }
 
 # list files that match the pattern and sort the output
