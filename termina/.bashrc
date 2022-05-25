@@ -162,8 +162,8 @@ else
     complete -F _complete_goto_bash g
 fi
 
+alias ovim="$(command -v vim)"
 alias vim='nvim'
-alias ovim=/usr/bin/vim
 if command -v bat >/dev/null 2>&1; then
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 elif command -v nvim >/dev/null 2>&1; then
@@ -292,3 +292,4 @@ PERL5LIB="/home/sahirhoda/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL
 PERL_LOCAL_LIB_ROOT="/home/sahirhoda/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/sahirhoda/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sahirhoda/perl5"; export PERL_MM_OPT;
+. "$HOME/.cargo/env"
