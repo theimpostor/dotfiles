@@ -67,7 +67,7 @@ JAVA_HOME="$HOME/.local/jdk-11.0.14.1+1/Contents/Home"
 # JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
-export PATH="$HOME/.local/gradle-7.3.3/bin:$PATH"
+export PATH="$HOME/.local/gradle-7.4.2/bin:$PATH"
 # per https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
 export JDTLS_HOME="$HOME/.local/eclipse-jdt-ls"
 export WORKSPACE="$HOME/jdt-workspace"
