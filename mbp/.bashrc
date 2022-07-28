@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# vim:ft=bash:sw=4:ts=4:expandtab
+
 # TODO: profile
 # PS4='+ $EPOCHREALTIME\011 '
 # exec 5>/tmp/bashstart.$$.log
@@ -63,20 +66,18 @@ eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 
 # JAVA_HOME="$(brew --prefix openjdk@11)/libexec/openjdk.jdk/Contents/Home"
 # JAVA_HOME="/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home"
-JAVA_HOME="$HOME/.local/jdk-11.0.14.1+1/Contents/Home"
+JAVA_HOME="$HOME/.local/jdk-11.0.16+8/Contents/Home"
 # JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
 export PATH="$HOME/.local/gradle-7.4.2/bin:$PATH"
+export PATH="$HOME/.local/eclipse-jdt-ls/bin:$PATH"
 # per https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
-export JDTLS_HOME="$HOME/.local/eclipse-jdt-ls"
-export WORKSPACE="$HOME/jdt-workspace"
+# export JDTLS_HOME="$HOME/.local/eclipse-jdt-ls"
+# export WORKSPACE="$HOME/jdt-workspace"
 
 export GROOVY_HOME=/Users/shoda/.local/groovy-3.0.9
 export PATH="$GROOVY_HOME/bin:$PATH"
-
-EDITOR=$(command -v nvim)
-export EDITOR
 
 # cd to directory just by typing dir name
 shopt -s autocd
@@ -102,9 +103,8 @@ if command -v fd >/dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND='fd --type file'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-# suppress shellcheck warning:
-# shellcheck source=/dev/null
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 
 if command -v exa >/dev/null 2>&1; then
     alias l='exa --long --all --links --git'
@@ -146,10 +146,10 @@ else
     complete -F _complete_goto_bash g
 fi
 
-if command -v eksctl >/dev/null 2>&1; then
-    # shellcheck source=/dev/null
-    source <(eksctl completion bash)
-fi
+# if command -v eksctl >/dev/null 2>&1; then
+#     # shellcheck source=/dev/null
+#     source <(eksctl completion bash)
+# fi
 
 if command -v bat >/dev/null 2>&1; then
     # -X: dont' clear the screen on exit
@@ -162,8 +162,12 @@ fi
 [[ -r "$HOME/nvim-nightly/setup-env.sh" ]] && . "$HOME/nvim-nightly/setup-env.sh"
 alias vim=nvim
 alias ovim=/usr/local/bin/vim
+
+EDITOR=$(command -v nvim)
+export EDITOR
+
 function vimdiff {
-    nvim -d "$@"
+    vim -d "$@"
 }
 
 function vimcfg {
@@ -300,6 +304,7 @@ function microsecondsSinceEpoch {
     perl -MTime::HiRes=gettimeofday -e '($s, $us) = gettimeofday; print $s * 1000000 + $us'
 }
 
-[ -f ~/.project-functions.bash ] && source ~/.project-functions.bash
+[ -f "$HOME/.project-functions.bash" ] && source "$HOME/.project-functions.bash"
+
 # TODO: PROFILE
 # set +x
