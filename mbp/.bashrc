@@ -51,7 +51,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }history -a"
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-export PATH="${HOME}/bin:${HOME}/go/bin:/usr/local/opt/node@16/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:/usr/local/opt/node@16/bin:${PATH}"
 # slows down new shell
 ## shellcheck source=/dev/null
 # source <(npm completion)
@@ -66,15 +66,11 @@ eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 
 # JAVA_HOME="$(brew --prefix openjdk@11)/libexec/openjdk.jdk/Contents/Home"
 # JAVA_HOME="/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home"
-JAVA_HOME="$HOME/.local/jdk-11.0.16+8/Contents/Home"
+JAVA_HOME="$HOME/.local/jdk-11.0.16.1+1/Contents/Home"
 # JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
 export PATH="$HOME/.local/gradle-7.4.2/bin:$PATH"
-export PATH="$HOME/.local/eclipse-jdt-ls/bin:$PATH"
-# per https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#jdtls
-# export JDTLS_HOME="$HOME/.local/eclipse-jdt-ls"
-# export WORKSPACE="$HOME/jdt-workspace"
 
 export GROOVY_HOME=/Users/shoda/.local/groovy-3.0.9
 export PATH="$GROOVY_HOME/bin:$PATH"
@@ -241,6 +237,11 @@ function latest {
 
 function lastdl {
     latest "$HOME/Downloads"
+}
+
+# unzips into directory which is the filename minus extension
+function unzipd {
+    unzip -d "${1%.*}" "$1"
 }
 
 export ASAN_OPTIONS=detect_leaks=1
