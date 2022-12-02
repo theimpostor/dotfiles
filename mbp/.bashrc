@@ -8,7 +8,7 @@
 # set -x
 
 # raise open files limit
-ulimit -n 1024
+ulimit -n 10240
 
 # Tell ls to be colourful
 export CLICOLOR=1
@@ -56,6 +56,9 @@ export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:/usr/local/opt/node@1
 ## shellcheck source=/dev/null
 # source <(npm completion)
 
+export GOROOT=/Users/shoda/go-src/go
+export PATH="${GOROOT}/bin:${PATH}"
+
 # gnu tar
 export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:${PATH}"
 
@@ -81,8 +84,9 @@ shopt -s autocd
 # tab expand env vars
 shopt -s direxpand
 
-# use vi key bindings on cmd line
-set -o vi
+# use .inputrc instead
+# # use vi key bindings on cmd line
+# set -o vi
 
 # # show vi mode in prompt, and colorize
 # # readline: https://stackoverflow.com/a/32614367/8370398
