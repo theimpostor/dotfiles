@@ -3,6 +3,7 @@ $time\
 $env_var\
 $username\
 $hostname\
+$sudo\
 $shlvl\
 $directory\
 $git_branch\
@@ -36,3 +37,7 @@ style = ''
 
 [memory_usage]
 disabled = true
+
+[sudo]
+disabled = false
+
