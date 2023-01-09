@@ -73,7 +73,7 @@ JAVA_HOME="$HOME/.local/jdk-11.0.17+8/Contents/Home"
 # JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
-export PATH="$HOME/.local/gradle-7.4.2/bin:$PATH"
+# export PATH="$HOME/.local/gradle-7.4.2/bin:$PATH"
 
 export GROOVY_HOME=/Users/shoda/.local/groovy-3.0.9
 export PATH="$GROOVY_HOME/bin:$PATH"
