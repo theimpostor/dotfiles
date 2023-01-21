@@ -1,0 +1,6 @@
+$include /etc/inputrc
+
+# https://www.masteringemacs.org/article/keyboard-shortcuts-every-command-line-hacker-should-know-about-gnu-readline
+set editing-mode vi
+set colored-stats on
+set colored-completion-prefix on
