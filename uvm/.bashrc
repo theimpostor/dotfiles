@@ -105,7 +105,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 if command -v exa >/dev/null 2>&1; then
-    alias l='exa --long --all --links --git'
+    alias l='exa --long --extended --all --links --git'
 else
     alias l='ls -laFh'
 fi
