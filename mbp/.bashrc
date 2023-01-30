@@ -51,7 +51,10 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }history -a"
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:/usr/local/opt/node@16/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:${PATH}"
+
+# add node@18 to end of path so npm gets picked up from /usr/local/bin
+export PATH="${PATH}:/usr/local/opt/node@18/bin"
 # slows down new shell
 ## shellcheck source=/dev/null
 # source <(npm completion)
@@ -107,7 +110,9 @@ fi
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 
 if command -v exa >/dev/null 2>&1; then
-    alias l='exa --long --extended --all --links --git'
+    alias l='exa --long --extended --all --links'
+    # too slow w/submodules
+    # alias l='exa --long --extended --all --links --git'
 else
     alias l='ls -laFh'
 fi
