@@ -5,7 +5,7 @@ nnoremap <leader>s :FZF<CR>
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'AndrewRadev/linediff.vim'
 Plug 'cespare/vim-toml'
-Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'javascript', 'sh', 'perl', ] }
+Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -17,7 +17,7 @@ Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'ojroques/vim-oscyank' " OSC52 (hterm/chromeOS) yank to clipboard support
+Plug 'ojroques/nvim-osc52' " OSC52 (hterm/chromeOS) yank to clipboard support
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -37,7 +37,10 @@ nnoremap Y Y
 " neovim lsp config
 " full list here: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 lua << EOF
+-- vim.lsp.set_log_level("debug")
+
 local nvim_lsp = require('lspconfig')
+local util = require('lspconfig/util')
 
 -- updatetime is milliseconds before cursorhold events fire, and also how often swap file is written
 vim.o.updatetime = 1000
@@ -83,24 +86,57 @@ local on_attach = function(client, bufnr)
 end
 
 -- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'gopls', 'html', 'jsonls', 'perlls', 'vimls', 'yamlls' }
+local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'vimls', 'yamlls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
         capabilities = capabilities,
     }
 end
+nvim_lsp.gopls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        gopls = {
+            analyses = {
+                shadow = true,
+--                unusedparams = true,
+            },
+--            staticcheck = true,
+        }
+    }
+}
+
 nvim_lsp.tsserver.setup{
     on_attach = on_attach,
+    capabilities = capabilities,
     init_options = {
-        capabilities = capabilities,
         preferences = {
             disableSuggestions = true
         }
     }
+}
+
+-- nvim_lsp.groovyls.setup{
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     cmd = { "java", "-jar", "/Users/shoda/.local/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+-- }
+
+nvim_lsp.jdtls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    root_dir = util.root_pattern(
+            '.project', -- eclipse
+            'build.xml', -- Ant
+            'pom.xml', -- Maven
+            'settings.gradle', -- Gradle
+            'settings.gradle.kts', -- Gradle
+            'build.gradle',
+            'build.gradle.kts'
+    ) or vim.fn.getcwd()
 }
 
 -- lsp use location list instead of quickfix list
@@ -113,12 +149,12 @@ vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
 
 -- treesitter stuff
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = "all", -- one of "all", or a list of languages
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
     -- ignore_install = { "javascript" }, -- List of parsers to ignore installing
     highlight = {
         enable = true,              -- false will disable the whole extension
-        -- disable = { "c", "rust" },  -- list of language that will be disabled
+        disable = { "bash", "make", "diff" },  -- list of language that will be disabled
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
         -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -137,7 +173,7 @@ require'nvim-treesitter.configs'.setup {
     }
 }
 
--- -- Set completeopt to have a better completion experience
+-- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
 
 -- nvim-cmp setup
@@ -256,15 +292,25 @@ autocmd FileType c,cpp iabbrev <buffer> TAP  TIB_ARG_PUBLIC(ep)
 autocmd FileType c,cpp iabbrev <buffer> TAD  TIB_ARGS_DECL(e)
 autocmd FileType c,cpp iabbrev <buffer> TADI TIB_ARGS_DECL_IGNR_EX(e)
 
+" templates
+" https://vimtricks.com/p/automated-file-templates/
+autocmd BufNewFile *.sh 0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/bash/template.sh
+autocmd BufNewFile main.c 0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/c/main.c
+autocmd BufNewFile main.go 0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/go/main.go
+
+" set textwidth to 80 for markdown
+" https://thoughtbot.com/blog/wrap-existing-text-at-80-characters-in-vim
+autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+
 " ===
 " BEGIN oscyank
 " ===
-vnoremap <leader>c :OSCYank<CR>
 
-" You can also use the OSCYank operator:
-" like so for instance:
-" <leader>oip  " copy the inner paragraph
-nmap <leader>o <Plug>OSCYank
+lua << EOF
+vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
+vim.keymap.set('x', '<leader>c', require('osc52').copy_visual)
+EOF
 " ===
 " END oscyank
 " ===
@@ -277,11 +323,15 @@ nnoremap <leader>vd :VCSVimDiff<CR>
 " END vcscommand
 " ===
 
+nnoremap <leader>s :FZF<CR>
+
 " ===
 " BEGIN Ack
 " ===
 " Use ag with ack.vim plugin
-if executable('rg')
+if executable('ackprg')
+    let g:ackprg = 'ackprg'
+elseif executable('rg')
     let g:ackprg = 'rg --vimgrep --sort path'
 elseif executable('ag')
     let g:ackprg = 'ag --vimgrep'
@@ -320,6 +370,8 @@ let g:airline_powerline_fonts = 1
 " set c/cpp linters, disable ale for Java
 let g:ale_linters = {
             \ 'bash': ['shellcheck'],
+            \ 'cmake': ['cmakelint'],
+            \ 'dockerfile': ['hadolint'],
             \ 'go': ['govet'],
             \ 'javascript': ['standard'],
             \ 'sh': ['shellcheck'],
@@ -340,6 +392,7 @@ let g:ale_linters_explicit = 1
 
 " enable go format on save
 autocmd FileType go,javascript let b:ale_fix_on_save = 1
+" autocmd FileType javascript let b:ale_fix_on_save = 1
 
 " nnoremap <leader>f :ALEFix<CR>
 " ===
