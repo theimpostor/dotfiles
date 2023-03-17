@@ -59,8 +59,8 @@ export PATH="${PATH}:/usr/local/opt/node@18/bin"
 ## shellcheck source=/dev/null
 # source <(npm completion)
 
-export GOROOT=/Users/shoda/go-src/go
-export PATH="${GOROOT}/bin:${PATH}"
+# export GOROOT=/Users/shoda/go-src/go
+# export PATH="${GOROOT}/bin:${PATH}"
 
 # gnu tar
 export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:${PATH}"
@@ -176,7 +176,7 @@ function vimdiff {
 }
 
 function vimcfg {
-    vim "$(vim --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
+    nvim "$(nvim --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
 }
 
 function bashcfg {
@@ -265,6 +265,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # broot
 # source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
+
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init bash)"
+fi
 
 if command -v starship >/dev/null 2>&1; then
     _set_win_title() {
