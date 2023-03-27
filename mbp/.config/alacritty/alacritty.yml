@@ -17,6 +17,3 @@ font:
 
 colors:
   transparent_background_colors: true
-
-key_bindings:
-  - { key: N,              mods: Command,                    action: CreateNewWindow       }
