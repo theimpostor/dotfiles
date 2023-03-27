@@ -88,13 +88,23 @@ end
 -- Add additional capabilities supported by nvim-cmp
 capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'vimls', 'yamlls' }
+local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'vimls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
         capabilities = capabilities,
     }
 end
+nvim_lsp.yamlls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        yaml = {
+            -- BUG: https://github.com/redhat-developer/yaml-language-server/pull/859
+            keyOrdering = false
+        }
+    }
+}
 nvim_lsp.gopls.setup{
     on_attach = on_attach,
     capabilities = capabilities,
