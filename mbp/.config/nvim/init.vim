@@ -5,7 +5,7 @@ nnoremap <leader>s :FZF<CR>
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'AndrewRadev/linediff.vim'
 Plug 'cespare/vim-toml'
-Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
+Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'html', 'css', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'hrsh7th/cmp-nvim-lsp'
