@@ -293,6 +293,15 @@ noremap <Leader>u :call GenerateUUID()<CR>
 " adjust commentstring for c
 autocmd FileType c,cpp setlocal commentstring=//\ %s
 
+" https://vi.stackexchange.com/a/456
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+command! TrimWhitespace call TrimWhitespace()
+
+
 " abbreviations TODO move to project
 autocmd FileType c,cpp iabbrev <buffer> TO   TIBEX_OK(e)
 autocmd FileType c,cpp iabbrev <buffer> TNO  TIBEX_NOT_OK(e)
