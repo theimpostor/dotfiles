@@ -53,11 +53,12 @@ export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 
 export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:${PATH}"
 
-# add node@18 to end of path so npm gets picked up from /usr/local/bin
-export PATH="${PATH}:/usr/local/opt/node@18/bin"
-# slows down new shell
-## shellcheck source=/dev/null
-# source <(npm completion)
+# switch to homebrew latest node
+# # add node@18 to end of path so npm gets picked up from /usr/local/bin
+# # export PATH="${PATH}:/usr/local/opt/node@18/bin"
+# # slows down new shell
+# ## shellcheck source=/dev/null
+# # source <(npm completion)
 
 # export GOROOT=/Users/shoda/go-src/go
 # export PATH="${GOROOT}/bin:${PATH}"
@@ -110,7 +111,8 @@ fi
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 
 if command -v exa >/dev/null 2>&1; then
-    alias l='exa --long --extended --all --links'
+    # alias l='exa --long --extended --all --links'
+    alias l='exa --long --all --links'
     # too slow w/submodules
     # alias l='exa --long --extended --all --links --git'
 else
@@ -258,6 +260,11 @@ function lastdl {
 # unzips into directory which is the filename minus extension
 function unzipd {
     unzip -d "${1%.*}" "$1"
+}
+
+# generate a random 4 byte hex string
+function slug {
+    od -A n -t x -N 4 /dev/urandom | tr -d ' '
 }
 
 export ASAN_OPTIONS=detect_leaks=1
