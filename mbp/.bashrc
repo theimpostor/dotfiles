@@ -267,6 +267,10 @@ function slug {
     od -A n -t x -N 4 /dev/urandom | tr -d ' '
 }
 
+function newbranch {
+    echo "${USER}-$(date '+%Y%m%d')-$(slug)"
+}
+
 export ASAN_OPTIONS=detect_leaks=1
 export LSAN_OPTIONS=report_objects=1
 # export LSAN_OPTIONS=report_objects=1:fast_unwind_on_malloc=false
