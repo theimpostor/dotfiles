@@ -268,7 +268,7 @@ function slug {
 }
 
 function newbranch {
-    echo "${USER}-$(date '+%Y%m%d')-$(slug)"
+    echo "${USER}$(date '+%Y%m%d')$(slug)"
 }
 
 export ASAN_OPTIONS=detect_leaks=1
