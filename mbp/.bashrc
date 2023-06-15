@@ -140,15 +140,16 @@ if command -v docker-compose >/dev/null 2>&1; then
 fi
 
 if command -v kubectl >/dev/null 2>&1; then
-
-    if command -v fzf >/dev/null 2>&1 && command -v ghead >/dev/null 2>&1;  then
-        # Make all kubectl completion fzf
-        # shellcheck source=/dev/null
-        source <(kubectl completion bash | sed 's#"${requestComp}" 2>/dev/null#"${requestComp}" 2>/dev/null | ghead -n -1 | fzf  --multi=0 #g')
-    else
-        # shellcheck source=/dev/null
-        source <(kubectl completion bash)
-    fi
+    # shellcheck source=/dev/null
+    source <(kubectl completion bash)
+    # if command -v fzf >/dev/null 2>&1 && command -v ghead >/dev/null 2>&1;  then
+    #     # Make all kubectl completion fzf
+    #     # shellcheck source=/dev/null
+    #     source <(kubectl completion bash | sed 's#"${requestComp}" 2>/dev/null#"${requestComp}" 2>/dev/null | ghead -n -1 | fzf  --multi=0 #g')
+    # else
+    #     # shellcheck source=/dev/null
+    #     source <(kubectl completion bash)
+    # fi
     alias k='kubectl'
     complete -F __start_kubectl k
 fi
