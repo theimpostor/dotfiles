@@ -272,6 +272,14 @@ function newbranch {
     echo "${USER}$(date '+%Y%m%d')$(slug)"
 }
 
+function osccopy {
+    osc52 "$@"
+}
+
+function oscpaste {
+    osc52 --paste "$@"
+}
+
 export ASAN_OPTIONS=detect_leaks=1
 export LSAN_OPTIONS=report_objects=1
 # export LSAN_OPTIONS=report_objects=1:fast_unwind_on_malloc=false
