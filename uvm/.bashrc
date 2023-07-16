@@ -265,6 +265,8 @@ fi
 # TODO: test for hterm
 export COLORTERM=truecolor
 
+export DFT_DISPLAY=side-by-side-show-both
+
 PATH="/home/sahir/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/sahir/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/sahir/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
