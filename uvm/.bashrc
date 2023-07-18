@@ -247,6 +247,14 @@ function latest {
     find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
 }
 
+function osccopy {
+    osc52 "$@"
+}
+
+function oscpaste {
+    osc52 --paste "$@"
+}
+
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 if command -v zoxide > /dev/null 2>&1; then
