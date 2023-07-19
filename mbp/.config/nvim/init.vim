@@ -13,7 +13,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
-Plug 'majutsushi/tagbar'
+Plug 'preservim/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -113,9 +113,9 @@ nvim_lsp.gopls.setup{
         gopls = {
             analyses = {
                 shadow = true,
---                unusedparams = true,
+                unusedparams = true,
             },
---            staticcheck = true,
+            staticcheck = true,
         }
     }
 }
@@ -330,6 +330,7 @@ lua << EOF
 vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
 vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
 vim.keymap.set('x', '<leader>c', require('osc52').copy_visual)
+vim.keymap.set('n', '<leader>p', [[<cmd>lua require('osc52').copy(vim.fn.expand('%:p'))<CR>]], { noremap = true, silent = true })
 EOF
 " ===
 " END oscyank
