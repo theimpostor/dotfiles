@@ -322,6 +322,8 @@ autocmd BufNewFile main.go 0r !curl -fsSL https://raw.githubusercontent.com/thei
 " https://thoughtbot.com/blog/wrap-existing-text-at-80-characters-in-vim
 autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 
+autocmd BufRead,BufNewFile Jenkinsfile set filetype=groovy
+
 " ===
 " BEGIN oscyank
 " ===
