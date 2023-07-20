@@ -327,10 +327,10 @@ autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 " ===
 
 lua << EOF
-vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+-- vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+vim.keymap.set('n', '<leader>c', [[<cmd>lua require('osc52').copy(vim.fn.expand('%:p'))<CR>]], { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
 vim.keymap.set('x', '<leader>c', require('osc52').copy_visual)
-vim.keymap.set('n', '<leader>p', [[<cmd>lua require('osc52').copy(vim.fn.expand('%:p'))<CR>]], { noremap = true, silent = true })
 EOF
 " ===
 " END oscyank
