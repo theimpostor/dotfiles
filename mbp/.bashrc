@@ -201,7 +201,7 @@ function termcfg {
 function vg {
     # printf %q reprints each arg with shell escapes
     # shellcheck disable=SC2046
-    echo :LAck $(printf '%q ' "$@") | vim -s -
+    echo :LAck "$(printf '%q ' "$@")" | vim -s -
 }
 alias nvg=vg
 
