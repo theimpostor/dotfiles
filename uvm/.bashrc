@@ -270,6 +270,11 @@ if command -v starship >/dev/null 2>&1; then
     eval "$(starship init bash)"
 fi
 
+if command -v osc >/dev/null 2>&1; then
+    # shellcheck source=/dev/null
+    source <(osc completion bash)
+fi
+
 # TODO: test for hterm
 export COLORTERM=truecolor
 
