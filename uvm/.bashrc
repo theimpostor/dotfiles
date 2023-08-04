@@ -247,13 +247,19 @@ function latest {
     find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
 }
 
-function osccopy {
-    osc52 "$@"
-}
+# function osccopy {
+#     osc52 "$@"
+# }
 
-function oscpaste {
-    osc52 --paste "$@"
-}
+# function oscpaste {
+#     osc52 --paste "$@"
+# }
+
+if command -v osc >/dev/null 2>&1; then
+    # shellcheck source=/dev/null
+    source <(osc completion bash)
+fi
+
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
@@ -268,11 +274,6 @@ if command -v starship >/dev/null 2>&1; then
     # shellcheck disable=SC2034
     starship_precmd_user_func="_set_win_title"
     eval "$(starship init bash)"
-fi
-
-if command -v osc >/dev/null 2>&1; then
-    # shellcheck source=/dev/null
-    source <(osc completion bash)
 fi
 
 # TODO: test for hterm
