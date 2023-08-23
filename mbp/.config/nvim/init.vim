@@ -1,6 +1,5 @@
 " fzf managed by homebrew, use plugin from there
 set rtp+=/usr/local/opt/fzf
-nnoremap <leader>s :FZF<CR>
 
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'AndrewRadev/linediff.vim'
@@ -13,11 +12,15 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
-Plug 'preservim/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/plenary.nvim' " required for telesecope.nvim
+Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ojroques/nvim-osc52' " OSC52 (hterm/chromeOS) yank to clipboard support
+Plug 'preservim/tagbar'
+Plug 'stevearc/oil.nvim'
 Plug 'towolf/vim-helm'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -212,6 +215,9 @@ cmp.setup {
         { name = 'nvim_lsp' },
     },
 }
+
+require("oil").setup()
+
 EOF
 
 set background=dark
@@ -346,7 +352,24 @@ nnoremap <leader>vd :VCSVimDiff<CR>
 " END vcscommand
 " ===
 
+" ===
+" BEGIN fzf
+" ===
 nnoremap <leader>s :FZF<CR>
+" ===
+" END fzf
+" ===
+
+" ===
+" BEGIN Telescope
+" ===
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" ===
+" END Telescope
+" ===
 
 " ===
 " BEGIN Ack
