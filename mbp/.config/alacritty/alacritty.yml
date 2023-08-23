@@ -4,29 +4,31 @@ scrolling:
 window:
   opacity: 0.95
 
-# font:
-#   normal:
-#     family: FiraCode Nerd Font
-#   bold:
-#     family: FiraCode Nerd Font
-#   italic:
-#     family: FiraCode Nerd Font
-#   bold italic:
-#     family: FiraCode Nerd Font
-#   size: 8.0
-
 font:
   normal:
-    family: Cascadia Mono PL
+    family: FiraCode Nerd Font
   bold:
-    family: Cascadia Mono PL
+    family: FiraCode Nerd Font
   italic:
-    family: Cascadia Mono PL
+    family: FiraCode Nerd Font
   bold italic:
-    family: Cascadia Mono PL
+    family: FiraCode Nerd Font
   size: 8.0
   offset:
-    y: 3 
+    y: 1 
+
+# font:
+#   normal:
+#     family: Cascadia Mono PL
+#   bold:
+#     family: Cascadia Mono PL
+#   italic:
+#     family: Cascadia Mono PL
+#   bold italic:
+#     family: Cascadia Mono PL
+#   size: 8.0
+#   offset:
+#     y: 3 
 
 # draw_bold_text_with_bright_colors: true
 
