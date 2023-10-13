@@ -27,7 +27,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'vim-airline/vim-airline'
 call plug#end()
 
@@ -92,7 +91,7 @@ end
 -- Add additional capabilities supported by nvim-cmp
 capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'vimls' }
+local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
@@ -168,6 +167,7 @@ require'nvim-treesitter.configs'.setup {
     -- ignore_install = { "javascript" }, -- List of parsers to ignore installing
     highlight = {
         enable = true,              -- false will disable the whole extension
+        -- disable = { "make", "diff" },  -- list of language that will be disabled
         disable = { "bash", "make", "diff" },  -- list of language that will be disabled
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -211,7 +211,6 @@ cmp.setup {
         end,
     },
     sources = {
-        { name = 'cmp_tabnine' },
         { name = 'nvim_lsp' },
     },
 }
@@ -230,6 +229,9 @@ set hidden
 
 " enable persistent undo
 set undofile
+
+" lots of undo
+set undolevels=10000
 
 " highlight search term
 set hlsearch
