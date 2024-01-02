@@ -195,7 +195,7 @@ function bashcfg {
 }
 
 function termcfg {
-    vim "${HOME}/.config/alacritty/alacritty.yml"
+    vim "${HOME}/.config/alacritty/alacritty.toml"
 }
 
 # ag but open results in vim's quickfix window
