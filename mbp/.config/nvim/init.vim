@@ -88,8 +88,11 @@ local on_attach = function(client, bufnr)
     end
 end
 
--- Add additional capabilities supported by nvim-cmp
-capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- Merge default LSP cabilities with what is supported by nvim-cmp
+local capabilities = vim.tbl_deep_extend("force",
+  vim.lsp.protocol.make_client_capabilities(),
+  require('cmp_nvim_lsp').default_capabilities()
+)
 
 local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
 for _, lsp in ipairs(servers) do
@@ -454,3 +457,13 @@ xnoremap <leader>l :Linediff<CR>
 " ===
 " END linediff
 " ===
+
+function! SpacesToColumn(column)
+  let l:curpos = getcurpos()
+  let l:spaces = a:column - l:curpos[2]
+  if l:spaces > 0
+    execute "normal! " . l:spaces . "i "
+  endif
+  call setpos('.', l:curpos)
+endfunction
+
