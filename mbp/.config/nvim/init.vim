@@ -7,8 +7,9 @@ Plug 'cespare/vim-toml'
 Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'html', 'css', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/nvim-cmp'
+Plug 'github/copilot.vim'
+" Plug 'hrsh7th/cmp-nvim-lsp'
+" Plug 'hrsh7th/nvim-cmp'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
@@ -88,11 +89,11 @@ local on_attach = function(client, bufnr)
     end
 end
 
--- Merge default LSP cabilities with what is supported by nvim-cmp
-local capabilities = vim.tbl_deep_extend("force",
-  vim.lsp.protocol.make_client_capabilities(),
-  require('cmp_nvim_lsp').default_capabilities()
-)
+-- -- Merge default LSP cabilities with what is supported by nvim-cmp
+-- local capabilities = vim.tbl_deep_extend("force",
+--   vim.lsp.protocol.make_client_capabilities(),
+--   require('cmp_nvim_lsp').default_capabilities()
+-- )
 
 local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
 for _, lsp in ipairs(servers) do
@@ -182,10 +183,10 @@ require'nvim-treesitter.configs'.setup {
         enable = true,
         keymaps = {
             -- normal mode keymaps
-            init_selection = '<CR>',
-            scope_incremental = '<CR>',
-            node_incremental = '<TAB>',
-            node_decremental = '<S-TAB>',
+            init_selection = '<SPACE>', -- maps in normal mode to init the node/scope selection with space
+            node_incremental = '<SPACE>', -- increment to the upper named parent
+            node_decremental = '<BS>', -- decrement to the previous node
+            scope_incremental = '<TAB>', -- increment to the upper scope (as defined in locals.scm)
         }
     }
 }
@@ -193,30 +194,30 @@ require'nvim-treesitter.configs'.setup {
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
 
--- nvim-cmp setup
-local cmp = require 'cmp'
-cmp.setup {
-    mapping = {
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<Tab>'] = function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            else
-                fallback()
-            end
-        end,
-        ['<S-Tab>'] = function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            else
-                fallback()
-            end
-        end,
-    },
-    sources = {
-        { name = 'nvim_lsp' },
-    },
-}
+-- -- nvim-cmp setup
+-- local cmp = require 'cmp'
+-- cmp.setup {
+--     mapping = {
+--         ['<C-Space>'] = cmp.mapping.complete(),
+--         ['<Tab>'] = function(fallback)
+--             if cmp.visible() then
+--                 cmp.select_next_item()
+--             else
+--                 fallback()
+--             end
+--         end,
+--         ['<S-Tab>'] = function(fallback)
+--             if cmp.visible() then
+--                 cmp.select_prev_item()
+--             else
+--                 fallback()
+--             end
+--         end,
+--     },
+--     sources = {
+--         { name = 'nvim_lsp' },
+--     },
+-- }
 
 require("oil").setup()
 
@@ -419,13 +420,14 @@ let g:airline_powerline_fonts = 1
 " BEGIN ALE
 " ===
 " set c/cpp linters, disable ale for Java
+"               shellcheck run by lsp
+            " \ 'bash': ['shellcheck'],
+            " \ 'sh': ['shellcheck'],
 let g:ale_linters = {
-            \ 'bash': ['shellcheck'],
             \ 'cmake': ['cmakelint'],
             \ 'dockerfile': ['hadolint'],
             \ 'go': ['govet'],
             \ 'javascript': ['standard'],
-            \ 'sh': ['shellcheck'],
             \ 'perl': ['perl']
             \ }
 
