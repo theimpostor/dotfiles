@@ -111,11 +111,12 @@ fi
 
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 
-if command -v exa >/dev/null 2>&1; then
-    # alias l='exa --long --extended --all --links'
-    alias l='exa --long --all --links'
+if command -v eza >/dev/null 2>&1; then
+    # alias l='eza --long --extended --all --links'
+    # alias l='eza --long --all --links'
+    alias l='eza --long --all --links --git'
     # too slow w/submodules
-    # alias l='exa --long --extended --all --links --git'
+    # alias l='eza --long --extended --all --links --git'
 else
     alias l='ls -laFh'
 fi
@@ -179,7 +180,7 @@ fi
 alias vim=nvim
 alias ovim=/usr/local/bin/vim
 
-EDITOR=$(command -v nvim)
+EDITOR="$(command -v nvim) --clean"
 export EDITOR
 
 function vimdiff {
