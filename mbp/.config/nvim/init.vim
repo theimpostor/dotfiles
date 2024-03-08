@@ -219,7 +219,8 @@ vim.o.completeopt = 'menu,menuone,noselect'
 --     },
 -- }
 
-require("oil").setup()
+-- Keep using netrw
+require("oil").setup({default_file_explorer = false})
 
 EOF
 

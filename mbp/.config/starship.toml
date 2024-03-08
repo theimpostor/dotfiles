@@ -12,6 +12,7 @@ $git_branch\
 $git_commit\
 $git_state\
 $git_status\
+$python\
 $memory_usage\
 $cmd_duration\
 $line_break\
@@ -42,3 +43,8 @@ disabled = false
 
 [git_status]
 ignore_submodules = true
+
+[python]
+# Don't trigger for files with the py extension
+detect_extensions = []
+
