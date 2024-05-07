@@ -3,13 +3,12 @@ set rtp+=/usr/local/opt/fzf
 
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'AndrewRadev/linediff.vim'
+Plug 'MeanderingProgrammer/markdown.nvim'
 Plug 'cespare/vim-toml'
 Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'html', 'css', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'github/copilot.vim'
-" Plug 'hrsh7th/cmp-nvim-lsp'
-" Plug 'hrsh7th/nvim-cmp'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
@@ -42,6 +41,8 @@ nnoremap Y Y
 " full list here: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 lua << EOF
 -- vim.lsp.set_log_level("debug")
+
+require('render-markdown').setup({})
 
 local nvim_lsp = require('lspconfig')
 local util = require('lspconfig/util')

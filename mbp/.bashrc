@@ -80,7 +80,7 @@ export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
 # export PATH="$HOME/.local/gradle-7.4.2/bin:$PATH"
 
-export GROOVY_HOME=/Users/shoda/.local/groovy-4.0.8
+export GROOVY_HOME=/Users/shoda/.local/groovy-4.0.21
 export PATH="$GROOVY_HOME/bin:$PATH"
 
 # cd to directory just by typing dir name
@@ -109,7 +109,9 @@ if command -v fd >/dev/null 2>&1; then
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
-[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+if command -v fzf >/dev/null 2>&1; then
+    eval "$(fzf --bash)"
+fi
 
 if command -v eza >/dev/null 2>&1; then
     # alias l='eza --long --extended --all --links'
