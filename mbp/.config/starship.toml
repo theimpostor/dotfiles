@@ -15,6 +15,7 @@ $git_status\
 $python\
 $memory_usage\
 $cmd_duration\
+$kubernetes\
 $line_break\
 $jobs\
 $battery\
@@ -48,3 +49,7 @@ ignore_submodules = true
 # Don't trigger for files with the py extension
 detect_extensions = []
 
+# ~/.config/starship.toml
+
+[kubernetes]
+disabled = false
