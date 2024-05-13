@@ -8,6 +8,7 @@ Plug 'cespare/vim-toml'
 Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'html', 'css', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
+Plug 'folke/tokyonight.nvim'
 Plug 'github/copilot.vim'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
@@ -15,6 +16,7 @@ Plug 'inkarkat/vim-mark'
 Plug 'mileszs/ack.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim' " required for telesecope.nvim
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -27,12 +29,13 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline'
 call plug#end()
 
 if $COLORTERM=='truecolor'
     set termguicolors
 endif
+
+colorscheme tokyonight
 
 " undo nvim default behavior change
 nnoremap Y Y
@@ -43,6 +46,12 @@ lua << EOF
 -- vim.lsp.set_log_level("debug")
 
 require('render-markdown').setup({})
+
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight'
+  }
+}
 
 local nvim_lsp = require('lspconfig')
 local util = require('lspconfig/util')
@@ -408,14 +417,6 @@ nnoremap <leader>gs :LAck "ssh todo"<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 " ===
 " END TagBar
-" ===
-
-" ===
-" BEGIN vim-airline
-" ===
-let g:airline_powerline_fonts = 1
-" ===
-" END vim-airline
 " ===
 
 " ===

@@ -362,3 +362,4 @@ function microsecondsSinceEpoch {
 
 # TODO: PROFILE
 # set +x
+. "$HOME/.cargo/env"
