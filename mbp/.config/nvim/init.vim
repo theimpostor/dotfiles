@@ -21,6 +21,7 @@ Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ojroques/nvim-osc52' " OSC52 (hterm/chromeOS) yank to clipboard support
+Plug 'p00f/clangd_extensions.nvim'
 Plug 'preservim/tagbar'
 Plug 'stevearc/oil.nvim'
 Plug 'towolf/vim-helm'
@@ -165,6 +166,9 @@ nvim_lsp.jdtls.setup{
             'build.gradle.kts'
     ) or vim.fn.getcwd()
 }
+
+require("clangd_extensions.inlay_hints").setup_autocmd()
+require("clangd_extensions.inlay_hints").set_inlay_hints()
 
 -- lsp use location list instead of quickfix list
 local on_references = vim.lsp.handlers["textDocument/references"]
