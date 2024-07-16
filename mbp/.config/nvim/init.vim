@@ -4,10 +4,12 @@ set rtp+=/usr/local/opt/fzf
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'AndrewRadev/linediff.vim'
 Plug 'MeanderingProgrammer/markdown.nvim'
+Plug 'MunifTanjim/nui.nvim' " required for noice.nvim
 Plug 'cespare/vim-toml'
 Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'html', 'css', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
+Plug 'folke/noice.nvim'
 Plug 'folke/tokyonight.nvim'
 Plug 'github/copilot.vim'
 Plug 'inkarkat/vcscommand.vim'
@@ -46,11 +48,21 @@ nnoremap Y Y
 lua << EOF
 -- vim.lsp.set_log_level("debug")
 
+require("noice").setup()
+
 require('render-markdown').setup({})
 
 require('lualine').setup {
   options = {
     theme = 'tokyonight'
+  },
+  sections = {
+    lualine_c = {
+      {
+        'filename',
+        path = 1  -- 0 = just filename, 1 = relative path, 2 = absolute path
+      }
+    }
   }
 }
 
@@ -113,16 +125,7 @@ for _, lsp in ipairs(servers) do
         capabilities = capabilities,
     }
 end
-nvim_lsp.yamlls.setup{
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-        yaml = {
-            -- BUG: https://github.com/redhat-developer/yaml-language-server/pull/859
-            keyOrdering = false
-        }
-    }
-}
+
 nvim_lsp.gopls.setup{
     on_attach = on_attach,
     capabilities = capabilities,
@@ -202,6 +205,9 @@ require'nvim-treesitter.configs'.setup {
             node_decremental = '<BS>', -- decrement to the previous node
             scope_incremental = '<TAB>', -- increment to the upper scope (as defined in locals.scm)
         }
+    },
+    indent = {
+        enable = true
     }
 }
 
