@@ -12,6 +12,7 @@ Plug 'elzr/vim-json'
 Plug 'folke/noice.nvim'
 Plug 'folke/tokyonight.nvim'
 Plug 'github/copilot.vim'
+Plug 'hedyhli/outline.nvim'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
@@ -24,7 +25,6 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ojroques/nvim-osc52' " OSC52 (hterm/chromeOS) yank to clipboard support
 Plug 'p00f/clangd_extensions.nvim'
-Plug 'preservim/tagbar'
 Plug 'stevearc/oil.nvim'
 Plug 'towolf/vim-helm'
 Plug 'tpope/vim-commentary'
@@ -51,6 +51,9 @@ lua << EOF
 require("noice").setup()
 
 require('render-markdown').setup({})
+
+require("outline").setup({})
+vim.keymap.set('n', '<leader>t', '<cmd>Outline<CR>', { noremap = true, silent = true })
 
 require('lualine').setup {
   options = {
@@ -418,15 +421,6 @@ nnoremap <leader>ga :LAckAdd
 nnoremap <leader>gs :LAck "ssh todo"<CR>
 " ===
 " END Ack
-" ===
-
-" ===
-" BEGIN TagBar
-" ===
-" TagBar activation
-nnoremap <leader>t :TagbarToggle<CR>
-" ===
-" END TagBar
 " ===
 
 " ===
