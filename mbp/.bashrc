@@ -252,6 +252,10 @@ function rgs {
     rg --line-number --with-filename --color always "$@" | sort --stable --field-separator=: --key=1,1
 }
 
+function rgo {
+    rg --no-filename --no-line-number --only-matching "$@" | sort -u
+}
+
 # prints the single latest file/dir
 function latest {
     # -l auto chomps command line input
@@ -278,6 +282,10 @@ function datebranch {
 
 function newbranch {
     echo "${USER}$(date '+%Y%m%d')$(slug)"
+}
+
+function ghllm {
+    gh copilot explain "$@"
 }
 
 # function osccopy {
