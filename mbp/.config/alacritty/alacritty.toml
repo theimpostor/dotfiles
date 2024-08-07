@@ -1,8 +1,9 @@
 [colors]
-transparent_background_colors = true
+# transparent_background_colors = true
+transparent_background_colors = false
 
 [font]
-size = 8.0
+size = 12.0
 
 [font.bold]
 family = "FiraCode Nerd Font"

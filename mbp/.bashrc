@@ -116,7 +116,10 @@ fi
 if command -v eza >/dev/null 2>&1; then
     # alias l='eza --long --extended --all --links'
     # alias l='eza --long --all --links'
-    alias l='eza --long --all --links --git'
+
+    # --git is too slow
+    # alias l='eza --long --all --links --git'
+    alias l='eza --long --all --links'
     # too slow w/submodules
     # alias l='eza --long --extended --all --links --git'
 else

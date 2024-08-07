@@ -64,6 +64,8 @@ require('lualine').setup {
       {
         'filename',
         path = 1  -- 0 = just filename, 1 = relative path, 2 = absolute path
+      }, { 
+        'nvim_treesitter#statusline' 
       }
     }
   }
@@ -125,13 +127,11 @@ local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jso
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
-        capabilities = capabilities,
     }
 end
 
 nvim_lsp.gopls.setup{
     on_attach = on_attach,
-    capabilities = capabilities,
     settings = {
         gopls = {
             analyses = {
@@ -145,7 +145,6 @@ nvim_lsp.gopls.setup{
 
 nvim_lsp.tsserver.setup{
     on_attach = on_attach,
-    capabilities = capabilities,
     init_options = {
         preferences = {
             disableSuggestions = true
@@ -363,9 +362,7 @@ autocmd BufRead,BufNewFile Jenkinsfile set filetype=groovy
 " ===
 " BEGIN oscyank
 " ===
-
 lua << EOF
--- vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
 vim.keymap.set('n', '<leader>c', [[<cmd>lua require('osc52').copy(vim.fn.expand('%:p'))<CR>]], { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
 vim.keymap.set('x', '<leader>c', require('osc52').copy_visual)
