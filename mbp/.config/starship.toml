@@ -1,3 +1,6 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
 # Timeout for commands executed by starship (in milliseconds).
 command_timeout = 1000
 
@@ -13,9 +16,9 @@ $git_commit\
 $git_state\
 $git_status\
 $python\
+$kubernetes\
 $memory_usage\
 $cmd_duration\
-$kubernetes\
 $line_break\
 $jobs\
 $battery\
@@ -52,4 +55,5 @@ detect_extensions = []
 # ~/.config/starship.toml
 
 [kubernetes]
+format = '[$symbol$context( \($namespace\))]($style) '
 disabled = false
