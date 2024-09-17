@@ -2,10 +2,10 @@
 # vim:ft=bash:sw=4:ts=4:expandtab
 
 # TODO: profile
-# PS4='+ $EPOCHREALTIME\011 '
-# exec 5>/tmp/bashstart.$$.log
-# BASH_XTRACEFD=5
-# set -x
+### PS4='+ $EPOCHREALTIME\011 '
+### exec 5>/tmp/bashstart.$$.log
+### BASH_XTRACEFD=5
+### set -x
 
 # raise open files limit
 ulimit -n 10240
@@ -16,6 +16,9 @@ export CLICOLOR=1
 
 # Tell grep to highlight matches
 export GREP_OPTIONS='--color=auto'
+
+# don't need to call brew --prefix which is slow
+export HOMEBREW_PREFIX=/usr/local
 
 # export TERM="xterm-color"
 # PS1='\[\e[0;33m\]\u\[\e[0m\]@\[\e[0;32m\]\h\[\e[0m\]:\[\e[0;34m\]\w\[\e[0m\]\$ '
@@ -66,8 +69,9 @@ export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:${PATH}"
 # gnu tar
 export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:${PATH}"
 
-# use local::lib
-eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
+# slow
+### # use local::lib
+### eval "$(perl -I"$HOME/perl5/lib/perl5" -Mlocal::lib="$HOME/perl5")"
 
 # eval "$(jira --completion-script-bash)"
 
@@ -146,20 +150,21 @@ if command -v docker-compose >/dev/null 2>&1; then
     complete -F _docker_compose dc
 fi
 
-if command -v kubectl >/dev/null 2>&1; then
-    # shellcheck source=/dev/null
-    source <(kubectl completion bash)
-    # if command -v fzf >/dev/null 2>&1 && command -v ghead >/dev/null 2>&1;  then
-    #     # Make all kubectl completion fzf
-    #     # shellcheck source=/dev/null
-    #     source <(kubectl completion bash | sed 's#"${requestComp}" 2>/dev/null#"${requestComp}" 2>/dev/null | ghead -n -1 | fzf  --multi=0 #g')
-    # else
-    #     # shellcheck source=/dev/null
-    #     source <(kubectl completion bash)
-    # fi
-    alias k='kubectl'
-    complete -F __start_kubectl k
-fi
+### # slow
+### if command -v kubectl >/dev/null 2>&1; then
+###     # shellcheck source=/dev/null
+###     source <(kubectl completion bash)
+###     # if command -v fzf >/dev/null 2>&1 && command -v ghead >/dev/null 2>&1;  then
+###     #     # Make all kubectl completion fzf
+###     #     # shellcheck source=/dev/null
+###     #     source <(kubectl completion bash | sed 's#"${requestComp}" 2>/dev/null#"${requestComp}" 2>/dev/null | ghead -n -1 | fzf  --multi=0 #g')
+###     # else
+###     #     # shellcheck source=/dev/null
+###     #     source <(kubectl completion bash)
+###     # fi
+###     alias k='kubectl'
+###     complete -F __start_kubectl k
+### fi
 
 alias g='goto'
 if ! [[ $(uname -s) =~ Darwin* ]]; then
@@ -299,10 +304,11 @@ function ghllm {
 #     osc52 --paste "$@"
 # }
 
-if command -v osc >/dev/null 2>&1; then
-    # shellcheck source=/dev/null
-    source <(osc completion bash)
-fi
+# slow
+### if command -v osc >/dev/null 2>&1; then
+###     # shellcheck source=/dev/null
+###     source <(osc completion bash)
+### fi
 
 export ASAN_OPTIONS=detect_leaks=1
 export LSAN_OPTIONS=report_objects=1
@@ -372,5 +378,5 @@ function microsecondsSinceEpoch {
 [ -f "$HOME/.project-functions.bash" ] && source "$HOME/.project-functions.bash"
 
 # TODO: PROFILE
-# set +x
+### set +x
 . "$HOME/.cargo/env"
