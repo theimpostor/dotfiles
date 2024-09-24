@@ -16,6 +16,7 @@ Plug 'hedyhli/outline.nvim'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
+Plug 'kamykn/spelunker.vim'
 Plug 'mileszs/ack.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim' " required for telesecope.nvim
