@@ -190,8 +190,9 @@ fi
 alias vim=nvim
 alias ovim=/usr/local/bin/vim
 
-EDITOR="$(command -v nvim) --clean"
-export EDITOR
+# EDITOR="$(command -v nvim) --clean"
+# export EDITOR
+export EDITOR="$HOME/.local/bin/lvim"
 
 function vimdiff {
     vim -d "$@"

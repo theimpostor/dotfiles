@@ -16,7 +16,7 @@ Plug 'hedyhli/outline.nvim'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
-Plug 'kamykn/spelunker.vim'
+" Plug 'kamykn/spelunker.vim'
 Plug 'mileszs/ack.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim' " required for telesecope.nvim
@@ -124,7 +124,7 @@ end
 --   require('cmp_nvim_lsp').default_capabilities()
 -- )
 
-local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
+local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'golangci_lint_ls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
@@ -192,7 +192,7 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,              -- false will disable the whole extension
         -- disable = { "make", "diff" },  -- list of language that will be disabled
-        disable = { "bash", "make", "diff" },  -- list of language that will be disabled
+        -- disable = { "bash", "make", "diff" },  -- list of language that will be disabled
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
         -- Using this option may slow down your editor, and you may see some duplicate highlights.

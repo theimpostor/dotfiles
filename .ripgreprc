@@ -4,3 +4,4 @@
 --type-add=javasrc:*.java
 --type-add=soap:*.wsdl
 --type-add=mustache:*.mustache
+--type-add=tst:*.tst
