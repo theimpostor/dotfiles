@@ -7,6 +7,7 @@ Plug 'MeanderingProgrammer/markdown.nvim'
 Plug 'MunifTanjim/nui.nvim' " required for noice.nvim
 Plug 'cespare/vim-toml'
 Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'html', 'css', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
+Plug 'echasnovski/mini.pairs'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'folke/noice.nvim'
@@ -16,7 +17,6 @@ Plug 'hedyhli/outline.nvim'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
-" Plug 'kamykn/spelunker.vim'
 Plug 'mileszs/ack.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim' " required for telesecope.nvim
@@ -50,6 +50,8 @@ lua << EOF
 -- vim.lsp.set_log_level("debug")
 
 require("noice").setup()
+
+require("mini.pairs").setup()
 
 require('render-markdown').setup({})
 
@@ -124,12 +126,19 @@ end
 --   require('cmp_nvim_lsp').default_capabilities()
 -- )
 
-local servers = { 'bashls', 'clangd', 'cmake', 'cssls', 'dockerls', 'golangci_lint_ls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
+local servers = { 'bashls', 'cmake', 'cssls', 'dockerls', 'golangci_lint_ls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
     }
 end
+
+nvim_lsp.clangd.setup {
+    on_attach = on_attach,
+    capabilities = {
+        offsetEncoding = { "utf-16" },
+    },
+}
 
 nvim_lsp.gopls.setup{
     on_attach = on_attach,
@@ -428,10 +437,10 @@ nnoremap <leader>gs :LAck "ssh todo"<CR>
 "               shellcheck run by lsp
             " \ 'bash': ['shellcheck'],
             " \ 'sh': ['shellcheck'],
+            " "\ 'go': ['govet'],
 let g:ale_linters = {
             \ 'cmake': ['cmakelint'],
             \ 'dockerfile': ['hadolint'],
-            \ 'go': ['govet'],
             \ 'javascript': ['standard'],
             \ 'perl': ['perl']
             \ }
