@@ -1,3 +1,6 @@
+[general]
+import = [ "~/.local/share/nvim/plugged/tokyonight.nvim/extras/alacritty/tokyonight_moon.toml" ]
+
 [colors]
 # transparent_background_colors = true
 transparent_background_colors = false
@@ -20,11 +23,11 @@ family = "FiraCode Nerd Font"
 [font.offset]
 y = 1
 
-[scrolling]
-history = 100000
-
 [window]
 opacity = 0.95
+
+[scrolling]
+history = 100000
 
 [terminal]
 osc52 = "CopyPaste"
