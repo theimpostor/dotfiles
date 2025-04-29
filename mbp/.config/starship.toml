@@ -36,14 +36,20 @@ disabled = false
 [directory]
 truncation_length = 256
 truncate_to_repo = false
+read_only = " 󰌾"
 
 [env_var]
 format = '[$env_value]($style) '
 variable = 'DEVENV_PROMPT'
 style = ''
 
+[env_var.GOPATH]
+format = '[]($style) '
+style = ''
+
 [memory_usage]
 disabled = false
+symbol = "󰍛 "
 
 [git_status]
 ignore_submodules = true
@@ -51,9 +57,15 @@ ignore_submodules = true
 [python]
 # Don't trigger for files with the py extension
 detect_extensions = []
-
-# ~/.config/starship.toml
+symbol = " "
 
 [kubernetes]
 format = '[$symbol$context( \($namespace\))]($style) '
 disabled = false
+
+[git_branch]
+symbol = " "
+
+[git_commit]
+tag_symbol = '  '
+

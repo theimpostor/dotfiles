@@ -13,6 +13,9 @@ ulimit -n 10240
 # Tell ls to be colourful
 export CLICOLOR=1
 # export LSCOLORS=Exfxcxdxbxegedabagacad
+if command -v vivid >/dev/null 2>&1; then
+    LS_COLORS="$(vivid generate tokyonight-night)"; export LS_COLORS
+fi
 
 # Tell grep to highlight matches
 export GREP_OPTIONS='--color=auto'
@@ -56,6 +59,10 @@ export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 
 export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:${PATH}"
 
+# modern sqlite
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
+
+
 # switch to homebrew latest node
 # # add node@18 to end of path so npm gets picked up from /usr/local/bin
 # # export PATH="${PATH}:/usr/local/opt/node@18/bin"
@@ -78,7 +85,7 @@ export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:${PATH}"
 # JAVA_HOME="$(brew --prefix openjdk@11)/libexec/openjdk.jdk/Contents/Home"
 # JAVA_HOME="/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home"
 # JAVA_HOME="$HOME/.local/jdk-11.0.20+8/Contents/Home"
-JAVA_HOME="$HOME/.local/jdk-11.0.20.1+1/Contents/Home"
+JAVA_HOME="$HOME/.local/jdk-11.0.26+4/Contents/Home"
 # JAVA_HOME="$(/usr/libexec/java_home)"
 export JAVA_HOME
 export PATH="$JAVA_HOME/bin:$PATH"
@@ -190,9 +197,8 @@ fi
 alias vim=nvim
 alias ovim=/usr/local/bin/vim
 
-# EDITOR="$(command -v nvim) --clean"
-# export EDITOR
-export EDITOR="$HOME/.local/bin/lvim"
+EDITOR="$(command -v nvim) --clean"; export EDITOR
+# export EDITOR="$HOME/.local/bin/lvim"
 
 function vimdiff {
     vim -d "$@"
@@ -216,6 +222,17 @@ function vg {
     # shellcheck disable=SC2046
     echo :LAck "$(printf '%q ' "$@")" | vim -s -
 }
+
+function vgc {
+    # printf %q reprints each arg with shell escapes
+    # rg options:
+    #        -t TYPE, --type=TYPE
+    #        -s, --case-sensitive
+    #        -F, --fixed-strings
+    #        -w, --word-regexp
+    echo :LAck -tc -sFw "$(printf '%q ' "$@")" | vim -s -
+}
+
 alias nvg=vg
 
 function ovg {
@@ -324,10 +341,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # broot
 # source /Users/shoda/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
-if command -v zoxide >/dev/null 2>&1; then
-    eval "$(zoxide init bash)"
-fi
-
 if command -v starship >/dev/null 2>&1; then
     _set_win_title() {
         echo -ne "\033]0;${PWD}\007"
@@ -381,3 +394,9 @@ function microsecondsSinceEpoch {
 # TODO: PROFILE
 ### set +x
 . "$HOME/.cargo/env"
+
+# wants to be at end of bashrc
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init bash)"
+fi
+

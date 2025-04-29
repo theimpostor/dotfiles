@@ -6,8 +6,9 @@ Plug 'AndrewRadev/linediff.vim'
 Plug 'MeanderingProgrammer/markdown.nvim'
 Plug 'MunifTanjim/nui.nvim' " required for noice.nvim
 Plug 'cespare/vim-toml'
-Plug 'dense-analysis/ale', { 'for': [ 'bash', 'go', 'html', 'css', 'javascript', 'sh', 'perl', 'cmake', 'dockerfile' ] }
-Plug 'echasnovski/mini.pairs'
+Plug 'dense-analysis/ale', { 'for': [ 'go', 'perl', 'cmake', 'dockerfile' ] }
+" Plug 'echasnovski/mini.pairs'
+Plug 'dstein64/vim-startuptime'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
 Plug 'folke/noice.nvim'
@@ -26,7 +27,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ojroques/nvim-osc52' " OSC52 (hterm/chromeOS) yank to clipboard support
 Plug 'p00f/clangd_extensions.nvim'
-Plug 'stevearc/oil.nvim'
+" Plug 'stevearc/oil.nvim'
 Plug 'towolf/vim-helm'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -51,7 +52,7 @@ lua << EOF
 
 require("noice").setup()
 
-require("mini.pairs").setup()
+-- require("mini.pairs").setup()
 
 require('render-markdown').setup({})
 
@@ -126,7 +127,9 @@ end
 --   require('cmp_nvim_lsp').default_capabilities()
 -- )
 
-local servers = { 'bashls', 'cmake', 'cssls', 'dockerls', 'golangci_lint_ls', 'html', 'jsonls', 'perlls', 'pyright', 'vimls', 'yamlls' }
+-- local servers = { 'bashls', 'cmake', 'cssls', 'dockerls', 'golangci_lint_ls', 'ts_ls', 'html', 'jsonls', 'perlls', 'pyright', 'ruff', 'vimls', 'yamlls' }
+-- local servers = { 'bashls', 'cmake', 'dockerls', 'golangci_lint_ls', 'jsonls', 'pyright', 'ruff', 'yamlls' }
+local servers = { 'bashls', 'cmake', 'dockerls', 'jsonls', 'pyright', 'ruff', 'yamlls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
@@ -149,15 +152,7 @@ nvim_lsp.gopls.setup{
                 unusedparams = true,
             },
             staticcheck = true,
-        }
-    }
-}
-
-nvim_lsp.tsserver.setup{
-    on_attach = on_attach,
-    init_options = {
-        preferences = {
-            disableSuggestions = true
+            buildFlags = { "-tags=sqlite_vtable sqlite_math_functions sqlite_json darwin amd64" },
         }
     }
 }
@@ -185,7 +180,9 @@ nvim_lsp.jdtls.setup{
 -- require("clangd_extensions.inlay_hints").setup_autocmd()
 -- require("clangd_extensions.inlay_hints").set_inlay_hints()
 
+
 -- lsp use location list instead of quickfix list
+-- vim.lsp.buf.references(nil, { loclist = true })
 local on_references = vim.lsp.handlers["textDocument/references"]
 vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
     on_references, {
@@ -252,7 +249,7 @@ vim.o.completeopt = 'menu,menuone,noselect'
 -- }
 
 -- Keep using netrw
-require("oil").setup({default_file_explorer = false})
+-- require("oil").setup({default_file_explorer = false})
 
 EOF
 
@@ -318,7 +315,7 @@ set lazyredraw
 " https://www.hillelwayne.com/vim-macro-trickz
 
 " let g:python_host_prog = '/usr/local/bin/python2'
-let g:python3_host_prog = '/usr/local/bin/python3'
+" let g:python3_host_prog = '/usr/local/bin/python3'
 
 " use indent of 2 for yaml and markdown
 autocmd Filetype yaml,markdown set sw=2 ts=2
@@ -426,6 +423,17 @@ nnoremap <leader>a :LAck!<CR>
 nnoremap <leader>gg :LAck 
 nnoremap <leader>ga :LAckAdd 
 nnoremap <leader>gs :LAck "ssh todo"<CR>
+lua <<EOF
+vim.api.nvim_create_user_command(
+    'Ctag',
+    function(opts)
+        local cmd = string.format("LAck -tc -sFw %s", vim.fn.shellescape(opts.args))
+        vim.cmd(cmd)
+    end,
+    { nargs = 1 }
+)
+EOF
+
 " ===
 " END Ack
 " ===
@@ -438,16 +446,16 @@ nnoremap <leader>gs :LAck "ssh todo"<CR>
             " \ 'bash': ['shellcheck'],
             " \ 'sh': ['shellcheck'],
             " "\ 'go': ['govet'],
+            " \ 'javascript': ['standard'],
 let g:ale_linters = {
             \ 'cmake': ['cmakelint'],
             \ 'dockerfile': ['hadolint'],
-            \ 'javascript': ['standard'],
             \ 'perl': ['perl']
             \ }
 
+            " \ 'javascript': ['standard'],
 let g:ale_fixers = {
             \ 'go': ['gofmt'],
-            \ 'javascript': ['standard'],
             \ }
 
 " put ale in the quickfix
