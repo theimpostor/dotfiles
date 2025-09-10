@@ -131,6 +131,9 @@ if command -v eza >/dev/null 2>&1; then
     # --git is too slow
     # alias l='eza --long --all --links --git'
     alias l='eza --long --all --links'
+    alias lnew='eza --long --all --links --sort newest'
+    alias lgit='eza --long --all --links --git'
+    alias lgitnew='eza --long --all --links --git --sort newest'
     # too slow w/submodules
     # alias l='eza --long --extended --all --links --git'
 else
@@ -284,8 +287,9 @@ function rgo {
 
 # prints the single latest file/dir
 function latest {
-    # -l auto chomps command line input
-    find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
+    # # -l auto chomps command line input
+    # find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
+    eza --absolute -s modified "$@" | tail -n 1
 }
 
 function lastdl {
@@ -312,6 +316,56 @@ function newbranch {
 
 function ghllm {
     gh copilot explain "$@"
+}
+
+function wt() {
+    local dir
+    dir=$(git worktree list | fzf | cut -w -f1) || return 1
+    # cd if dir is non-empty
+    [[ -n $dir ]] && cd "$dir"
+}
+
+
+function ghmd {
+    # 0 or 1 args
+    (( $# > 1 )) && return 1
+    # if no arg, use stdin
+    (( $# )) || set -- /dev/stdin
+    cat << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<style>
+	.markdown-body {
+		box-sizing: border-box;
+		min-width: 200px;
+		max-width: 980px;
+		margin: 0 auto;
+		padding: 45px;
+	}
+
+	@media (max-width: 767px) {
+		.markdown-body {
+			padding: 15px;
+		}
+	}
+</style>
+</head>
+<body class="markdown-body">
+EOF
+    gh api --method POST -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /markdown -f "text=$(< "$1")"
+    cat << 'EOF'
+</body>
+</html>
+EOF
+}
+
+# copy the absolute path of the first argument to the clipboard using 'osc copy'
+function cpp {
+    realpath "$1" | osc copy
 }
 
 # function osccopy {
@@ -391,12 +445,27 @@ function microsecondsSinceEpoch {
 
 [ -f "$HOME/.project-functions.bash" ] && source "$HOME/.project-functions.bash"
 
+function llmcmd {
+    llm prompt --no-stream --system "you are bash command line guru, I will ask a question and you will respond with a bash command or commands suitable for pasting into the command line and executing, assume you are on macos, respond with the command only, no explanations or code fence blocks, if the question is ambiguous or can't easily be translated into a bash command output a bash comment asking for guidance" "$@" | pbcopy && pbpaste
+}
+
+function llmfast {
+    llm prompt -m 4.1-mini "$@"
+}
+
+mkscratch() {
+    local tag; tag="${1}"
+    local dir; dir="$HOME/Tibco/scratch/$(date '+%Y%m%d_%H%M%S')${tag:+_$tag}"
+    mkdir -p "$dir" && cd "$dir"
+}
+
 # TODO: PROFILE
 ### set +x
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 # wants to be at end of bashrc
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
 fi
 
+export TIBFTL_LICENSE=https://msgblade21.na.tibco.com:7070

@@ -2,12 +2,14 @@
 set rtp+=/usr/local/opt/fzf
 
 call plug#begin(stdpath('data') . '/plugged')
+" Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
+" Plug 'MeanderingProgrammer/markdown.nvim'
+" Plug 'echasnovski/mini.pairs'
+" Plug 'stevearc/oil.nvim'
 Plug 'AndrewRadev/linediff.vim'
-Plug 'MeanderingProgrammer/markdown.nvim'
 Plug 'MunifTanjim/nui.nvim' " required for noice.nvim
 Plug 'cespare/vim-toml'
 Plug 'dense-analysis/ale', { 'for': [ 'go', 'perl', 'cmake', 'dockerfile' ] }
-" Plug 'echasnovski/mini.pairs'
 Plug 'dstein64/vim-startuptime'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'elzr/vim-json'
@@ -27,10 +29,10 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ojroques/nvim-osc52' " OSC52 (hterm/chromeOS) yank to clipboard support
 Plug 'p00f/clangd_extensions.nvim'
-" Plug 'stevearc/oil.nvim'
 Plug 'towolf/vim-helm'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -50,11 +52,12 @@ nnoremap Y Y
 lua << EOF
 -- vim.lsp.set_log_level("debug")
 
+
 require("noice").setup()
 
 -- require("mini.pairs").setup()
 
-require('render-markdown').setup({})
+-- require('render-markdown').setup({ enabled=false })
 
 require("outline").setup({})
 vim.keymap.set('n', '<leader>t', '<cmd>Outline<CR>', { noremap = true, silent = true })
@@ -129,7 +132,7 @@ end
 
 -- local servers = { 'bashls', 'cmake', 'cssls', 'dockerls', 'golangci_lint_ls', 'ts_ls', 'html', 'jsonls', 'perlls', 'pyright', 'ruff', 'vimls', 'yamlls' }
 -- local servers = { 'bashls', 'cmake', 'dockerls', 'golangci_lint_ls', 'jsonls', 'pyright', 'ruff', 'yamlls' }
-local servers = { 'bashls', 'cmake', 'dockerls', 'jsonls', 'pyright', 'ruff', 'yamlls' }
+local servers = { 'bashls', 'cmake', 'dockerls', 'jsonls', 'lua_ls', 'pyright', 'ruff', 'ts_ls', 'yamlls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
@@ -152,7 +155,7 @@ nvim_lsp.gopls.setup{
                 unusedparams = true,
             },
             staticcheck = true,
-            buildFlags = { "-tags=sqlite_vtable sqlite_math_functions sqlite_json darwin amd64" },
+            -- buildFlags = { "-tags=sqlite_vtable sqlite_math_functions sqlite_json darwin amd64" },
         }
     }
 }
@@ -359,10 +362,11 @@ autocmd FileType c,cpp iabbrev <buffer> TADI TIB_ARGS_DECL_IGNR_EX(e)
 autocmd BufNewFile *.sh 0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/bash/template.sh
 autocmd BufNewFile main.c 0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/c/main.c
 autocmd BufNewFile main.go 0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/go/main.go
+autocmd BufNewFile *.py 0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/refs/heads/main/python/template.py
 
 " set textwidth to 80 for markdown
 " https://thoughtbot.com/blog/wrap-existing-text-at-80-characters-in-vim
-autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+" autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 
 autocmd BufRead,BufNewFile Jenkinsfile set filetype=groovy
 
@@ -412,7 +416,7 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 if executable('ackprg')
     let g:ackprg = 'ackprg'
 elseif executable('rg')
-    let g:ackprg = 'rg --vimgrep --sort path'
+    let g:ackprg = 'rg --vimgrep --sort path --max-columns 240 --max-columns-preview'
 elseif executable('ag')
     let g:ackprg = 'ag --vimgrep'
 endif
