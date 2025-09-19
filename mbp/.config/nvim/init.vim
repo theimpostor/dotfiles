@@ -132,7 +132,7 @@ end
 
 -- local servers = { 'bashls', 'cmake', 'cssls', 'dockerls', 'golangci_lint_ls', 'ts_ls', 'html', 'jsonls', 'perlls', 'pyright', 'ruff', 'vimls', 'yamlls' }
 -- local servers = { 'bashls', 'cmake', 'dockerls', 'golangci_lint_ls', 'jsonls', 'pyright', 'ruff', 'yamlls' }
-local servers = { 'bashls', 'cmake', 'dockerls', 'jsonls', 'lua_ls', 'pyright', 'ruff', 'ts_ls', 'yamlls' }
+local servers = { 'bashls', 'cmake', 'dockerls', 'golangci_lint_ls', 'jsonls', 'lua_ls', 'pyright', 'ruff', 'ts_ls', 'yamlls' }
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
