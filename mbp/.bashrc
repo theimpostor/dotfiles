@@ -208,7 +208,7 @@ function vimdiff {
 }
 
 function vimcfg {
-    nvim "$(nvim --clean --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
+    nvim "$(nvim --clean --headless "+echo stdpath('config') . '/init.lua'" "+q" 2>&1)"
 }
 
 function bashcfg {
