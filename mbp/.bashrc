@@ -223,7 +223,7 @@ function termcfg {
 function vg {
     # printf %q reprints each arg with shell escapes
     # shellcheck disable=SC2046
-    echo :LAck "$(printf '%q ' "$@")" | vim -s -
+    echo :Ack "$(printf '%q ' "$@")" | vim -s -
 }
 
 function vgc {
@@ -233,7 +233,7 @@ function vgc {
     #        -s, --case-sensitive
     #        -F, --fixed-strings
     #        -w, --word-regexp
-    echo :LAck -tc -sFw "$(printf '%q ' "$@")" | vim -s -
+    echo :Ack -tc -sFw "$(printf '%q ' "$@")" | vim -s -
 }
 
 alias nvg=vg

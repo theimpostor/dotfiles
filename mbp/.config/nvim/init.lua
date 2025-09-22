@@ -7,6 +7,8 @@ Plug('editorconfig/editorconfig-vim')
 Plug('folke/tokyonight.nvim')
 Plug('github/copilot.vim')
 Plug('hedyhli/outline.nvim') -- code outline window
+Plug('inkarkat/vim-ingo-library') -- needed for vim-mark
+Plug('inkarkat/vim-mark') -- highlight multiple words with different colors
 Plug('mileszs/ack.vim')
 Plug('neovim/nvim-lspconfig')
 Plug('nvim-lualine/lualine.nvim')
@@ -21,8 +23,6 @@ Plug('tpope/vim-repeat')
 Plug('tpope/vim-surround')
 Plug('tpope/vim-unimpaired')
 vim.call('plug#end')
-
-vim.cmd[[colorscheme tokyonight]]
 
 -- enable line numbers
 vim.opt.number = true
@@ -67,29 +67,39 @@ vim.keymap.set("n", "<leader>s", ":FZF<CR>")
 vim.keymap.set("x", "<leader>c", '"+y', { desc = "Copy selection to system clipboard" })
 vim.keymap.set("n", "<leader>v", '"+p', { desc = "Paste from system clipboard" })
 
-require("outline").setup({})
--- vim.keymap.set('n', '<leader>t', '<cmd>Outline<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>t', '<cmd>Outline<CR>')
-
 -- https://github.com/nvim-treesitter/nvim-treesitter/blob/main/SUPPORTED_LANGUAGES.md
 local tree_sitter_filetypes = {
     'bash',
     'c',
+    'cmake',
     'cpp',
-    'css',
+    'diff',
+    'dockerfile',
+    'gitcommit',
+    'gitignore',
     'go',
+    'gomod',
+    'gosum',
+    'gotmpl',
+    'gowork',
+    'groovy',
     'html',
+    'java',
+    'javadoc',
     'javascript',
-    'lua',
     'lua',
     'markdown_inline',
     'markdown',
     'python',
     'query',
     'rust',
+    'sql',
+    'ssh_config',
+    'toml',
     'typescript',
     'vim',
     'vimdoc',
+    'yaml',
 }
 
 require('nvim-treesitter').install(tree_sitter_filetypes)
@@ -165,6 +175,16 @@ vim.lsp.enable('ruff')
 vim.lsp.enable('ts_ls')
 vim.lsp.enable('yamlls')
 
+-- https://neovim.io/doc/user/lsp.html#_global-defaults
+-- "gra" is mapped in Normal and Visual mode to vim.lsp.buf.code_action()
+-- "gri" is mapped in Normal mode to vim.lsp.buf.implementation()
+-- "grn" is mapped in Normal mode to vim.lsp.buf.rename()
+-- "grr" is mapped in Normal mode to vim.lsp.buf.references()
+-- "grt" is mapped in Normal mode to vim.lsp.buf.type_definition()
+-- "gO" is mapped in Normal mode to vim.lsp.buf.document_symbol()
+-- CTRL-S is mapped in Insert mode to vim.lsp.buf.signature_help()
+-- "an" and "in" are mapped in Visual mode to outer and inner incremental selections, respectively, using vim.lsp.buf.selection_range()
+
 if vim.fn.executable('ackprg') == 1 then
   vim.g.ackprg = 'ackprg'
 elseif vim.fn.executable('rg') == 1 then
@@ -173,15 +193,18 @@ elseif vim.fn.executable('ag') == 1 then
   vim.g.ackprg = 'ag --vimgrep'
 end
 
-vim.keymap.set('n', '<leader>a', ':LAck!<CR>')
-vim.keymap.set('n', '<leader>gg', ':LAck ')
-vim.keymap.set('n', '<leader>ga', ':LAckAdd ')
-vim.keymap.set('n', '<leader>gs', ':LAck "ssh todo"<CR>')
+vim.keymap.set('n', '<leader>a', ':Ack!<CR>')
+vim.keymap.set('n', '<leader>gg', ':Ack ')
+vim.keymap.set('n', '<leader>ga', ':AckAdd ')
+vim.keymap.set('n', '<leader>gs', ':Ack "ssh todo"<CR>')
 
 vim.api.nvim_create_user_command('Ctag', function(opts)
-  local cmd = string.format('LAck -tc -sFw %s', vim.fn.shellescape(opts.args))
+  local cmd = string.format('Ack -tc -sFw %s', vim.fn.shellescape(opts.args))
   vim.cmd(cmd)
 end, { nargs = 1 })
+
+require("outline").setup({})
+vim.keymap.set('n', '<leader>t', '<cmd>Outline<CR>')
 
 -- https://vimtricks.com/p/automated-file-templates/
 vim.api.nvim_create_autocmd("BufNewFile", {
@@ -201,12 +224,12 @@ vim.api.nvim_create_autocmd("BufNewFile", {
     command = "0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/refs/heads/main/python/template.py",
 })
 
--- https://neovim.io/doc/user/lsp.html#_global-defaults
--- "gra" is mapped in Normal and Visual mode to vim.lsp.buf.code_action()
--- "gri" is mapped in Normal mode to vim.lsp.buf.implementation()
--- "grn" is mapped in Normal mode to vim.lsp.buf.rename()
--- "grr" is mapped in Normal mode to vim.lsp.buf.references()
--- "grt" is mapped in Normal mode to vim.lsp.buf.type_definition()
--- "gO" is mapped in Normal mode to vim.lsp.buf.document_symbol()
--- CTRL-S is mapped in Insert mode to vim.lsp.buf.signature_help()
--- "an" and "in" are mapped in Visual mode to outer and inner incremental selections, respectively, using vim.lsp.buf.selection_range()
+-- inkarkat/vim-mark settings
+-- https://github.com/inkarkat/vim-mark?tab=readme-ov-file#configuration
+-- default: 6 colors
+-- extended: up to 18 colors
+-- maximum: 27, 58, or even 77 colors, depending on the number of available colors
+vim.g.mwDefaultHighlightingPalette = "extended"
+
+-- Activate folke/tokyonight.nvim
+vim.cmd('colorscheme tokyonight')
