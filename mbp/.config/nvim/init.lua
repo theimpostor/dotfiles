@@ -46,6 +46,12 @@ vim.opt.tabstop = 4
 -- use spaces instead of tabs
 vim.opt.expandtab = true
 
+--  enable persistent undo
+vim.opt.undofile = true
+
+-- lots of undo
+vim.opt.undolevels = 10000
+
 -- center search results - https://vim.fandom.com/wiki/Keep_your_cursor_centered_vertically_on_the_screen
 -- toggle scrolloff setting
 vim.keymap.set("n", "<Leader>zz", function()
@@ -53,7 +59,12 @@ vim.keymap.set("n", "<Leader>zz", function()
 end)
 
 -- Search for visually selected text (http://vim.wikia.com/wiki/Search_for_visually_selected_text)
-vim.keymap.set("x", "//", [[y/\V<C-R>"<CR>]])
+-- - Binds // in Visual mode via vim.keymap.set("x", "//", [[y/\V<C-R>=escape(@", '\/')<CR><CR>]]).
+-- - y copies the current visual selection into the unnamed register, preserving the text for reuse.
+-- - /\V starts a forward search in “very nomagic” mode so every character is literal unless escaped explicitly.
+-- - <C-R>=escape(@", '\/')<CR> runs a Vimscript expression right on the command line: escape() takes the yanked text in @" and prefixes any / or \ with \, so the search pattern isn’t prematurely terminated.
+-- - The final <CR> executes the completed search command, jumping to the next exact match of the highlighted text.
+vim.keymap.set("x", "//", [[y/\V<C-R>=escape(@", '\/')<CR><CR>]])
 
 -- -- delete selected text to "blackhole" register, then paste
 -- vim.keymap.set("x", "p", [["_dp]])

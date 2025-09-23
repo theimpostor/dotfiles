@@ -196,7 +196,7 @@ if command -v bat >/dev/null 2>&1; then
     # export MANPAGER='nvim +Man!'
 fi
 
-[[ -r "$HOME/nvim-nightly/setup-env.sh" ]] && . "$HOME/nvim-nightly/setup-env.sh"
+# [[ -r "$HOME/nvim-nightly/setup-env.sh" ]] && . "$HOME/nvim-nightly/setup-env.sh"
 alias vim=nvim
 alias ovim=/usr/local/bin/vim
 
