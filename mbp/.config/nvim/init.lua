@@ -24,6 +24,9 @@ Plug('tpope/vim-surround')
 Plug('tpope/vim-unimpaired')
 vim.call('plug#end')
 
+-- vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("trace")
+
 -- enable line numbers
 vim.opt.number = true
 
@@ -70,11 +73,17 @@ vim.keymap.set("x", "//", [[y/\V<C-R>=escape(@", '\/')<CR><CR>]])
 -- vim.keymap.set("x", "p", [["_dp]])
 -- vim.keymap.set("x", "P", [["_dP]])
 
+-- Quickfix navigation
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>", { desc = "Quickfix next" })
+vim.keymap.set("n", "<C-j>", "<cmd>cprevious<CR>", { desc = "Quickfix previous" })
+
 -- show diagnostics inline
 vim.diagnostic.config({ virtual_text = true })
 
 vim.keymap.set("n", "<leader>s", ":FZF<CR>")
 
+-- copy the current filename to the system clipboard
+vim.keymap.set("n", "<leader>c", ':let @+ = expand("%:p")<CR>', { desc = "Copy current filename to system clipboard" })
 vim.keymap.set("x", "<leader>c", '"+y', { desc = "Copy selection to system clipboard" })
 vim.keymap.set("n", "<leader>v", '"+p', { desc = "Paste from system clipboard" })
 
@@ -176,7 +185,8 @@ vim.lsp.config('lua_ls', {
 vim.lsp.enable('bashls')
 vim.lsp.enable('clangd')
 vim.lsp.enable('cmake')
-vim.lsp.enable('dockerls')
+-- vim.lsp.enable('copilot')
+vim.lsp.enable('docker_language_server')
 vim.lsp.enable('golangci_lint_ls')
 vim.lsp.enable('gopls')
 vim.lsp.enable('jsonls')
@@ -234,6 +244,14 @@ vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = "*.py",
     command = "0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/refs/heads/main/python/template.py",
 })
+
+-- https://vi.stackexchange.com/a/456
+function TrimWhitespace()
+    local save = vim.fn.winsaveview()
+    vim.cmd([[keeppatterns %s/\s\+$//e]])
+    vim.fn.winrestview(save)
+end
+vim.api.nvim_create_user_command("TrimWhitespace", TrimWhitespace, {})
 
 -- inkarkat/vim-mark settings
 -- https://github.com/inkarkat/vim-mark?tab=readme-ov-file#configuration
