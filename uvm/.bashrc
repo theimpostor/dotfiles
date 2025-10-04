@@ -103,8 +103,8 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 
-if command -v exa >/dev/null 2>&1; then
-    alias l='exa --long --extended --all --links --git'
+if command -v eza >/dev/null 2>&1; then
+    alias l='eza --long --all --links --git'
 else
     alias l='ls -laFh'
 fi
@@ -244,6 +244,12 @@ function rgs {
 function latest {
     # -l auto chomps command line input
     find "$@" -type f -print | perl -l -ne '$f{$_} = -M; END { @a = sort {$f{$a} <=> $f{$b}} keys %f; print $a[0] if (@a) }'
+}
+
+function mkscratch() {
+    local tag; tag="${1}"
+    local dir; dir="$HOME/sambashare/scratch/$(date '+%Y%m%d_%H%M%S')${tag:+_$tag}"
+    mkdir -p "$dir" && cd "$dir"
 }
 
 # function osccopy {
