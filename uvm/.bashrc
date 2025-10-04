@@ -184,7 +184,7 @@ function vimdiff {
 }
 
 function vimcfg {
-    vim "$(vim --clean --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
+    vim "$(vim --clean --headless "+echo stdpath('config') . '/init.lua'" "+q" 2>&1)"
 }
 
 function bashcfg {
@@ -262,10 +262,6 @@ fi
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-if command -v zoxide > /dev/null 2>&1; then
-    eval "$(zoxide init bash)"
-fi
-
 if command -v starship >/dev/null 2>&1; then
     _set_win_title() {
         echo -ne "\033]0;$USER $PWD\007"
@@ -292,8 +288,14 @@ if command -v vivid >/dev/null 2>&1; then
     LS_COLORS="$(vivid generate tokyonight-night)"; export LS_COLORS
 fi
 
-if command -v fzf >/dev/null 2>&1; then
-    # Set up fzf key bindings and fuzzy completion
-    eval "$(fzf --bash)"
+# if command -v fzf >/dev/null 2>&1; then
+#     # Set up fzf key bindings and fuzzy completion
+#     eval "$(fzf --bash)"
+# fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if command -v zoxide > /dev/null 2>&1; then
+    eval "$(zoxide init bash)"
 fi
 
