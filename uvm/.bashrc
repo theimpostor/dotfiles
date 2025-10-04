@@ -160,7 +160,6 @@ if command -v fd >/dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND='fd --type file'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # shellcheck source=.local/goto/goto.sh
 [[ -f "$HOME/.local/goto/goto.sh" ]] && source "$HOME/.local/goto/goto.sh"
@@ -185,7 +184,7 @@ function vimdiff {
 }
 
 function vimcfg {
-    vim "$(vim --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
+    vim "$(vim --clean --headless "+echo stdpath('config') . '/init.vim'" "+q" 2>&1)"
 }
 
 function bashcfg {
@@ -287,3 +286,14 @@ PERL_LOCAL_LIB_ROOT="/home/sahir/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_R
 PERL_MB_OPT="--install_base \"/home/sahir/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sahir/perl5"; export PERL_MM_OPT;
 . "$HOME/.cargo/env"
+
+# installed in .cargo/bin
+if command -v vivid >/dev/null 2>&1; then
+    LS_COLORS="$(vivid generate tokyonight-night)"; export LS_COLORS
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+    # Set up fzf key bindings and fuzzy completion
+    eval "$(fzf --bash)"
+fi
+
