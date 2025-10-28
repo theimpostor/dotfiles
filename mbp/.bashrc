@@ -277,6 +277,7 @@ function rgls {
     rg --files-with-matches "$@" | sort
 }
 
+# ripgrep in parallel but sorted
 function rgs {
     rg --line-number --with-filename --color always "$@" | sort --stable --field-separator=: --key=1,1
 }
@@ -457,6 +458,15 @@ mkscratch() {
     local tag; tag="${1}"
     local dir; dir="$HOME/Tibco/scratch/$(date '+%Y%m%d_%H%M%S')${tag:+_$tag}"
     mkdir -p "$dir" && cd "$dir"
+}
+
+clone_repo() {
+    local repo="${1:?usage: clone_repo owner/repo}"
+    local base="$HOME/src/github.com"
+
+    cd "$base" || return 1
+
+    gh repo clone "$repo" "$repo" -- --depth 1 --single-branch && cd "$repo" || return 1
 }
 
 # TODO: PROFILE

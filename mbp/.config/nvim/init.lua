@@ -87,6 +87,8 @@ vim.keymap.set("n", "<leader>c", ':let @+ = expand("%:p")<CR>', { desc = "Copy c
 vim.keymap.set("x", "<leader>c", '"+y', { desc = "Copy selection to system clipboard" })
 vim.keymap.set("n", "<leader>v", '"+p', { desc = "Paste from system clipboard" })
 
+vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlighting with escape in normal mode" })
+
 -- https://github.com/nvim-treesitter/nvim-treesitter/blob/main/SUPPORTED_LANGUAGES.md
 local tree_sitter_filetypes = {
     'bash',
@@ -94,7 +96,7 @@ local tree_sitter_filetypes = {
     'cmake',
     'cpp',
     'diff',
-    'dockerfile',
+    -- 'dockerfile',
     'gitcommit',
     'gitignore',
     'go',
@@ -182,10 +184,12 @@ vim.lsp.config('lua_ls', {
   }
 })
 
+-- vim.lsp.enable('copilot')
+-- vim.lsp.enable('docker_compose_language_service')
+-- vim.lsp.enable('dockerls')
 vim.lsp.enable('bashls')
 vim.lsp.enable('clangd')
 vim.lsp.enable('cmake')
--- vim.lsp.enable('copilot')
 vim.lsp.enable('docker_language_server')
 vim.lsp.enable('golangci_lint_ls')
 vim.lsp.enable('gopls')
