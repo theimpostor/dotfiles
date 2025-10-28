@@ -198,6 +198,14 @@ vim.lsp.enable('lua_ls')
 vim.lsp.enable('pyright')
 vim.lsp.enable('ruff')
 vim.lsp.enable('ts_ls')
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = vim.api.nvim_create_augroup('GoFormatOnSave', { clear = true }),
+  pattern = '*.go',
+  callback = function(args)
+    vim.lsp.buf.format({ bufnr = args.buf, async = false, timeout_ms = 2000 })
+  end,
+})
 vim.lsp.enable('yamlls')
 
 -- https://neovim.io/doc/user/lsp.html#_global-defaults
