@@ -3,7 +3,7 @@ local Plug = vim.fn['plug#']
 vim.call('plug#begin', vim.fn.stdpath('data') .. '/plugged')
 Plug('editorconfig/editorconfig-vim')
 Plug('folke/tokyonight.nvim')
-Plug('github/copilot.vim')
+-- Plug('github/copilot.vim')
 Plug('hedyhli/outline.nvim') -- code outline window
 Plug('inkarkat/vim-ingo-library') -- needed for vim-mark
 Plug('inkarkat/vim-mark') -- highlight multiple words with different colors
