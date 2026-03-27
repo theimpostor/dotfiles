@@ -1,3 +1,8 @@
+-- disable netrw at the very start of your init.lua
+-- for nvim-tree.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- plugin setup
 vim.opt.runtimepath:append('/usr/local/opt/fzf')
 
@@ -12,6 +17,7 @@ Plug('inkarkat/vim-mark') -- highlight multiple words with different colors
 Plug('mileszs/ack.vim')
 Plug('neovim/nvim-lspconfig')
 Plug('nvim-lualine/lualine.nvim')
+Plug('nvim-tree/nvim-tree.lua')
 Plug('nvim-tree/nvim-web-devicons') -- required for lualine.nvim
 Plug('nvim-treesitter/nvim-treesitter', { ['branch'] = 'main', ['do'] = ':TSUpdate' })
 Plug('p00f/clangd_extensions.nvim')
@@ -27,11 +33,16 @@ vim.call('plug#end')
 -- vim.lsp.set_log_level("debug")
 -- vim.lsp.set_log_level("trace")
 
+-- optionally enable 24-bit colour
+-- for nvim-tree.lua
+-- maybe also set by the tokyonight colorscheme?
+vim.opt.termguicolors = true
+
 -- enable line numbers
 vim.opt.number = true
 
 -- highlight search term
-vim.opt.hlsearch = true
+vim.opt.hlsearch = false
 
 -- case insensitive searches...
 vim.opt.ignorecase = true
@@ -115,7 +126,7 @@ local tree_sitter_filetypes = {
     'python',
     'query',
     'rust',
-    'sql',
+    -- 'sql',
     'ssh_config',
     'toml',
     'typescript',
@@ -184,20 +195,42 @@ vim.lsp.config('lua_ls', {
   }
 })
 
+local function is_dotenv_file(bufnr)
+  local basename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':t')
+
+  return basename == '.env' or basename:match('^%.env%.') ~= nil
+end
+
+vim.lsp.config('bashls', {
+  -- Neovim detects .env files as sh, but bashls is noisy for dotenv syntax.
+  root_dir = function(bufnr, on_dir)
+    if is_dotenv_file(bufnr) then
+      return
+    end
+
+    on_dir(vim.fs.root(bufnr, '.git'))
+  end,
+})
+
 -- vim.lsp.enable('copilot')
 -- vim.lsp.enable('docker_compose_language_service')
 -- vim.lsp.enable('dockerls')
 vim.lsp.enable('bashls')
+vim.lsp.enable('biome')
 vim.lsp.enable('clangd')
 vim.lsp.enable('cmake')
 vim.lsp.enable('docker_language_server')
 vim.lsp.enable('golangci_lint_ls')
 vim.lsp.enable('gopls')
+vim.lsp.enable('jdtls')
 vim.lsp.enable('jsonls')
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('pyright')
 vim.lsp.enable('ruff')
+vim.lsp.enable('taplo') -- even better toml
 vim.lsp.enable('ts_ls')
+vim.lsp.enable('yamlls')
+vim.lsp.enable('typos_lsp')
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('GoFormatOnSave', { clear = true }),
@@ -206,7 +239,6 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     vim.lsp.buf.format({ bufnr = args.buf, async = false, timeout_ms = 2000 })
   end,
 })
-vim.lsp.enable('yamlls')
 
 -- https://neovim.io/doc/user/lsp.html#_global-defaults
 -- "gra" is mapped in Normal and Visual mode to vim.lsp.buf.code_action()
@@ -239,23 +271,45 @@ end, { nargs = 1 })
 require("outline").setup({})
 vim.keymap.set('n', '<leader>t', '<cmd>Outline<CR>')
 
+-- empty setup using defaults
+require("nvim-tree").setup()
+
 -- https://vimtricks.com/p/automated-file-templates/
-vim.api.nvim_create_autocmd("BufNewFile", {
-    pattern = "*.sh",
-    command = "0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/bash/template.sh",
-})
-vim.api.nvim_create_autocmd("BufNewFile", {
-    pattern = "main.c",
-    command = "0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/c/main.c",
-})
-vim.api.nvim_create_autocmd("BufNewFile", {
-    pattern = "main.go",
-    command = "0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/main/go/main.go",
-})
-vim.api.nvim_create_autocmd("BufNewFile", {
-    pattern = "*.py",
-    command = "0r !curl -fsSL https://raw.githubusercontent.com/theimpostor/templates/refs/heads/main/python/template.py",
-})
+local function fetch_template(url, buf)
+    if vim.net and vim.net.request then
+        -- only in 0.12+ I guess
+        vim.net.request(url, nil, function(err, res)
+            if err then
+                vim.notify(("template download failed: %s"):format(err), vim.log.levels.WARN)
+                return
+            end
+            local body = res and res.body or ""
+            vim.schedule(function()
+                vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(body, "\n"))
+            end)
+        end)
+    else
+        -- older Neovim: keep using curl via :read !
+        vim.cmd(("0r !curl -fsSL %s"):format(url))
+    end
+end
+
+local template_sources = {
+    { pattern = "*.sh",                url = "https://raw.githubusercontent.com/theimpostor/templates/main/bash/template.sh" },
+    { pattern = "main.c",              url = "https://raw.githubusercontent.com/theimpostor/templates/main/c/main.c" },
+    { pattern = "main.go",             url = "https://raw.githubusercontent.com/theimpostor/templates/main/go/main.go" },
+    { pattern = "*.py",                url = "https://raw.githubusercontent.com/theimpostor/templates/main/python/template.py" },
+    { pattern = "docker-compose.yaml", url = "https://raw.githubusercontent.com/theimpostor/templates/main/docker/docker-compose.yaml" },
+}
+
+for _, spec in ipairs(template_sources) do
+    vim.api.nvim_create_autocmd("BufNewFile", {
+        pattern = spec.pattern,
+        callback = function(args)
+            fetch_template(spec.url, args.buf)
+        end,
+    })
+end
 
 -- https://vi.stackexchange.com/a/456
 function TrimWhitespace()

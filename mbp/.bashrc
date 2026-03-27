@@ -57,7 +57,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND}; }history -a"
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/go/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${HOME}/bin:${HOME}/.bun/bin:${HOME}/go/bin:${PATH}"
 
 # modern sqlite
 export PATH="/usr/local/opt/sqlite/bin:$PATH"
@@ -219,11 +219,29 @@ function termcfg {
     vim "${HOME}/.config/alacritty/alacritty.toml"
 }
 
-# ag but open results in vim's quickfix window
+function rgc {
+    # printf %q reprints each arg with shell escapes
+    # shellcheck disable=SC2046
+    rg -tc "$@"
+}
+
+function rgw {
+    # printf %q reprints each arg with shell escapes
+    # shellcheck disable=SC2046
+    rg -sFw "$@"
+}
+
+function rgcw {
+    # printf %q reprints each arg with shell escapes
+    # shellcheck disable=SC2046
+    rgc -tc -sFw "$@"
+}
+
+# ag but open results in vim
 function vg {
     # printf %q reprints each arg with shell escapes
     # shellcheck disable=SC2046
-    echo :Ack "$(printf '%q ' "$@")" | vim -s -
+    echo :Ack "$(printf '%q ' "$@")" | nvim -s -
 }
 
 function vgc {
@@ -233,7 +251,27 @@ function vgc {
     #        -s, --case-sensitive
     #        -F, --fixed-strings
     #        -w, --word-regexp
-    echo :Ack -tc -sFw "$(printf '%q ' "$@")" | vim -s -
+    echo :Ack -tc "$(printf '%q ' "$@")" | nvim -s -
+}
+
+function vgw {
+    # printf %q reprints each arg with shell escapes
+    # rg options:
+    #        -t TYPE, --type=TYPE
+    #        -s, --case-sensitive
+    #        -F, --fixed-strings
+    #        -w, --word-regexp
+    echo :Ack -sFw "$(printf '%q ' "$@")" | nvim -s -
+}
+
+function vgcw {
+    # printf %q reprints each arg with shell escapes
+    # rg options:
+    #        -t TYPE, --type=TYPE
+    #        -s, --case-sensitive
+    #        -F, --fixed-strings
+    #        -w, --word-regexp
+    echo :Ack -tc -sFw "$(printf '%q ' "$@")" | nvim -s -
 }
 
 alias nvg=vg
@@ -447,7 +485,7 @@ function microsecondsSinceEpoch {
 [ -f "$HOME/.project-functions.bash" ] && source "$HOME/.project-functions.bash"
 
 function llmcmd {
-    llm prompt --no-stream --system "you are bash command line guru, I will ask a question and you will respond with a bash command or commands suitable for pasting into the command line and executing, assume you are on macos, respond with the command only, no explanations or code fence blocks, if the question is ambiguous or can't easily be translated into a bash command output a bash comment asking for guidance" "$@" | pbcopy && pbpaste
+    echo "$@" | llm prompt --no-stream --system "you are bash command line guru, I will ask a question and you will respond with a bash command or commands suitable for pasting into the command line and executing, assume you are on macos, respond with the command only, no explanations or code fence blocks, if the question is ambiguous or can't easily be translated into a bash command output a bash comment asking for guidance" | pbcopy && pbpaste
 }
 
 function llmfast {
@@ -468,6 +506,23 @@ clone_repo() {
 
     gh repo clone "$repo" "$repo" -- --depth 1 --single-branch && cd "$repo" || return 1
 }
+
+if command -v codex >/dev/null 2>&1; then
+    # shellcheck source=/dev/null
+    source <(codex completion bash)
+    cdx() {
+        ( cd /Users/shoda/Tibco/scratch/cdx-codex && codex --search --full-auto "$@" )
+    }
+    cdxcmd() {
+        set -e
+        pushd /Users/shoda/Tibco/scratch/cdxcmd > /dev/null
+        local tmpfile; tmpfile=$(mktemp /tmp/codexcmd.XXXXXX)
+        { echo "You are bash command line guru, I will ask a question and you will respond with a bash command or commands suitable for pasting into the command line and executing. Assume you are on macos, respond with the command only, no explanations or code fence blocks. If the question is ambiguous or can't easily be translated into a bash command output a bash comment asking for guidance"; echo "$@"; } | codex exec --model gpt-5-codex-mini --skip-git-repo-check --sandbox read-only --output-last-message "$tmpfile" -
+        osc copy "$tmpfile"
+        rm "$tmpfile"
+        popd > /dev/null
+    }
+fi
 
 # TODO: PROFILE
 ### set +x
